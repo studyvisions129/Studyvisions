@@ -37,6 +37,7 @@ model User {
   reviews         Review[]
   bookmarks       Bookmark[]
   progressRecords LearningProgress[]
+  posts           Post[]
 
   @@map("users")
 }
@@ -388,3 +389,51 @@ model Bookmark {
   @@unique([userId, productId])
   @@map("bookmarks")
 }
+
+// ============================================================
+// CMS & SETTINGS SCHEMA - Landing Pages, Blog, Settings
+// ============================================================
+
+model LandingPage {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  content     String   @db.Text
+  isPublished Boolean  @default(false) @map("is_published")
+  seoTitle    String?  @map("seo_title")
+  seoDesc     String?  @map("seo_desc")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("landing_pages")
+}
+
+model Post {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  excerpt     String?
+  content     String   @db.Text
+  thumbnailUrl String? @map("thumbnail_url")
+  isPublished Boolean  @default(false) @map("is_published")
+  authorId    String   @map("author_id")
+  seoTitle    String?  @map("seo_title")
+  seoDesc     String?  @map("seo_desc")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  author      User     @relation(fields: [authorId], references: [id])
+
+  @@map("posts")
+}
+
+model SiteSetting {
+  key         String   @id
+  value       String   @db.Text
+  description String?
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("site_settings")
+}
+
