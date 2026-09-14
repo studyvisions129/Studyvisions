@@ -1,6 +1,12 @@
 import { Users, ShoppingBag, Banknote, TrendingUp } from "lucide-react";
+import prisma from "@/lib/prisma";
 
-export default function AdminDashboardPage() {
+export default async function AdminDashboardPage() {
+  const totalUsers = await prisma.user.count();
+  const activeStudents = await prisma.user.count({
+    where: { role: "STUDENT" }
+  });
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -38,8 +44,8 @@ export default function AdminDashboardPage() {
         <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-slate-500 text-sm font-medium mb-1">Active Students</p>
-              <h3 className="text-3xl font-bold text-slate-800">+2,350</h3>
+              <p className="text-slate-500 text-sm font-medium mb-1">Total Students</p>
+              <h3 className="text-3xl font-bold text-slate-800">{activeStudents}</h3>
             </div>
             <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center">
               <Users className="w-5 h-5 text-blue-600" />
@@ -74,8 +80,8 @@ export default function AdminDashboardPage() {
         <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm">
           <div className="flex justify-between items-start">
             <div>
-              <p className="text-slate-500 text-sm font-medium mb-1">Active Now</p>
-              <h3 className="text-3xl font-bold text-slate-800">+573</h3>
+              <p className="text-slate-500 text-sm font-medium mb-1">Total Users (All)</p>
+              <h3 className="text-3xl font-bold text-slate-800">{totalUsers}</h3>
             </div>
             <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center">
               <Users className="w-5 h-5 text-orange-600" />
@@ -83,8 +89,7 @@ export default function AdminDashboardPage() {
           </div>
           <div className="mt-4 flex items-center text-sm">
             <TrendingUp className="w-4 h-4 text-green-500 mr-1" />
-            <span className="text-green-500 font-medium">+201</span>
-            <span className="text-slate-400 ml-2">since last hour</span>
+            <span className="text-green-500 font-medium">Updated just now</span>
           </div>
         </div>
       </div>

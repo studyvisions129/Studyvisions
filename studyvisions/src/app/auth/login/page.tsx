@@ -4,10 +4,21 @@ import Link from "next/link";
 import { useState, useActionState } from "react";
 import { Mail, Lock, Eye, EyeOff, GraduationCap } from "lucide-react";
 import { login } from "../actions";
+import { createClient } from "@/lib/supabase/client";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [state, formAction, isPending] = useActionState(login, null);
+
+  const handleGoogleLogin = async () => {
+    const supabase = createClient();
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+  };
 
   return (
     <section className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50/50 py-16 px-4">
@@ -29,6 +40,8 @@ export default function LoginPage() {
 
           {/* Google Login */}
           <button
+            onClick={handleGoogleLogin}
+            type="button"
             className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl border-2 border-[var(--sv-border)] hover:border-[var(--sv-primary)] hover:bg-blue-50/50 transition-all duration-200 font-medium text-[var(--sv-secondary)] mb-6"
             id="login-google"
           >

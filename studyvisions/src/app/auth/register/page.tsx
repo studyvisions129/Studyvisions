@@ -12,10 +12,21 @@ import {
   Phone,
 } from "lucide-react";
 import { signup } from "../actions";
+import { createClient } from "@/lib/supabase/client";
 
 export default function RegisterPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [state, formAction, isPending] = useActionState(signup, null);
+
+  const handleGoogleLogin = async () => {
+    const supabase = createClient();
+    await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo: `${window.location.origin}/auth/callback`,
+      },
+    });
+  };
 
   return (
     <section className="min-h-[calc(100vh-4rem)] flex items-center justify-center bg-gradient-to-br from-slate-50 to-blue-50/50 py-16 px-4">
@@ -36,6 +47,8 @@ export default function RegisterPage() {
 
           {/* Google Signup */}
           <button
+            onClick={handleGoogleLogin}
+            type="button"
             className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl border-2 border-[var(--sv-border)] hover:border-[var(--sv-primary)] hover:bg-blue-50/50 transition-all duration-200 font-medium text-[var(--sv-secondary)] mb-6"
             id="register-google"
           >
