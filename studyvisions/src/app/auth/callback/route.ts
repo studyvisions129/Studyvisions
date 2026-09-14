@@ -13,12 +13,27 @@ export async function GET(request: Request) {
     
     if (!error && data?.session?.user?.email) {
       // Find the user in Prisma to check their role
-      const dbUser = await prisma.user.findUnique({
+      let dbUser = await prisma.user.findUnique({
         where: { email: data.session.user.email },
       });
 
+      if (!dbUser) {
+        // Create new user in Prisma from Google profile
+        const fullName = data.session.user.user_metadata?.full_name || 
+                         data.session.user.user_metadata?.name || 
+                         data.session.user.email.split('@')[0];
+                         
+        dbUser = await prisma.user.create({
+          data: {
+            email: data.session.user.email,
+            fullName: fullName,
+            role: "STUDENT"
+          }
+        });
+      }
+
       // Redirect logic based on role
-      if (dbUser && (dbUser.role === "ADMIN" || dbUser.role === "SUPER_ADMIN")) {
+      if (dbUser.role === "ADMIN" || dbUser.role === "SUPER_ADMIN") {
         return NextResponse.redirect(new URL("/admin", request.url));
       } else {
         return NextResponse.redirect(new URL(next, request.url));
