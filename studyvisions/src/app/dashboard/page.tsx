@@ -100,11 +100,13 @@ export default async function DashboardPage() {
         {/* Recent Purchases / Continue Learning */}
         <h2 className="text-xl font-bold text-slate-800 mb-6">Continue Learning</h2>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {myProducts.map((product) => (
-            <div key={product.id} className="bg-white rounded-2xl p-6 border border-[var(--sv-border)] shadow-sm flex flex-col sm:flex-row gap-6">
-              <div className={`w-full sm:w-32 h-32 rounded-xl ${product.color} shrink-0 flex items-center justify-center p-4`}>
-                 <span className="text-white font-bold text-center leading-tight">{product.title}</span>
-              </div>
+          {myProducts.map((product) => {
+            const productBg = product.academicLevel?.color ? `bg-gradient-to-r ${product.academicLevel.color}` : 'bg-gradient-to-br from-slate-500 to-slate-600';
+            return (
+              <div key={product.id} className="bg-white rounded-2xl p-6 border border-[var(--sv-border)] shadow-sm flex flex-col sm:flex-row gap-6">
+                <div className={`w-full sm:w-32 h-32 rounded-xl ${productBg} shrink-0 flex items-center justify-center p-4`}>
+                   <span className="text-white font-bold text-center leading-tight">{product.title}</span>
+                </div>
               <div className="flex-1 flex flex-col">
                 <div className="flex justify-between items-start mb-2">
                   <span className="text-xs font-semibold px-2.5 py-1 rounded bg-slate-100 text-slate-600">
@@ -128,7 +130,8 @@ export default async function DashboardPage() {
                 </div>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
 
       </main>
