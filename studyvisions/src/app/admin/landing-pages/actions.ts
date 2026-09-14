@@ -2,8 +2,11 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/auth-utils";
 
 export async function createLandingPage(formData: FormData) {
+  await requireAdmin();
+  
   const title = formData.get("title") as string;
   const slug = formData.get("slug") as string;
   const content = formData.get("content") as string;
@@ -26,6 +29,8 @@ export async function createLandingPage(formData: FormData) {
 }
 
 export async function deleteLandingPage(id: string) {
+  await requireAdmin();
+  
   await prisma.landingPage.delete({
     where: { id }
   });

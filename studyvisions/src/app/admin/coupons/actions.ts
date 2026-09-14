@@ -2,8 +2,11 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/auth-utils";
 
 export async function createCoupon(formData: FormData) {
+  await requireAdmin();
+  
   const code = formData.get("code") as string;
   const description = formData.get("description") as string;
   const discountType = formData.get("discountType") as "FLAT" | "PERCENTAGE";
@@ -34,6 +37,8 @@ export async function createCoupon(formData: FormData) {
 }
 
 export async function deleteCoupon(id: string) {
+  await requireAdmin();
+  
   await prisma.coupon.delete({
     where: { id }
   });

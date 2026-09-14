@@ -2,8 +2,11 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
+import { requireAdmin } from "@/lib/auth-utils";
 
 export async function saveSettings(formData: FormData) {
+  await requireAdmin();
+  
   const entries = Array.from(formData.entries());
   
   for (const [key, value] of entries) {

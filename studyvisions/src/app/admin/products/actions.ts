@@ -4,8 +4,11 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { ProductType, ProductStatus } from "@prisma/client";
+import { requireAdmin } from "@/lib/auth-utils";
 
 export async function createProduct(formData: FormData) {
+  await requireAdmin();
+
   const title = formData.get("title") as string;
   const slug = formData.get("slug") as string;
   const description = formData.get("description") as string;
@@ -40,6 +43,8 @@ export async function createProduct(formData: FormData) {
 }
 
 export async function deleteProduct(id: string) {
+  await requireAdmin();
+  
   await prisma.product.delete({
     where: { id }
   });

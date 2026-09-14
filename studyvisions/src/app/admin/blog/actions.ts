@@ -2,9 +2,11 @@
 
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/auth-utils";
 
 export async function createPost(formData: FormData) {
+  const user = await requireAdmin();
+
   const title = formData.get("title") as string;
   const slug = formData.get("slug") as string;
   const excerpt = formData.get("excerpt") as string;
@@ -14,14 +16,6 @@ export async function createPost(formData: FormData) {
   if (!title || !slug || !content) {
     throw new Error("Missing required fields");
   }
-
-  const supabase = await createClient();
-  const { data: { session } } = await supabase.auth.getSession();
-  
-  if (!session?.user?.email) throw new Error("Unauthorized");
-  
-  const user = await prisma.user.findUnique({ where: { email: session.user.email }});
-  if (!user) throw new Error("User not found");
 
   await prisma.post.create({
     data: {
@@ -38,6 +32,8 @@ export async function createPost(formData: FormData) {
 }
 
 export async function deletePost(id: string) {
+  await requireAdmin();
+  
   await prisma.post.delete({
     where: { id }
   });

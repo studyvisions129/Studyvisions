@@ -3,8 +3,25 @@ import Link from "next/link";
 import { BookOpen, Clock, Download, Star, Settings, LayoutDashboard, LogOut } from "lucide-react";
 import { logout } from "@/app/auth/actions";
 import { prisma } from "@/lib/prisma";
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
 export default async function DashboardPage() {
+  const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+  
+  if (!session?.user?.email) {
+    redirect("/auth/login");
+  }
+
+  const dbUser = await prisma.user.findUnique({
+    where: { email: session.user.email },
+  });
+
+  if (dbUser && (dbUser.role === "ADMIN" || dbUser.role === "SUPER_ADMIN")) {
+    redirect("/admin");
+  }
+
   // Fetch real products instead of mock data
   const myProducts = await prisma.product.findMany({
     take: 2,
@@ -23,8 +40,8 @@ export default async function DashboardPage() {
             S
           </div>
           <div>
-            <h3 className="font-bold text-slate-800">Student Name</h3>
-            <p className="text-xs text-slate-500">Free Account</p>
+            <h3 className="font-bold text-slate-800">{dbUser?.fullName || 'Student Name'}</h3>
+            <p className="text-xs text-slate-500">{dbUser?.email || 'Free Account'}</p>
           </div>
         </div>
 
