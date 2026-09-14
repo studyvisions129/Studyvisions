@@ -17,10 +17,10 @@ export default async function ProductsPage() {
           <h1 className="text-2xl font-bold text-slate-800">Products</h1>
           <p className="text-slate-500 text-sm">Manage all your digital study materials.</p>
         </div>
-        <button className="flex items-center gap-2 bg-[var(--sv-primary)] text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
+        <Link href="/admin/products/new" className="flex items-center gap-2 bg-[var(--sv-primary)] text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors">
           <Plus className="w-4 h-4" />
           Add Product
-        </button>
+        </Link>
       </div>
 
       <div className="bg-white rounded-2xl border border-[var(--sv-border)] shadow-sm overflow-hidden">
