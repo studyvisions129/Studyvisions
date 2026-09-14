@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { BookOpen, Clock, Download, Star, Settings, LayoutDashboard, LogOut } from "lucide-react";
+import { logout } from "@/app/auth/actions";
 import { MOCK_PRODUCTS } from "@/lib/mock-data";
 
 export default function DashboardPage() {
@@ -41,7 +42,7 @@ export default function DashboardPage() {
         </nav>
 
         <div className="mt-10 border-t border-slate-100 pt-4">
-          <form action="/auth/logout" method="post">
+          <form action={logout}>
             <button type="submit" className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-red-600 hover:bg-red-50 font-medium transition-colors">
               <LogOut className="w-5 h-5" />
               Sign Out

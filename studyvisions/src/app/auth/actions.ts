@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
+import prisma from "@/lib/prisma";
 
 export async function login(prevState: any, formData: FormData) {
   const email = formData.get("email") as string;
@@ -23,8 +24,18 @@ export async function login(prevState: any, formData: FormData) {
     return { error: error.message };
   }
 
+  // Check role to redirect to admin if applicable
+  const dbUser = await prisma.user.findUnique({
+    where: { email }
+  });
+
   revalidatePath("/", "layout");
-  redirect("/dashboard");
+  
+  if (dbUser && (dbUser.role === "ADMIN" || dbUser.role === "SUPER_ADMIN")) {
+    redirect("/admin");
+  } else {
+    redirect("/dashboard");
+  }
 }
 
 export async function signup(prevState: any, formData: FormData) {
