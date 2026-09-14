@@ -45,18 +45,18 @@ export function Navbar() {
             </Link>
 
             {/* Search */}
-            <div className="hidden md:block relative">
+            <div className="hidden md:block relative ml-8">
               <input
                 type="text"
                 placeholder="Search courses..."
-                className={`bg-[var(--sv-surface-dim)] rounded-full py-2 pl-10 pr-4 text-sm border border-transparent focus:border-[var(--sv-primary)] focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all duration-300 ${
-                  searchOpen ? "w-64 opacity-100" : "w-48 opacity-100"
+                className={`bg-[var(--sv-surface-dim)] rounded-full py-2.5 pl-11 pr-4 text-sm border border-transparent focus:border-[var(--sv-primary)] focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all duration-300 ${
+                  searchOpen ? "w-96 opacity-100" : "w-64 opacity-100"
                 }`}
                 onFocus={() => setSearchOpen(true)}
                 onBlur={() => setSearchOpen(false)}
                 id="navbar-search"
               />
-              <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-[var(--sv-text-muted)]" />
+              <Search className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-[var(--sv-text-muted)]" />
             </div>
           </div>
 
