@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { CheckCircle2, Lock, FileText, Download, BookOpen, Star } from "lucide-react";

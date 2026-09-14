@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import Link from "next/link";
 import { BookOpen, Clock, Download, Star, Settings, LayoutDashboard, LogOut } from "lucide-react";
 import { logout } from "@/app/auth/actions";
