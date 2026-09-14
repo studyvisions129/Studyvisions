@@ -1,11 +1,16 @@
 import Link from "next/link";
 import { BookOpen, Clock, Download, Star, Settings, LayoutDashboard, LogOut } from "lucide-react";
 import { logout } from "@/app/auth/actions";
-import { MOCK_PRODUCTS } from "@/lib/mock-data";
+import { prisma } from "@/lib/prisma";
 
-export default function DashboardPage() {
-  // Mock purchased products
-  const myProducts = [MOCK_PRODUCTS[0], MOCK_PRODUCTS[3]];
+export default async function DashboardPage() {
+  // Fetch real products instead of mock data
+  const myProducts = await prisma.product.findMany({
+    take: 2,
+    include: {
+      academicLevel: true,
+    }
+  });
 
   return (
     <div className="min-h-[calc(100vh-4rem)] bg-slate-50 flex flex-col md:flex-row">
@@ -105,7 +110,7 @@ export default function DashboardPage() {
                   <span className="text-xs font-semibold px-2.5 py-1 rounded bg-slate-100 text-slate-600">
                     {product.type}
                   </span>
-                  <span className="text-xs font-medium text-slate-500">{product.board}</span>
+                  <span className="text-xs font-medium text-slate-500">CBSE {product.academicLevel?.name || ''}</span>
                 </div>
                 <h3 className="font-bold text-slate-800 mb-2 leading-tight">{product.title}</h3>
                 

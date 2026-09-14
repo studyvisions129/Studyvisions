@@ -1,18 +1,26 @@
 import { notFound } from "next/navigation";
-import { getProductBySlug } from "@/lib/mock-data";
+import { prisma } from "@/lib/prisma";
 import { CheckCircle2, Lock, FileText, Download, BookOpen, Star } from "lucide-react";
 import Link from "next/link";
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
-  const product = getProductBySlug(resolvedParams.slug);
+  const product = await prisma.product.findUnique({
+    where: { slug: resolvedParams.slug },
+    include: {
+      academicLevel: true,
+      chapters: {
+        orderBy: { sortOrder: 'asc' }
+      }
+    }
+  });
 
   if (!product) {
     notFound();
   }
 
   const discountPercentage = Math.round(
-    ((product.compareAtPrice - product.price) / product.compareAtPrice) * 100
+    ((Number(product.compareAtPrice) - Number(product.price)) / Number(product.compareAtPrice)) * 100
   );
 
   return (
@@ -47,7 +55,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             
             {/* Header Section */}
             <div className="bg-white rounded-3xl p-8 shadow-sm border border-[var(--sv-border)] mb-8 relative overflow-hidden">
-              <div className={`absolute top-0 left-0 w-full h-2 ${product.color}`} />
+              <div className={`absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 to-blue-600`} />
               
               <div className="flex items-center gap-3 mb-4 mt-2">
                 <span className="inline-block text-xs font-semibold px-3 py-1 rounded-full bg-blue-50 text-[var(--sv-primary)]">
@@ -71,7 +79,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               <div className="flex flex-wrap gap-6 border-t border-slate-100 pt-6">
                 <div className="flex items-center gap-2">
                   <BookOpen className="w-5 h-5 text-slate-400" />
-                  <span className="text-sm font-medium text-slate-700">{product.board} • {product.class}</span>
+                  <span className="text-sm font-medium text-slate-700">CBSE • {product.academicLevel?.name || 'Class'}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <FileText className="w-5 h-5 text-slate-400" />
@@ -124,8 +132,8 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
             <div className="bg-white rounded-3xl p-6 md:p-8 shadow-xl shadow-slate-200/50 border border-[var(--sv-border)] sticky top-24">
               <div className="text-center mb-6">
                 <div className="flex items-center justify-center gap-3 mb-2">
-                  <span className="text-4xl font-extrabold text-[var(--sv-secondary)]">₹{product.price}</span>
-                  <span className="text-xl line-through text-slate-400 font-medium">₹{product.compareAtPrice}</span>
+                  <span className="text-4xl font-extrabold text-[var(--sv-secondary)]">₹{Number(product.price)}</span>
+                  <span className="text-xl line-through text-slate-400 font-medium">₹{Number(product.compareAtPrice)}</span>
                 </div>
                 <div className="inline-block bg-green-50 text-green-600 px-3 py-1 rounded-full text-sm font-bold">
                   {discountPercentage}% OFF applied

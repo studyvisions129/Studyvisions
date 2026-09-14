@@ -1,0 +1,75 @@
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { MOCK_PRODUCTS } from "@/lib/mock-data";
+
+const categories = [
+  { name: "Physics", iconUrl: "Atom", description: "Mechanics, Optics, Thermodynamics aur sab kuch", levelType: "SUBJECT", color: "from-blue-500 to-cyan-500" },
+  { name: "Chemistry", iconUrl: "Beaker", description: "Organic, Inorganic & Physical Chemistry notes", levelType: "SUBJECT", color: "from-emerald-500 to-teal-500" },
+  { name: "Mathematics", iconUrl: "Calculator", description: "Calculus, Algebra, Trigonometry aur more", levelType: "SUBJECT", color: "from-purple-500 to-violet-500" },
+  { name: "Computer Science", iconUrl: "Code", description: "Python, Java, Data Structures & Algorithms", levelType: "SUBJECT", color: "from-amber-500 to-orange-500" },
+];
+
+export async function GET() {
+  try {
+    const results = { categories: 0, products: 0 };
+
+    // Seed Categories
+    for (const cat of categories) {
+      const slug = cat.name.toLowerCase().replace(/ /g, "-");
+      const existing = await prisma.academicLevel.findUnique({ where: { slug } });
+      if (!existing) {
+        await prisma.academicLevel.create({
+          data: {
+            name: cat.name,
+            slug: slug,
+            description: cat.description,
+            iconUrl: cat.iconUrl,
+            color: cat.color,
+            levelType: "SUBJECT" as any,
+          }
+        });
+        results.categories++;
+      }
+    }
+
+    // Seed Products
+    for (const prod of MOCK_PRODUCTS) {
+      const existing = await prisma.product.findUnique({ where: { slug: prod.slug } });
+      if (!existing) {
+        const cat = await prisma.academicLevel.findFirst({ where: { name: prod.subject } });
+
+        await prisma.product.create({
+          data: {
+            title: prod.title,
+            slug: prod.slug,
+            description: prod.description,
+            shortDescription: prod.shortDescription,
+            type: prod.type as any,
+            price: prod.price,
+            compareAtPrice: prod.compareAtPrice,
+            language: prod.language,
+            fileSize: prod.fileSize,
+            totalPages: prod.totalPages,
+            tags: prod.tags,
+            academicLevelId: cat?.id,
+            status: "PUBLISHED",
+            isFeatured: true,
+            chapters: {
+              create: prod.chapters.map((ch, i) => ({
+                title: ch.title,
+                isFree: ch.isFree,
+                sortOrder: i
+              }))
+            }
+          }
+        });
+        results.products++;
+      }
+    }
+
+    return NextResponse.json({ success: true, message: "Database seeded successfully!", results });
+  } catch (error: any) {
+    console.error("Seeding error:", error);
+    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+  }
+}

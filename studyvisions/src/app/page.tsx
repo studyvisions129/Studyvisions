@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { prisma } from "@/lib/prisma";
 import {
   BookOpen,
   Zap,
@@ -121,7 +122,18 @@ function FeatureCard({
 }
 
 /* ========== HOME PAGE ========== */
-export default function Home() {
+export default async function Home() {
+  const featuredProducts = await prisma.product.findMany({
+    where: {
+      status: "PUBLISHED",
+      isFeatured: true,
+    },
+    take: 4,
+    include: {
+      academicLevel: true,
+    }
+  });
+
   return (
     <>
       {/* ===== HERO SECTION ===== */}
@@ -288,45 +300,25 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <ProductCard
-              title="Complete Physics Notes"
-              slug="complete-physics-notes"
-              subject="Physics"
-              board="CBSE Class 12"
-              price={149}
-              originalPrice={499}
-              tag="Bestseller"
-              color="bg-gradient-to-r from-blue-500 to-blue-600"
-            />
-            <ProductCard
-              title="Mathematics Formulae Book"
-              slug="mathematics-formulae-book"
-              subject="Maths"
-              board="CBSE Class 11"
-              price={99}
-              originalPrice={299}
-              tag="New"
-              color="bg-gradient-to-r from-purple-500 to-purple-600"
-            />
-            <ProductCard
-              title="Chemistry NCERT Solutions"
-              slug="chemistry-ncert-solutions"
-              subject="Chemistry"
-              board="CBSE Class 12"
-              price={129}
-              originalPrice={399}
-              color="bg-gradient-to-r from-emerald-500 to-emerald-600"
-            />
-            <ProductCard
-              title="Python Programming eBook"
-              slug="python-programming-ebook"
-              subject="Computer Science"
-              board="CBSE Class 11-12"
-              price={199}
-              originalPrice={599}
-              tag="Popular"
-              color="bg-gradient-to-r from-amber-500 to-amber-600"
-            />
+            {featuredProducts.length > 0 ? (
+              featuredProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  title={product.title}
+                  slug={product.slug}
+                  subject={product.academicLevel?.name || "General"}
+                  board={product.tags.find(t => t.includes("Class")) ? `CBSE ${product.tags.find(t => t.includes("Class"))}` : "CBSE"}
+                  price={Number(product.price)}
+                  originalPrice={Number(product.compareAtPrice || product.price)}
+                  tag={product.tags[0]}
+                  color="bg-gradient-to-r from-blue-500 to-blue-600"
+                />
+              ))
+            ) : (
+              <div className="col-span-full text-center text-slate-500 py-12">
+                No featured products found. Run the seed script to load them!
+              </div>
+            )}
           </div>
         </div>
       </section>

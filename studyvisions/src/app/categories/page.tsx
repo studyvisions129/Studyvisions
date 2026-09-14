@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { prisma } from "@/lib/prisma";
+import * as LucideIcons from "lucide-react";
 import { BookOpen, Beaker, Calculator, Code, Atom, Globe, Palette, Languages } from "lucide-react";
 
 const categories = [
@@ -68,7 +70,16 @@ const categories = [
   },
 ];
 
-export default function CategoriesPage() {
+export default async function CategoriesPage() {
+  const academicLevels = await prisma.academicLevel.findMany({
+    where: { levelType: "SUBJECT" },
+    include: {
+      _count: {
+        select: { products: true }
+      }
+    }
+  });
+
   return (
     <>
       {/* Header */}
@@ -104,35 +115,43 @@ export default function CategoriesPage() {
             )}
           </div>
 
-          {/* Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {categories.map((cat) => (
-              <Link
-                href={`/categories/${cat.name.toLowerCase().replace(/ /g, "-")}`}
-                key={cat.name}
-                className="card-hover bg-white rounded-2xl border border-[var(--sv-border)] p-6 group cursor-pointer"
-              >
-                <div
-                  className={`w-14 h-14 rounded-2xl ${cat.bg} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}
+            {academicLevels.map((cat) => {
+              const Icon = (LucideIcons as any)[cat.iconUrl || "BookOpen"] || LucideIcons.BookOpen;
+              const bgColor = cat.color?.includes("blue") ? "bg-blue-50" 
+                            : cat.color?.includes("emerald") ? "bg-emerald-50"
+                            : cat.color?.includes("purple") ? "bg-purple-50"
+                            : cat.color?.includes("amber") ? "bg-amber-50"
+                            : "bg-slate-50";
+
+              return (
+                <Link
+                  href={`/categories/${cat.slug}`}
+                  key={cat.id}
+                  className="card-hover bg-white rounded-2xl border border-[var(--sv-border)] p-6 group cursor-pointer"
                 >
-                  <cat.icon className={`w-7 h-7 bg-gradient-to-br ${cat.color} bg-clip-text`} style={{ color: `var(--sv-primary)` }} />
-                </div>
-                <h3 className="text-lg font-bold text-[var(--sv-secondary)] mb-1 group-hover:text-[var(--sv-primary)] transition-colors">
-                  {cat.name}
-                </h3>
-                <p className="text-sm text-[var(--sv-text-muted)] mb-4">
-                  {cat.description}
-                </p>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-semibold text-[var(--sv-primary)] bg-blue-50 px-3 py-1 rounded-full">
-                    {cat.count} Resources
-                  </span>
-                  <span className="text-[var(--sv-primary)] opacity-0 group-hover:opacity-100 transition-opacity">
-                    →
-                  </span>
-                </div>
-              </Link>
-            ))}
+                  <div
+                    className={`w-14 h-14 rounded-2xl ${bgColor} flex items-center justify-center mb-5 group-hover:scale-110 transition-transform duration-300`}
+                  >
+                    <Icon className={`w-7 h-7 bg-gradient-to-br ${cat.color || 'from-slate-500 to-slate-600'} bg-clip-text`} style={{ color: `var(--sv-primary)` }} />
+                  </div>
+                  <h3 className="text-lg font-bold text-[var(--sv-secondary)] mb-1 group-hover:text-[var(--sv-primary)] transition-colors">
+                    {cat.name}
+                  </h3>
+                  <p className="text-sm text-[var(--sv-text-muted)] mb-4 h-10 overflow-hidden text-ellipsis line-clamp-2">
+                    {cat.description || `Study materials for ${cat.name}`}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-semibold text-[var(--sv-primary)] bg-blue-50 px-3 py-1 rounded-full">
+                      {cat._count.products} Resources
+                    </span>
+                    <span className="text-[var(--sv-primary)] opacity-0 group-hover:opacity-100 transition-opacity">
+                      →
+                    </span>
+                  </div>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
