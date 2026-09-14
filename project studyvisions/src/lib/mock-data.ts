@@ -1,0 +1,102 @@
+export const MOCK_PRODUCTS = [
+  {
+    id: "prod_1",
+    slug: "complete-physics-notes",
+    title: "Complete Physics Notes",
+    description: "Detailed physics notes covering the entire syllabus for Class 12 CBSE board exams. Perfect for quick revision and deep understanding of complex concepts like Electrostatics, Magnetism, and Optics.",
+    shortDescription: "Detailed physics notes covering the entire syllabus for Class 12 CBSE.",
+    type: "NOTES",
+    price: 149,
+    compareAtPrice: 499,
+    board: "CBSE",
+    class: "Class 12",
+    subject: "Physics",
+    language: "English",
+    fileSize: "12 MB",
+    totalPages: 120,
+    tags: ["Bestseller", "Physics", "Class 12", "Board Exams"],
+    color: "bg-gradient-to-r from-blue-500 to-blue-600",
+    chapters: [
+      { title: "Electric Charges and Fields", isFree: true },
+      { title: "Electrostatic Potential and Capacitance", isFree: false },
+      { title: "Current Electricity", isFree: false },
+      { title: "Moving Charges and Magnetism", isFree: false },
+    ]
+  },
+  {
+    id: "prod_2",
+    slug: "mathematics-formulae-book",
+    title: "Mathematics Formulae Book",
+    description: "A comprehensive compilation of all necessary mathematical formulas and theorems for Class 11. Essential for competitive exams and board preparations.",
+    shortDescription: "A comprehensive compilation of all necessary mathematical formulas for Class 11.",
+    type: "EBOOK",
+    price: 99,
+    compareAtPrice: 299,
+    board: "CBSE",
+    class: "Class 11",
+    subject: "Maths",
+    language: "English/Hindi",
+    fileSize: "5 MB",
+    totalPages: 45,
+    tags: ["New", "Maths", "Formula", "Quick Revision"],
+    color: "bg-gradient-to-r from-purple-500 to-purple-600",
+    chapters: [
+      { title: "Sets, Relations and Functions", isFree: true },
+      { title: "Trigonometric Functions", isFree: false },
+      { title: "Algebra", isFree: false },
+      { title: "Coordinate Geometry", isFree: false },
+    ]
+  },
+  {
+    id: "prod_3",
+    slug: "chemistry-ncert-solutions",
+    title: "Chemistry NCERT Solutions",
+    description: "Step-by-step solutions to all NCERT textbook questions for Class 12 Chemistry. Helps in clearing doubts and practicing for exams.",
+    shortDescription: "Step-by-step solutions to all NCERT textbook questions for Class 12 Chemistry.",
+    type: "NOTES",
+    price: 129,
+    compareAtPrice: 399,
+    board: "CBSE",
+    class: "Class 12",
+    subject: "Chemistry",
+    language: "English",
+    fileSize: "18 MB",
+    totalPages: 200,
+    tags: ["NCERT", "Chemistry", "Solutions"],
+    color: "bg-gradient-to-r from-emerald-500 to-emerald-600",
+    chapters: [
+      { title: "The Solid State", isFree: true },
+      { title: "Solutions", isFree: false },
+      { title: "Electrochemistry", isFree: false },
+      { title: "Chemical Kinetics", isFree: false },
+    ]
+  },
+  {
+    id: "prod_4",
+    slug: "python-programming-ebook",
+    title: "Python Programming eBook",
+    description: "Learn Python from scratch. This eBook covers basics to advanced topics suitable for Class 11 and 12 Computer Science students.",
+    shortDescription: "Learn Python from scratch. Suitable for Class 11 and 12 Computer Science.",
+    type: "EBOOK",
+    price: 199,
+    compareAtPrice: 599,
+    board: "CBSE",
+    class: "Class 11-12",
+    subject: "Computer Science",
+    language: "English",
+    fileSize: "25 MB",
+    totalPages: 150,
+    tags: ["Popular", "Python", "Programming", "CS"],
+    color: "bg-gradient-to-r from-amber-500 to-amber-600",
+    chapters: [
+      { title: "Introduction to Python", isFree: true },
+      { title: "Data Types and Operators", isFree: true },
+      { title: "Control Structures", isFree: false },
+      { title: "Functions and Modules", isFree: false },
+    ]
+  }
+];
+
+export function getProductBySlug(slug: string) {
+  return MOCK_PRODUCTS.find((p) => p.slug === slug);
+}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - StudyVisions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800">
+    <div class="flex h-screen bg-slate-100">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-md flex flex-col">
+            <div class="p-4 border-b">
+                <h2 class="text-xl font-bold text-blue-600">StudyVisions</h2>
+            </div>
+            <nav class="flex-1 p-4 space-y-2">
+                <a href="index.html" class="block py-2 px-4 bg-blue-50 text-blue-600 rounded-lg font-medium">Dashboard</a>
+                <a href="library.html" class="block py-2 px-4 hover:bg-slate-50 text-slate-600 rounded-lg">My Library</a>
+                <a href="profile.html" class="block py-2 px-4 hover:bg-slate-50 text-slate-600 rounded-lg">Profile</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto p-8">
+            <h1 class="text-3xl font-bold mb-6">Welcome back, Student!</h1>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="font-medium text-slate-500 mb-2">Continue Learning</h3>
+                    <p class="text-2xl font-bold">Python Masterclass</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="font-medium text-slate-500 mb-2">Recent Purchases</h3>
+                    <p class="text-2xl font-bold">0</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+                    <h3 class="font-medium text-slate-500 mb-2">Certificates</h3>
+                    <p class="text-2xl font-bold">0</p>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

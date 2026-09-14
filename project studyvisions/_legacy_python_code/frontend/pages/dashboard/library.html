@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Library - StudyVisions</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 text-slate-800">
+    <div class="flex h-screen bg-slate-100">
+        <!-- Sidebar -->
+        <aside class="w-64 bg-white shadow-md flex flex-col">
+            <div class="p-4 border-b">
+                <a href="../../index.html"><h2 class="text-xl font-bold text-blue-600">StudyVisions</h2></a>
+            </div>
+            <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+                <a href="index.html" class="block py-2 px-4 hover:bg-slate-50 text-slate-600 rounded-lg">Dashboard</a>
+                <a href="library.html" class="block py-2 px-4 bg-blue-50 text-blue-600 rounded-lg font-medium">My Library</a>
+                <a href="courses.html" class="block py-2 px-4 hover:bg-slate-50 text-slate-600 rounded-lg">My Courses</a>
+                <a href="ebooks.html" class="block py-2 px-4 hover:bg-slate-50 text-slate-600 rounded-lg">My eBooks</a>
+                <a href="notes.html" class="block py-2 px-4 hover:bg-slate-50 text-slate-600 rounded-lg">My Notes</a>
+                <a href="orders.html" class="block py-2 px-4 hover:bg-slate-50 text-slate-600 rounded-lg">Orders</a>
+                <a href="downloads.html" class="block py-2 px-4 hover:bg-slate-50 text-slate-600 rounded-lg">Downloads</a>
+                <a href="profile.html" class="block py-2 px-4 hover:bg-slate-50 text-slate-600 rounded-lg">Profile</a>
+                <a href="settings.html" class="block py-2 px-4 hover:bg-slate-50 text-slate-600 rounded-lg">Account Settings</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto p-8">
+            <header class="flex justify-between items-center mb-8">
+                <h1 class="text-3xl font-bold">My Library</h1>
+            </header>
+            
+            <div class="bg-white p-8 rounded-xl shadow-sm border border-slate-100 text-center">
+                <div class="text-slate-400 mb-4">
+                    <svg class="w-16 h-16 mx-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                </div>
+                <h3 class="text-xl font-medium text-slate-600 mb-2">Your library is empty</h3>
+                <p class="text-slate-500 mb-6">Browse our courses and study materials to get started.</p>
+                <a href="../categories/index.html" class="bg-blue-600 text-white px-6 py-2 rounded-full font-medium hover:bg-blue-700 transition-colors">Browse Products</a>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
