@@ -34,10 +34,10 @@ export default async function DashboardPage() {
     <div className="min-h-[calc(100vh-4rem)] bg-slate-50 flex flex-col md:flex-row">
       
       {/* Sidebar Navigation */}
-      <aside className="w-full md:w-64 bg-white border-r border-[var(--sv-border)] p-6 shrink-0">
-        <div className="flex items-center gap-3 mb-8 px-2">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white font-bold text-lg">
-            S
+      <aside className="w-full md:w-64 bg-white border-r border-b md:border-b-0 border-[var(--sv-border)] p-4 md:p-6 shrink-0 overflow-x-auto">
+        <div className="flex items-center gap-3 mb-6 px-2">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex shrink-0 items-center justify-center text-white font-bold text-lg">
+            {dbUser?.fullName?.charAt(0).toUpperCase() || 'S'}
           </div>
           <div>
             <h3 className="font-bold text-slate-800">{dbUser?.fullName || 'Student Name'}</h3>
@@ -45,32 +45,32 @@ export default async function DashboardPage() {
           </div>
         </div>
 
-        <nav className="space-y-1">
-          <Link href="/dashboard" className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-blue-50 text-[var(--sv-primary)] font-medium">
-            <LayoutDashboard className="w-5 h-5" />
+        <div className="flex md:flex-col gap-2 md:gap-1 min-w-max md:min-w-0">
+          <Link href="/dashboard" className="flex items-center gap-2 md:gap-3 px-3 py-2.5 rounded-xl bg-blue-50 text-[var(--sv-primary)] font-medium text-sm md:text-base">
+            <LayoutDashboard className="w-4 h-4 md:w-5 md:h-5" />
             Overview
           </Link>
-          <Link href="/dashboard/library" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium transition-colors">
-            <BookOpen className="w-5 h-5 text-slate-400" />
+          <Link href="/dashboard/library" className="flex items-center gap-2 md:gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium transition-colors text-sm md:text-base">
+            <BookOpen className="w-4 h-4 md:w-5 md:h-5 text-slate-400" />
             My Library
           </Link>
-          <Link href="/dashboard/downloads" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium transition-colors">
-            <Download className="w-5 h-5 text-slate-400" />
+          <Link href="/dashboard/downloads" className="flex items-center gap-2 md:gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium transition-colors text-sm md:text-base">
+            <Download className="w-4 h-4 md:w-5 md:h-5 text-slate-400" />
             Downloads
           </Link>
-          <Link href="/dashboard/settings" className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium transition-colors">
-            <Settings className="w-5 h-5 text-slate-400" />
+          <Link href="/dashboard/settings" className="flex items-center gap-2 md:gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium transition-colors text-sm md:text-base">
+            <Settings className="w-4 h-4 md:w-5 md:h-5 text-slate-400" />
             Settings
           </Link>
-        </nav>
 
-        <div className="mt-10 border-t border-slate-100 pt-4">
-          <form action={logout}>
-            <button type="submit" className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-red-600 hover:bg-red-50 font-medium transition-colors">
-              <LogOut className="w-5 h-5" />
-              Sign Out
-            </button>
-          </form>
+          <div className="hidden md:block mt-10 border-t border-slate-100 pt-4">
+            <form action={logout}>
+              <button type="submit" className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-red-600 hover:bg-red-50 font-medium transition-colors text-sm md:text-base">
+                <LogOut className="w-5 h-5" />
+                Sign Out
+              </button>
+            </form>
+          </div>
         </div>
       </aside>
 

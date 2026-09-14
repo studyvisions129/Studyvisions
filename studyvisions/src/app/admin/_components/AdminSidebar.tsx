@@ -18,7 +18,7 @@ import {
   LogOut
 } from "lucide-react";
 
-export default function AdminSidebar() {
+export default function AdminSidebar({ className = "" }: { className?: string }) {
   const navItems = [
     { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
     { name: "Products", href: "/admin/products", icon: Package },
@@ -37,7 +37,7 @@ export default function AdminSidebar() {
   ];
 
   return (
-    <aside className="w-64 bg-white border-r border-[var(--sv-border)] flex flex-col h-full shrink-0 overflow-y-auto">
+    <aside className={`w-64 bg-white border-r border-[var(--sv-border)] flex flex-col h-full shrink-0 overflow-y-auto ${className}`}>
       <div className="p-6">
         <Link href="/admin" className="flex items-center gap-2">
           <div className="w-8 h-8 bg-[var(--sv-primary)] rounded-lg flex items-center justify-center text-white font-bold">

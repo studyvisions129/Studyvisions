@@ -1,10 +1,16 @@
 import { Search, Bell, Plus } from "lucide-react";
 import Link from "next/link";
+import { MobileAdminSidebar } from "./MobileAdminSidebar";
+import AdminSidebar from "./AdminSidebar";
 
 export default function AdminTopBar() {
   return (
-    <header className="h-16 bg-white border-b border-[var(--sv-border)] flex items-center justify-between px-6 shrink-0 z-10">
+    <header className="h-16 bg-white border-b border-[var(--sv-border)] flex items-center justify-between px-4 md:px-6 shrink-0 z-10">
       <div className="flex-1 flex items-center">
+        <MobileAdminSidebar>
+          <AdminSidebar />
+        </MobileAdminSidebar>
+        
         <div className="relative w-full max-w-md hidden md:block">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <Search className="h-4 w-4 text-slate-400" />
