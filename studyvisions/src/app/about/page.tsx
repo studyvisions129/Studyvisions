@@ -13,16 +13,110 @@ import {
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* ===== HERO IMAGE (USER PROVIDED) ===== */}
-      <section className="w-full">
-        <Image 
-          src="/images/about-hero-full.png" 
-          alt="About StudyVisions Hero"
-          width={1920}
-          height={800}
-          className="w-full h-auto object-contain"
-          priority
-        />
+      {/* ===== HERO SECTION ===== */}
+      <section className="relative bg-[#E8F1FC] overflow-hidden pt-16 pb-20 lg:pt-24 lg:pb-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-12">
+          
+          {/* Left Content */}
+          <div className="lg:w-1/2 relative z-10">
+            <span className="inline-block text-sm font-bold tracking-widest text-blue-600 uppercase mb-4">
+              About StudyVisions
+            </span>
+            <h1 className="text-5xl lg:text-7xl font-extrabold tracking-tight text-slate-900 mb-6 leading-tight">
+              Learn Better. <br />
+              <span className="text-blue-600">Build Your Future.</span>
+            </h1>
+            <p className="text-lg text-slate-700 mb-10 max-w-lg leading-relaxed">
+              StudyVisions is a digital learning platform built to make quality educational resources and useful digital products easier to discover, access, and use.
+            </p>
+            
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+              <div className="flex flex-col items-center text-center gap-3">
+                <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center text-blue-600 shadow-sm">
+                  <BookOpen className="w-6 h-6" />
+                </div>
+                <span className="text-sm font-bold text-slate-800 leading-tight">Notes &<br/>Study Materials</span>
+              </div>
+              <div className="flex flex-col items-center text-center gap-3">
+                <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center text-blue-600 shadow-sm">
+                  <FileText className="w-6 h-6" />
+                </div>
+                <span className="text-sm font-bold text-slate-800 leading-tight">eBooks &<br/>Guides</span>
+              </div>
+              <div className="flex flex-col items-center text-center gap-3">
+                <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center text-blue-600 shadow-sm">
+                  <GraduationCap className="w-6 h-6" />
+                </div>
+                <span className="text-sm font-bold text-slate-800 leading-tight">Courses &<br/>Learning</span>
+              </div>
+              <div className="flex flex-col items-center text-center gap-3">
+                <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center text-blue-600 shadow-sm">
+                  <Search className="w-6 h-6" />
+                </div>
+                <span className="text-sm font-bold text-slate-800 leading-tight">PYQs &<br/>Practice Sets</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Visual Image (User's provided picture properly cropped via CSS) */}
+          <div className="lg:w-1/2 relative w-full h-[400px] lg:h-[500px]">
+             <div className="w-full h-full relative rounded-3xl overflow-hidden shadow-2xl">
+                <div 
+                  className="w-full h-full bg-no-repeat"
+                  style={{
+                    backgroundImage: "url('/images/about-hero-full.png')",
+                    backgroundSize: "230% auto",
+                    backgroundPosition: "100% 30%"
+                  }}
+                />
+             </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ===== STATS BAR ===== */}
+      <section className="bg-[#0A2558] py-12 border-b-4 border-blue-500">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 divide-x divide-white/10">
+            <div className="flex items-center gap-4 pl-0 md:pl-4">
+              <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center text-[#0A2558] shrink-0">
+                <Users className="w-7 h-7" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-white">10K+</div>
+                <div className="text-sm text-blue-200">Learners</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 pl-4 md:pl-8">
+              <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center text-[#0A2558] shrink-0">
+                <FileText className="w-7 h-7" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-white">500+</div>
+                <div className="text-sm text-blue-200">Digital Products</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 pl-4 md:pl-8">
+              <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center text-[#0A2558] shrink-0">
+                <Star className="w-7 h-7" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-white">4.8</div>
+                <div className="text-sm text-blue-200">Average Rating</div>
+              </div>
+            </div>
+            <div className="flex items-center gap-4 pl-4 md:pl-8">
+              <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center text-[#0A2558] shrink-0">
+                <ShieldCheck className="w-7 h-7" />
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-white">100%</div>
+                <div className="text-sm text-blue-200">Secure Payments</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ===== MAIN CONTENT GRID ===== */}
