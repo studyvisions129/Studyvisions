@@ -1,5 +1,6 @@
 export const dynamic = 'force-dynamic';
 import Link from "next/link";
+import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import {
   BookOpen,
@@ -221,109 +222,17 @@ export default async function Home() {
           </div>
 
           {/* Right Visual Area */}
-          <div className="lg:w-[45%] relative mt-16 lg:mt-0 hidden md:block">
-            {/* Hand-drawn Text & Arrow */}
-            <div className="absolute top-[-40px] right-20 z-0 text-slate-500 font-serif italic text-lg transform rotate-[-5deg]">
-              Your Learning<br/>Journey Starts Here
-              <svg className="w-8 h-8 absolute -bottom-6 right-8 text-slate-400 rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-              </svg>
-            </div>
-
-            {/* The Laptop Mockup */}
-            <div className="relative z-20 w-full max-w-[600px] mx-auto">
-              <div className="bg-slate-800 p-3 rounded-[2rem] rounded-b-none border-b-4 border-slate-900 shadow-2xl relative">
-                <div className="bg-white rounded-xl aspect-[16/10] overflow-hidden flex flex-col items-center justify-center p-8 relative">
-                  <div className="absolute top-4 left-4 w-2 h-2 rounded-full bg-red-400"></div>
-                  <div className="absolute top-4 left-8 w-2 h-2 rounded-full bg-amber-400"></div>
-                  <div className="absolute top-4 left-12 w-2 h-2 rounded-full bg-green-400"></div>
-                  
-                  <div className="flex items-center gap-2 mb-2 mt-4">
-                     <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center shadow-md">
-                       <GraduationCap className="w-5 h-5 text-white" />
-                     </div>
-                     <span className="text-xl font-bold text-slate-800 tracking-tight">StudyVisions</span>
-                  </div>
-                  <p className="text-xs text-slate-500 mb-8 font-medium">Learn Better. Build Your Future.</p>
-                  
-                  <div className="w-full max-w-sm flex items-center bg-slate-50 border border-slate-200 rounded-lg p-1 pl-4 mb-10 shadow-sm">
-                    <span className="text-xs text-slate-400 flex-1 truncate">Search for notes, eBooks, courses...</span>
-                    <div className="w-8 h-8 rounded bg-blue-600 flex items-center justify-center shrink-0">
-                      <Search className="w-4 h-4 text-white" />
-                    </div>
-                  </div>
-
-                  <div className="flex gap-8 w-full justify-center">
-                     <div className="flex flex-col items-center gap-2">
-                        <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600"><FileText className="w-6 h-6"/></div>
-                        <span className="text-[10px] font-bold text-slate-600">Notes</span>
-                     </div>
-                     <div className="flex flex-col items-center gap-2">
-                        <div className="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600"><BookOpen className="w-6 h-6"/></div>
-                        <span className="text-[10px] font-bold text-slate-600">eBooks</span>
-                     </div>
-                     <div className="flex flex-col items-center gap-2">
-                        <div className="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center text-green-600"><GraduationCap className="w-6 h-6"/></div>
-                        <span className="text-[10px] font-bold text-slate-600">Courses</span>
-                     </div>
-                     <div className="flex flex-col items-center gap-2">
-                        <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center text-orange-600"><FileText className="w-6 h-6"/></div>
-                        <span className="text-[10px] font-bold text-slate-600">PYQs</span>
-                     </div>
-                  </div>
-                </div>
-              </div>
-              <div className="h-4 w-[110%] -ml-[5%] bg-slate-300 rounded-b-xl shadow-xl border-t border-slate-400 relative">
-                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-1 bg-slate-400 rounded-b-md"></div>
-              </div>
-            </div>
-
-            {/* Floating Card: Premium Notes (Top Left) */}
-            <div className="absolute -left-12 top-10 z-30 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 animate-float" style={{animationDelay: '0s'}}>
-              <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 mb-3">
-                <FileText className="w-6 h-6" />
-              </div>
-              <h4 className="font-bold text-sm text-slate-800">Premium Notes</h4>
-              <p className="text-[10px] text-slate-500">Class 12 • Science</p>
-            </div>
-
-            {/* Floating Card: eBooks (Bottom Left) */}
-            <div className="absolute -left-4 bottom-10 z-30 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 animate-float" style={{animationDelay: '1.5s'}}>
-              <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center text-red-500 mb-3">
-                <BookOpen className="w-6 h-6" />
-              </div>
-              <h4 className="font-bold text-sm text-slate-800">eBooks</h4>
-              <p className="text-[10px] text-slate-500">Exam Guides & References</p>
-            </div>
-
-            {/* Floating Card: Courses (Top Right) */}
-            <div className="absolute -right-8 top-0 z-30 bg-white py-3 px-4 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-4 animate-float" style={{animationDelay: '0.7s'}}>
-              <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-green-600 shrink-0">
-                <GraduationCap className="w-5 h-5" />
-              </div>
-              <div>
-                <h4 className="font-bold text-sm text-slate-800">Courses</h4>
-                <p className="text-[10px] text-slate-500">Learn at Your Pace</p>
-              </div>
-            </div>
-
-            {/* Floating Card: PYQs (Middle Right) */}
-            <div className="absolute -right-16 top-40 z-30 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 animate-float" style={{animationDelay: '2s'}}>
-              <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center text-orange-500 mb-3">
-                <FileText className="w-6 h-6" />
-              </div>
-              <h4 className="font-bold text-sm text-slate-800">PYQs & Practice Sets</h4>
-              <p className="text-[10px] text-slate-500">500+ Questions</p>
-            </div>
-
-            {/* Books stack visual at bottom right */}
-            <div className="absolute -bottom-8 -right-10 z-30 flex flex-col items-end rotate-2">
-              <div className="bg-blue-100 border border-blue-200 w-48 h-10 rounded-sm flex items-center px-4 shadow-sm relative z-10 translate-x-2">
-                <span className="text-xs font-bold text-blue-800">Better Knowledge</span>
-              </div>
-              <div className="bg-white border border-slate-200 w-52 h-12 rounded-sm flex items-center px-4 shadow-md -translate-y-1">
-                <span className="text-xs font-bold text-slate-600">Brighter Future</span>
-              </div>
+          {/* Right Visual Area - User Custom Image */}
+          <div className="lg:w-[45%] relative mt-16 lg:mt-0 hidden md:block w-full max-w-[600px] mx-auto z-20">
+            <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl bg-white/50 mix-blend-multiply-none">
+              <Image 
+                src="/images/hero-student.png" 
+                alt="Student learning on StudyVisions"
+                fill
+                className="object-cover object-center"
+                priority
+                sizes="(max-width: 768px) 100vw, 45vw"
+              />
             </div>
           </div>
         </div>
