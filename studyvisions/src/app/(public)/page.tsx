@@ -138,12 +138,18 @@ export default async function Home() {
     }
   });
 
+  const announcementSetting = await prisma.siteSetting.findUnique({
+    where: { key: "announcement_bar" }
+  });
+
   return (
     <>
       {/* 1. ANNOUNCEMENT BAR (Optional) */}
-      <div className="bg-blue-600 text-white text-sm text-center py-2 font-medium">
-        Welcome to StudyVisions! Get 20% off on all premium notes this week.
-      </div>
+      {announcementSetting?.value && (
+        <div className="bg-blue-600 text-white text-sm text-center py-2 font-medium">
+          {announcementSetting.value}
+        </div>
+      )}
 
       {/* 2. HERO SECTION */}
       {/* ===== NEW HERO SECTION ===== */}
