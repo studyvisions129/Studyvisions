@@ -3,9 +3,9 @@ import Link from "next/link";
 import { MobileAdminSidebar } from "./MobileAdminSidebar";
 import AdminSidebar from "./AdminSidebar";
 
-export default function AdminTopBar() {
+export default function AdminTopBar({ className = "" }: { className?: string }) {
   return (
-    <header className="h-16 bg-white border-b border-[var(--sv-border)] flex items-center justify-between px-4 md:px-6 shrink-0 z-10">
+    <header className={`h-16 bg-white border-b border-[var(--sv-border)] flex items-center justify-between px-4 md:px-6 shrink-0 z-10 ${className}`}>
       <div className="flex-1 flex items-center">
         <MobileAdminSidebar>
           <AdminSidebar />
