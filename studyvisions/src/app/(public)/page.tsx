@@ -262,8 +262,8 @@ export default async function Home() {
                 <Users className="w-7 h-7 text-[#0b1b42]" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">35 Lac +</div>
-                <div className="text-sm text-blue-200">Members</div>
+                <div className="text-2xl font-bold text-white">10K+</div>
+                <div className="text-sm text-blue-200">Learners</div>
               </div>
             </div>
             
@@ -273,7 +273,7 @@ export default async function Home() {
                 <BookOpen className="w-7 h-7 text-[#0b1b42]" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">150 +</div>
+                <div className="text-2xl font-bold text-white">100+</div>
                 <div className="text-sm text-blue-200">Courses</div>
               </div>
             </div>
@@ -295,8 +295,8 @@ export default async function Home() {
                 <Download className="w-7 h-7 text-[#0b1b42]" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">10 Lac +</div>
-                <div className="text-sm text-blue-200">App Installs</div>
+                <div className="text-2xl font-bold text-white">1K+</div>
+                <div className="text-sm text-blue-200">Downloads</div>
               </div>
             </div>
           </div>
