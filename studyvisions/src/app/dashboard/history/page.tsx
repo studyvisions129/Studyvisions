@@ -7,7 +7,7 @@ export default async function HistoryPage() {
   const supabase = await createClient();
   const { data: { session } } = await supabase.auth.getSession();
 
-  let orders = [];
+  let orders: any[] = [];
   
   // Logic to fetch order history would go here
 

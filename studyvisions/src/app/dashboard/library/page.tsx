@@ -7,7 +7,7 @@ export default async function LibraryPage() {
   const supabase = await createClient();
   const { data: { session } } = await supabase.auth.getSession();
 
-  let purchases = [];
+  let purchases: any[] = [];
   
   if (session?.user?.email) {
     const dbUser = await prisma.user.findUnique({
