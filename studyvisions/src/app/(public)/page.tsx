@@ -262,9 +262,7 @@ export default async function Home() {
                 <Users className="w-7 h-7 text-[#0b1b42]" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">
-                  {membersCount > 0 ? (membersCount > 1000 ? (membersCount/1000).toFixed(1) + 'k+' : membersCount + '+') : '0'}
-                </div>
+                <div className="text-2xl font-bold text-white">35 Lac +</div>
                 <div className="text-sm text-blue-200">Members</div>
               </div>
             </div>
@@ -275,10 +273,8 @@ export default async function Home() {
                 <BookOpen className="w-7 h-7 text-[#0b1b42]" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">
-                  {productsCount > 0 ? (productsCount > 100 ? productsCount + '+' : productsCount) : '0'}
-                </div>
-                <div className="text-sm text-blue-200">Courses & Notes</div>
+                <div className="text-2xl font-bold text-white">150 +</div>
+                <div className="text-sm text-blue-200">Courses</div>
               </div>
             </div>
             
@@ -288,8 +284,8 @@ export default async function Home() {
                 <Star className="w-7 h-7 text-[#0b1b42]" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">{averageRating}</div>
-                <div className="text-sm text-blue-200">Average Rating</div>
+                <div className="text-2xl font-bold text-white">4.7</div>
+                <div className="text-sm text-blue-200">Google Rating</div>
               </div>
             </div>
             
@@ -299,10 +295,8 @@ export default async function Home() {
                 <Download className="w-7 h-7 text-[#0b1b42]" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">
-                  {downloadsCount > 0 ? (downloadsCount > 1000 ? (downloadsCount/1000).toFixed(1) + 'k+' : downloadsCount + '+') : '0'}
-                </div>
-                <div className="text-sm text-blue-200">Total Downloads</div>
+                <div className="text-2xl font-bold text-white">10 Lac +</div>
+                <div className="text-sm text-blue-200">App Installs</div>
               </div>
             </div>
           </div>
