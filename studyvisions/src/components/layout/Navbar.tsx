@@ -11,16 +11,16 @@ import {
   BookOpen,
   LayoutDashboard,
   LogIn,
+  ShoppingCart
 } from "lucide-react";
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Explore", href: "/categories" },
   { label: "Notes", href: "/categories?tag=Notes" },
-  { label: "eBooks", href: "/categories?tag=eBooks" },
   { label: "Courses", href: "/categories?tag=Courses" },
-  { label: "PYQs", href: "/categories?tag=PYQs" },
+  { label: "Blog", href: "/blog" },
   { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export function Navbar() {
@@ -79,22 +79,23 @@ export function Navbar() {
               ))}
             </nav>
 
-            {/* Login Button */}
+            {/* Cart Button */}
+            <Link
+              href="/cart"
+              className="hidden md:flex items-center justify-center w-10 h-10 rounded-full text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-colors relative"
+              aria-label="Cart"
+            >
+              <ShoppingCart className="w-5 h-5" />
+            </Link>
+
+            {/* Login / Profile Button */}
             <Link
               href="/auth/login"
-              className="hidden md:flex items-center gap-2 text-sm font-semibold text-slate-700 hover:text-blue-600 bg-slate-50 hover:bg-slate-100 border border-slate-200 py-2 px-5 rounded-lg transition-colors"
+              className="hidden md:flex items-center gap-2 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 py-2 px-5 rounded-lg transition-colors"
               id="navbar-login"
             >
-              Log In
-            </Link>
-            
-            {/* Get Started Button */}
-            <Link
-              href="/auth/register"
-              className="hidden md:flex btn-primary items-center gap-2 text-sm !py-2 !px-5"
-              id="navbar-register"
-            >
-              Get Started
+              <LogIn className="w-4 h-4" />
+              Login / Profile
             </Link>
 
             {/* Mobile Menu Toggle */}

@@ -11,30 +11,25 @@ import {
 
 const footerSections = [
   {
-    title: "Learn",
-    links: [
-      { label: "Notes", href: "/categories?type=notes" },
-      { label: "eBooks", href: "/categories?type=ebook" },
-      { label: "Test Series", href: "/categories?type=test" },
-      { label: "Bundles", href: "/categories?type=bundle" },
-    ],
-  },
-  {
     title: "Company",
     links: [
-      { label: "About Us", href: "/about" },
+      { label: "About", href: "/about" },
       { label: "Contact", href: "/contact" },
-      { label: "Blog", href: "/blog" },
-      { label: "Careers", href: "#" },
     ],
   },
   {
-    title: "Support",
+    title: "Resources",
     links: [
-      { label: "FAQ", href: "/faq" },
-      { label: "Refund Policy", href: "/refund-policy" },
+      { label: "Blog", href: "/blog" },
+      { label: "FAQs", href: "/faq" },
+    ],
+  },
+  {
+    title: "Legal",
+    links: [
       { label: "Privacy Policy", href: "/privacy" },
-      { label: "Terms & Conditions", href: "/terms" },
+      { label: "Terms", href: "/terms" },
+      { label: "Refund Policy", href: "/refund-policy" },
     ],
   },
 ];
@@ -120,25 +115,22 @@ export function Footer() {
 
         {/* Contact Row */}
         <div className="border-t border-slate-800 pt-8 mb-8">
-          <div className="flex flex-wrap gap-6 text-sm">
-            <a
-              href="mailto:hello@studyvisions.in"
-              className="flex items-center gap-2 hover:text-white transition-colors"
-            >
-              <Mail className="w-4 h-4 text-[var(--sv-primary)]" />
-              hello@studyvisions.in
-            </a>
-            <a
-              href="tel:+919876543210"
-              className="flex items-center gap-2 hover:text-white transition-colors"
-            >
-              <Phone className="w-4 h-4 text-[var(--sv-primary)]" />
-              +91 98765 43210
-            </a>
-            <span className="flex items-center gap-2">
-              <MapPin className="w-4 h-4 text-[var(--sv-primary)]" />
-              India
-            </span>
+          <div className="flex flex-wrap gap-6 text-sm justify-between">
+            <div className="flex gap-6">
+              <a
+                href="mailto:hello@studyvisions.in"
+                className="flex items-center gap-2 hover:text-white transition-colors"
+              >
+                <Mail className="w-4 h-4 text-[var(--sv-primary)]" />
+                hello@studyvisions.in
+              </a>
+            </div>
+            <div className="flex gap-4">
+               {/* Note: This is an additional layout to handle responsive footer bottom layout as required */}
+               <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+               <Link href="/terms" className="hover:text-white transition-colors">Terms & Conditions</Link>
+               <Link href="#" className="hover:text-white transition-colors">Disclaimer</Link>
+            </div>
           </div>
         </div>
 

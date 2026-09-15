@@ -139,7 +139,12 @@ export default async function Home() {
 
   return (
     <>
-      {/* ===== HERO SECTION ===== */}
+      {/* 1. ANNOUNCEMENT BAR (Optional) */}
+      <div className="bg-blue-600 text-white text-sm text-center py-2 font-medium">
+        Welcome to StudyVisions! Get 20% off on all premium notes this week.
+      </div>
+
+      {/* 2. HERO SECTION */}
       {/* ===== NEW HERO SECTION ===== */}
       <section className="relative bg-[#F8FAFC] overflow-hidden pt-12 pb-24 lg:pt-20 lg:pb-32">
         {/* Subtle Background Gradients */}
@@ -324,20 +329,107 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ===== STATS BAR ===== */}
-      <section className="bg-[var(--sv-secondary)] border-t border-slate-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            <StatItem icon={Users} value="10,000+" label="Active Students" />
-            <StatItem icon={FileText} value="500+" label="Study Resources" />
-            <StatItem icon={Star} value="4.8★" label="Average Rating" />
-            <StatItem icon={Award} value="50+" label="Expert Authors" />
+      {/* 3. FEATURED CATEGORIES */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-slate-800">Browse by Category</h2>
+            <p className="text-slate-500 mt-2">Find exactly what you need for your exams</p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {['BSEB', 'CBSE', 'BCA', 'Engineering', 'Medical', 'Competitive'].map((category) => (
+              <Link key={category} href={`/categories?board=${category}`} className="flex flex-col items-center justify-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-200 hover:shadow-md transition-all group">
+                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors mb-3">
+                  <BookOpen className="w-5 h-5" />
+                </div>
+                <span className="font-semibold text-slate-700">{category}</span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ===== WHY STUDYVISIONS ===== */}
-      <section className="py-24 bg-white">
+      {/* 4. POPULAR NOTES */}
+      <section className="py-20 bg-slate-50 border-t border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-end mb-12">
+            <div>
+              <h2 className="text-3xl font-bold text-slate-800">Popular Notes</h2>
+              <p className="text-slate-500 mt-2">Most downloaded study materials this week</p>
+            </div>
+            <Link href="/categories?tag=Notes" className="text-blue-600 font-semibold hover:underline hidden sm:block">View all notes</Link>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {featuredProducts.filter(p => p.type === "Notes").length > 0 ? (
+              featuredProducts.filter(p => p.type === "Notes").map((product) => (
+                <ProductCard
+                  key={product.id}
+                  title={product.title}
+                  slug={product.slug}
+                  subject={product.academicLevel?.name || "General"}
+                  board={product.tags.find(t => t.includes("Class")) ? `CBSE ${product.tags.find(t => t.includes("Class"))}` : "CBSE"}
+                  price={Number(product.price)}
+                  originalPrice={Number(product.compareAtPrice || product.price)}
+                  tag={product.tags[0]}
+                  color="bg-gradient-to-r from-blue-500 to-blue-600"
+                />
+              ))
+            ) : (
+               <div className="col-span-full text-center text-slate-500 py-12 border-2 border-dashed border-slate-200 rounded-2xl">
+                No popular notes available yet.
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* 5. PREMIUM PRODUCTS (Featured) */}
+      <section className="py-24 bg-white border-t border-slate-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-4">
+            <div>
+              <span className="inline-block text-sm font-semibold text-amber-500 uppercase tracking-wider mb-2">
+                Premium Picks
+              </span>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-800">
+                Premium Digital Products
+              </h2>
+            </div>
+            <Link
+              href="/categories"
+              className="flex items-center gap-1 text-blue-600 font-semibold hover:gap-2 transition-all"
+            >
+              Explore Library
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {featuredProducts.length > 0 ? (
+              featuredProducts.map((product) => (
+                <ProductCard
+                  key={product.id}
+                  title={product.title}
+                  slug={product.slug}
+                  subject={product.academicLevel?.name || "General"}
+                  board={product.tags.find(t => t.includes("Class")) ? `CBSE ${product.tags.find(t => t.includes("Class"))}` : "CBSE"}
+                  price={Number(product.price)}
+                  originalPrice={Number(product.compareAtPrice || product.price)}
+                  tag={product.tags[0]}
+                  color="bg-gradient-to-r from-purple-500 to-purple-600"
+                />
+              ))
+            ) : (
+              <div className="col-span-full text-center text-slate-500 py-12">
+                No premium products found.
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* 6. WHY CHOOSE US */}
+      <section className="py-24 bg-slate-50 border-t border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="inline-block text-sm font-semibold text-[var(--sv-primary)] uppercase tracking-wider mb-3">
@@ -378,52 +470,97 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* ===== FEATURED PRODUCTS ===== */}
-      <section className="py-24 bg-[var(--sv-surface-dim)]">
+      {/* 7. STUDENT TESTIMONIALS */}
+      <section className="py-24 bg-white border-t border-slate-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-12 gap-4">
-            <div>
-              <span className="inline-block text-sm font-semibold text-[var(--sv-primary)] uppercase tracking-wider mb-2">
-                Popular Picks
-              </span>
-              <h2 className="text-3xl md:text-4xl font-bold text-[var(--sv-secondary)]">
-                Featured Products
-              </h2>
-            </div>
-            <Link
-              href="/categories"
-              className="flex items-center gap-1 text-[var(--sv-primary)] font-semibold hover:gap-2 transition-all"
-            >
-              View All
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-slate-800 mb-4">
+              Trusted by Students
+            </h2>
+            <p className="text-slate-500 max-w-2xl mx-auto text-lg">
+              Hear from thousands of students who have improved their scores with StudyVisions.
+            </p>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.length > 0 ? (
-              featuredProducts.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  title={product.title}
-                  slug={product.slug}
-                  subject={product.academicLevel?.name || "General"}
-                  board={product.tags.find(t => t.includes("Class")) ? `CBSE ${product.tags.find(t => t.includes("Class"))}` : "CBSE"}
-                  price={Number(product.price)}
-                  originalPrice={Number(product.compareAtPrice || product.price)}
-                  tag={product.tags[0]}
-                  color="bg-gradient-to-r from-blue-500 to-blue-600"
-                />
-              ))
-            ) : (
-              <div className="col-span-full text-center text-slate-500 py-12">
-                No featured products found. Run the seed script to load them!
-              </div>
-            )}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+             {/* Testimonial 1 */}
+             <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100 relative">
+               <div className="flex text-amber-400 mb-4"><Star className="w-5 h-5 fill-current"/><Star className="w-5 h-5 fill-current"/><Star className="w-5 h-5 fill-current"/><Star className="w-5 h-5 fill-current"/><Star className="w-5 h-5 fill-current"/></div>
+               <p className="text-slate-600 mb-6 italic">"The Class 12 Physics notes are incredible! They saved me so much time during my final revision."</p>
+               <div className="flex items-center gap-3">
+                 <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center font-bold">R</div>
+                 <div>
+                   <h4 className="font-bold text-slate-800 text-sm">Rahul K.</h4>
+                   <p className="text-xs text-slate-500">CBSE Class 12</p>
+                 </div>
+               </div>
+             </div>
+             {/* Testimonial 2 */}
+             <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100 relative">
+               <div className="flex text-amber-400 mb-4"><Star className="w-5 h-5 fill-current"/><Star className="w-5 h-5 fill-current"/><Star className="w-5 h-5 fill-current"/><Star className="w-5 h-5 fill-current"/><Star className="w-5 h-5 fill-current"/></div>
+               <p className="text-slate-600 mb-6 italic">"I bought the BCA semester 3 bundle. It's exactly what I needed. Very concise and easy to understand."</p>
+               <div className="flex items-center gap-3">
+                 <div className="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center font-bold">P</div>
+                 <div>
+                   <h4 className="font-bold text-slate-800 text-sm">Priya M.</h4>
+                   <p className="text-xs text-slate-500">BCA Student</p>
+                 </div>
+               </div>
+             </div>
+             {/* Testimonial 3 */}
+             <div className="bg-slate-50 p-8 rounded-2xl border border-slate-100 relative">
+               <div className="flex text-amber-400 mb-4"><Star className="w-5 h-5 fill-current"/><Star className="w-5 h-5 fill-current"/><Star className="w-5 h-5 fill-current"/><Star className="w-5 h-5 fill-current"/><Star className="w-5 h-5 fill-current"/></div>
+               <p className="text-slate-600 mb-6 italic">"Instant access after payment worked perfectly. I could start studying immediately before my exam."</p>
+               <div className="flex items-center gap-3">
+                 <div className="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center font-bold">A</div>
+                 <div>
+                   <h4 className="font-bold text-slate-800 text-sm">Amit S.</h4>
+                   <p className="text-xs text-slate-500">BSEB Class 10</p>
+                 </div>
+               </div>
+             </div>
           </div>
         </div>
       </section>
 
-      {/* ===== CTA SECTION ===== */}
+      {/* 8. FREQUENTLY ASKED QUESTIONS */}
+      <section className="py-24 bg-slate-50 border-t border-slate-100">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+           <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-slate-800 mb-4">Frequently Asked Questions</h2>
+          </div>
+          <div className="space-y-4">
+             {/* Simple FAQ Items (To be replaced with Accordion component later) */}
+             <div className="bg-white p-6 rounded-xl border border-slate-200">
+               <h3 className="font-bold text-slate-800 mb-2">Notes kaise download kare?</h3>
+               <p className="text-slate-600 text-sm">Purchase karne ke baad 'My Library' section me jayein wahan aapko download ka option mil jayega.</p>
+             </div>
+             <div className="bg-white p-6 rounded-xl border border-slate-200">
+               <h3 className="font-bold text-slate-800 mb-2">Payment safe hai?</h3>
+               <p className="text-slate-600 text-sm">Haan, hum Razorpay use karte hain jo 100% secure aur encrypted transactions provide karta hai.</p>
+             </div>
+             <div className="bg-white p-6 rounded-xl border border-slate-200">
+               <h3 className="font-bold text-slate-800 mb-2">Refund policy kya hai?</h3>
+               <p className="text-slate-600 text-sm">Kyunki yeh digital products hain, hum generally refund offer nahi karte, lekin agar file me koi issue hai toh support team help karegi.</p>
+             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 9. NEWSLETTER SECTION */}
+      <section className="py-20 bg-blue-600 border-t border-blue-700 relative overflow-hidden">
+         {/* Background pattern */}
+         <div className="absolute inset-0 opacity-10" style={{backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)', backgroundSize: '24px 24px'}}></div>
+         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <h2 className="text-3xl font-bold text-white mb-4">Never Miss an Update</h2>
+            <p className="text-blue-100 mb-8 max-w-lg mx-auto">Latest notes aur study updates directly email par paaiye. Join our newsletter today.</p>
+            <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+               <input type="email" placeholder="Enter your email address" className="flex-1 px-4 py-3 rounded-xl focus:outline-none focus:ring-2 focus:ring-white border-none" required />
+               <button type="submit" className="px-6 py-3 bg-slate-900 text-white font-bold rounded-xl hover:bg-slate-800 transition-colors">Subscribe</button>
+            </form>
+         </div>
+      </section>
+
+      {/* 10. FOOTER CTA */}
       <section className="relative bg-animated-gradient hero-mesh overflow-hidden">
         <div className="absolute inset-0">
           <div className="absolute top-0 left-1/4 w-64 h-64 rounded-full bg-blue-500/10 blur-3xl" />
