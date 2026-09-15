@@ -12,6 +12,8 @@ import {
   Award,
   ChevronRight,
   Sparkles,
+  Search,
+  GraduationCap
 } from "lucide-react";
 
 /* ---------- Featured Product Card ---------- */
@@ -138,87 +140,184 @@ export default async function Home() {
   return (
     <>
       {/* ===== HERO SECTION ===== */}
-      <section className="relative bg-animated-gradient hero-mesh overflow-hidden">
-        {/* Decorative circles */}
-        <div className="absolute top-20 left-10 w-72 h-72 rounded-full bg-blue-500/10 blur-3xl pointer-events-none" />
-        <div className="absolute bottom-10 right-10 w-96 h-96 rounded-full bg-purple-500/10 blur-3xl pointer-events-none" />
+      {/* ===== NEW HERO SECTION ===== */}
+      <section className="relative bg-[#F8FAFC] overflow-hidden pt-12 pb-24 lg:pt-20 lg:pb-32">
+        {/* Subtle Background Gradients */}
+        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-200/40 rounded-full blur-[100px]" />
+          <div className="absolute bottom-[-10%] right-[-5%] w-[30%] h-[40%] bg-amber-100/50 rounded-full blur-[100px]" />
+        </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-36 flex flex-col md:flex-row items-center gap-12">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-16">
           {/* Left Content */}
-          <div className="md:w-1/2 text-center md:text-left">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/10 text-sm text-blue-300 mb-6 backdrop-blur-sm">
-              <Sparkles className="w-4 h-4" />
-              India&apos;s Trusted Learning Platform
+          <div className="lg:w-[55%] text-center lg:text-left pt-12">
+            <div className="flex items-center justify-center lg:justify-start gap-3 text-xs md:text-sm font-bold tracking-[0.2em] text-slate-500 uppercase mb-6 md:mb-8">
+              <span>Learn</span>
+              <span className="w-1 h-1 rounded-full bg-blue-500"></span>
+              <span>Create</span>
+              <span className="w-1 h-1 rounded-full bg-blue-500"></span>
+              <span>Grow</span>
             </div>
 
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-white mb-6 leading-[1.1]">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-slate-800 mb-6 leading-[1.1]">
               Learn Better.
               <br />
-              <span className="bg-gradient-to-r from-[var(--sv-accent)] to-orange-300 bg-clip-text text-transparent">
+              <span className="text-blue-600">
                 Build Your Future.
               </span>
             </h1>
 
-            <p className="text-lg md:text-xl text-slate-300 mb-8 max-w-xl mx-auto md:mx-0 leading-relaxed">
-              High-quality, affordable digital learning resources for Indian
-              students. Complete your syllabus, practice tests, aur apne
-              subjects master karo.
+            <p className="text-lg md:text-xl text-slate-600 mb-4 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+              Discover premium digital products designed to help you learn, prepare, improve your skills, and move forward.
+            </p>
+            <p className="text-base text-slate-500 mb-10 max-w-xl mx-auto lg:mx-0">
+              Notes, eBooks, Courses, PYQs, Practice Materials and more — all in one place.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
               <Link
                 href="/categories"
-                className="btn-primary flex items-center justify-center gap-2 text-base"
+                className="flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl transition-all shadow-lg shadow-blue-600/20"
                 id="hero-cta-explore"
               >
-                Explore Courses
+                Explore Digital Products
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
-                href="/auth/register"
-                className="flex items-center justify-center gap-2 px-8 py-3 rounded-full bg-white/10 hover:bg-white/20 border border-white/20 text-white font-semibold transition-all backdrop-blur-sm"
-                id="hero-cta-join"
+                href="/categories?type=free"
+                className="flex items-center justify-center gap-2 px-8 py-4 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-semibold rounded-xl transition-all shadow-sm"
+                id="hero-cta-free"
               >
-                Join for Free
+                Explore Free Resources
               </Link>
+            </div>
+
+            {/* Features Row */}
+            <div className="flex flex-wrap items-center justify-center lg:justify-start gap-x-6 gap-y-4">
+              <div className="flex items-center gap-2">
+                <Shield className="w-5 h-5 text-blue-600" />
+                <span className="text-sm font-bold text-slate-700">Quality Resources</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Zap className="w-5 h-5 text-blue-600" />
+                <span className="text-sm font-bold text-slate-700">Instant Access</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                </svg>
+                <span className="text-sm font-bold text-slate-700">Secure Payments</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Users className="w-5 h-5 text-blue-600" />
+                <span className="text-sm font-bold text-slate-700">Trusted by Students</span>
+              </div>
             </div>
           </div>
 
-          {/* Right - Hero Visual Card */}
-          <div className="md:w-1/2 flex justify-center">
-            <div className="animate-float glass rounded-3xl p-6 max-w-md w-full shadow-2xl">
-              {/* Fake Course Card Preview */}
-              <div className="bg-slate-800/80 rounded-2xl p-5 mb-4 shadow-inner">
-                <div className="flex items-center gap-3 mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-blue-600 flex items-center justify-center text-white font-bold text-lg shadow-md">
-                    Py
+          {/* Right Visual Area */}
+          <div className="lg:w-[45%] relative mt-16 lg:mt-0 hidden md:block">
+            {/* Hand-drawn Text & Arrow */}
+            <div className="absolute top-[-40px] right-20 z-0 text-slate-500 font-serif italic text-lg transform rotate-[-5deg]">
+              Your Learning<br/>Journey Starts Here
+              <svg className="w-8 h-8 absolute -bottom-6 right-8 text-slate-400 rotate-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </div>
+
+            {/* The Laptop Mockup */}
+            <div className="relative z-20 w-full max-w-[600px] mx-auto">
+              <div className="bg-slate-800 p-3 rounded-[2rem] rounded-b-none border-b-4 border-slate-900 shadow-2xl relative">
+                <div className="bg-white rounded-xl aspect-[16/10] overflow-hidden flex flex-col items-center justify-center p-8 relative">
+                  <div className="absolute top-4 left-4 w-2 h-2 rounded-full bg-red-400"></div>
+                  <div className="absolute top-4 left-8 w-2 h-2 rounded-full bg-amber-400"></div>
+                  <div className="absolute top-4 left-12 w-2 h-2 rounded-full bg-green-400"></div>
+                  
+                  <div className="flex items-center gap-2 mb-2 mt-4">
+                     <div className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center shadow-md">
+                       <GraduationCap className="w-5 h-5 text-white" />
+                     </div>
+                     <span className="text-xl font-bold text-slate-800 tracking-tight">StudyVisions</span>
                   </div>
-                  <div>
-                    <h3 className="font-bold text-white text-lg">
-                      Python Masterclass
-                    </h3>
-                    <p className="text-xs text-slate-400">
-                      Class 11 & 12 • CBSE
-                    </p>
+                  <p className="text-xs text-slate-500 mb-8 font-medium">Learn Better. Build Your Future.</p>
+                  
+                  <div className="w-full max-w-sm flex items-center bg-slate-50 border border-slate-200 rounded-lg p-1 pl-4 mb-10 shadow-sm">
+                    <span className="text-xs text-slate-400 flex-1 truncate">Search for notes, eBooks, courses...</span>
+                    <div className="w-8 h-8 rounded bg-blue-600 flex items-center justify-center shrink-0">
+                      <Search className="w-4 h-4 text-white" />
+                    </div>
+                  </div>
+
+                  <div className="flex gap-8 w-full justify-center">
+                     <div className="flex flex-col items-center gap-2">
+                        <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600"><FileText className="w-6 h-6"/></div>
+                        <span className="text-[10px] font-bold text-slate-600">Notes</span>
+                     </div>
+                     <div className="flex flex-col items-center gap-2">
+                        <div className="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600"><BookOpen className="w-6 h-6"/></div>
+                        <span className="text-[10px] font-bold text-slate-600">eBooks</span>
+                     </div>
+                     <div className="flex flex-col items-center gap-2">
+                        <div className="w-12 h-12 rounded-xl bg-green-50 flex items-center justify-center text-green-600"><GraduationCap className="w-6 h-6"/></div>
+                        <span className="text-[10px] font-bold text-slate-600">Courses</span>
+                     </div>
+                     <div className="flex flex-col items-center gap-2">
+                        <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center text-orange-600"><FileText className="w-6 h-6"/></div>
+                        <span className="text-[10px] font-bold text-slate-600">PYQs</span>
+                     </div>
                   </div>
                 </div>
-                <div className="w-full bg-slate-700 rounded-full h-2.5 mb-2">
-                  <div
-                    className="bg-gradient-to-r from-[var(--sv-accent)] to-orange-400 h-2.5 rounded-full"
-                    style={{ width: "75%" }}
-                  />
-                </div>
-                <p className="text-xs text-right text-slate-400">
-                  75% Completed
-                </p>
               </div>
-              <div className="flex justify-between items-center px-2">
-                <span className="text-sm font-medium text-slate-300">
-                  Resume Learning
-                </span>
-                <button className="bg-white text-[var(--sv-secondary)] rounded-full w-10 h-10 flex items-center justify-center hover:bg-slate-100 transition-colors shadow-lg animate-pulse-glow">
-                  <ChevronRight className="w-5 h-5" />
-                </button>
+              <div className="h-4 w-[110%] -ml-[5%] bg-slate-300 rounded-b-xl shadow-xl border-t border-slate-400 relative">
+                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-1 bg-slate-400 rounded-b-md"></div>
+              </div>
+            </div>
+
+            {/* Floating Card: Premium Notes (Top Left) */}
+            <div className="absolute -left-12 top-10 z-30 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 animate-float" style={{animationDelay: '0s'}}>
+              <div className="w-12 h-12 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600 mb-3">
+                <FileText className="w-6 h-6" />
+              </div>
+              <h4 className="font-bold text-sm text-slate-800">Premium Notes</h4>
+              <p className="text-[10px] text-slate-500">Class 12 • Science</p>
+            </div>
+
+            {/* Floating Card: eBooks (Bottom Left) */}
+            <div className="absolute -left-4 bottom-10 z-30 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 animate-float" style={{animationDelay: '1.5s'}}>
+              <div className="w-12 h-12 rounded-xl bg-red-50 flex items-center justify-center text-red-500 mb-3">
+                <BookOpen className="w-6 h-6" />
+              </div>
+              <h4 className="font-bold text-sm text-slate-800">eBooks</h4>
+              <p className="text-[10px] text-slate-500">Exam Guides & References</p>
+            </div>
+
+            {/* Floating Card: Courses (Top Right) */}
+            <div className="absolute -right-8 top-0 z-30 bg-white py-3 px-4 rounded-2xl shadow-xl border border-slate-100 flex items-center gap-4 animate-float" style={{animationDelay: '0.7s'}}>
+              <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center text-green-600 shrink-0">
+                <GraduationCap className="w-5 h-5" />
+              </div>
+              <div>
+                <h4 className="font-bold text-sm text-slate-800">Courses</h4>
+                <p className="text-[10px] text-slate-500">Learn at Your Pace</p>
+              </div>
+            </div>
+
+            {/* Floating Card: PYQs (Middle Right) */}
+            <div className="absolute -right-16 top-40 z-30 bg-white p-4 rounded-2xl shadow-xl border border-slate-100 animate-float" style={{animationDelay: '2s'}}>
+              <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center text-orange-500 mb-3">
+                <FileText className="w-6 h-6" />
+              </div>
+              <h4 className="font-bold text-sm text-slate-800">PYQs & Practice Sets</h4>
+              <p className="text-[10px] text-slate-500">500+ Questions</p>
+            </div>
+
+            {/* Books stack visual at bottom right */}
+            <div className="absolute -bottom-8 -right-10 z-30 flex flex-col items-end rotate-2">
+              <div className="bg-blue-100 border border-blue-200 w-48 h-10 rounded-sm flex items-center px-4 shadow-sm relative z-10 translate-x-2">
+                <span className="text-xs font-bold text-blue-800">Better Knowledge</span>
+              </div>
+              <div className="bg-white border border-slate-200 w-52 h-12 rounded-sm flex items-center px-4 shadow-md -translate-y-1">
+                <span className="text-xs font-bold text-slate-600">Brighter Future</span>
               </div>
             </div>
           </div>

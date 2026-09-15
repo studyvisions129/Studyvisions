@@ -15,8 +15,11 @@ import {
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Categories", href: "/categories" },
-  { label: "Blog", href: "/blog" },
+  { label: "Explore", href: "/categories" },
+  { label: "Notes", href: "/categories?tag=Notes" },
+  { label: "eBooks", href: "/categories?tag=eBooks" },
+  { label: "Courses", href: "/categories?tag=Courses" },
+  { label: "PYQs", href: "/categories?tag=PYQs" },
   { label: "About", href: "/about" },
 ];
 
@@ -79,11 +82,19 @@ export function Navbar() {
             {/* Login Button */}
             <Link
               href="/auth/login"
-              className="hidden md:flex btn-primary items-center gap-2 text-sm !py-2 !px-5"
+              className="hidden md:flex items-center gap-2 text-sm font-semibold text-slate-700 hover:text-blue-600 bg-slate-50 hover:bg-slate-100 border border-slate-200 py-2 px-5 rounded-lg transition-colors"
               id="navbar-login"
             >
-              <LogIn className="w-4 h-4" />
-              Login
+              Log In
+            </Link>
+            
+            {/* Get Started Button */}
+            <Link
+              href="/auth/register"
+              className="hidden md:flex btn-primary items-center gap-2 text-sm !py-2 !px-5"
+              id="navbar-register"
+            >
+              Get Started
             </Link>
 
             {/* Mobile Menu Toggle */}
