@@ -274,7 +274,7 @@ export default async function Home() {
               </div>
               <div>
                 <div className="text-2xl font-bold text-white">100+</div>
-                <div className="text-sm text-blue-200">Courses</div>
+                <div className="text-sm text-blue-200">Courses & Notes</div>
               </div>
             </div>
             
