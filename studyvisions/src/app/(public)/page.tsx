@@ -147,6 +147,8 @@ export default async function Home() {
   const membersCount = await prisma.user.count({ where: { role: 'STUDENT' } });
   const productsCount = await prisma.product.count({ where: { status: 'PUBLISHED' } });
   const downloadsCount = await prisma.purchase.count();
+  const ratingSetting = await prisma.siteSetting.findUnique({ where: { key: 'average_rating' } });
+  const averageRating = ratingSetting?.value || "4.8";
 
   return (
     <>
@@ -286,7 +288,7 @@ export default async function Home() {
                 <Star className="w-7 h-7 text-[#0b1b42]" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-white">4.8</div>
+                <div className="text-2xl font-bold text-white">{averageRating}</div>
                 <div className="text-sm text-blue-200">Average Rating</div>
               </div>
             </div>
