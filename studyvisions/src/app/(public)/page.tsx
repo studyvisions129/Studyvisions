@@ -199,7 +199,7 @@ export default async function Home() {
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <Link
-                href="/categories?type=free"
+                href="#free-resources"
                 className="flex items-center justify-center gap-2 px-8 py-4 bg-white hover:bg-slate-50 border border-slate-200 text-slate-700 font-semibold rounded-xl transition-all shadow-sm"
                 id="hero-cta-free"
               >
@@ -249,7 +249,7 @@ export default async function Home() {
 
 
       {/* 3. FREE RESOURCES */}
-      <section className="py-20 bg-white">
+      <section id="free-resources" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl font-bold text-slate-800">Free Resources</h2>
