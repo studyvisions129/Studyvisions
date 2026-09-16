@@ -66,6 +66,8 @@ export default function UgCoursesFreeResources() {
                 ? "/free-resources/ug-courses/arts-and-humanities" 
                 : courseName === "Commerce & Management"
                 ? "/free-resources/ug-courses/commerce-and-management"
+                : courseName === "Computer & IT"
+                ? "/free-resources/ug-courses/computer-and-it"
                 : "#";
                 
               return (
