@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { BookOpen, GraduationCap, ArrowLeft, Layers, ChevronRight, GraduationCap } from "lucide-react";
+import { BookOpen, GraduationCap, ArrowLeft, Layers, ChevronRight } from "lucide-react";
 
 export default function EducationFreeResources() {
   const [medium, setMedium] = useState<"hindi" | "english">("english");
