@@ -16,7 +16,27 @@ export default function EngineeringFreeResources() {
     {
       title: "Computer Science & Engineering",
       icon: Laptop,
-      subcategories: ["General", "CSE-AI", "CSE-AI & ML", "CSE-Data Science", "CSE-Cyber Security", "CSE-Cloud Computing", "CSE-IoT", "CSE-Software Engineering", "Other Specializations"]
+      subcategories: [
+        "Computer Science & Engineering — General",
+        "CSE — Artificial Intelligence",
+        "CSE — Artificial Intelligence & Machine Learning",
+        "CSE — Data Science",
+        "CSE — Cyber Security",
+        "CSE — Information Security",
+        "CSE — Cloud Computing",
+        "CSE — Internet of Things",
+        "CSE — Blockchain Technology",
+        "CSE — Software Engineering",
+        "CSE — Big Data Analytics",
+        "CSE — Data Analytics",
+        "CSE — Computer Networks",
+        "CSE — Computer Vision",
+        "CSE — Machine Learning",
+        "CSE — Computational Intelligence",
+        "CSE — IoT & Cyber Security",
+        "CSE — AI & Data Engineering",
+        "CSE — Full Stack Development"
+      ]
     },
     {
       title: "Information Technology",
