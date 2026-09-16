@@ -215,7 +215,22 @@ export default function EngineeringFreeResources() {
         "Environmental Biotechnology"
       ]
     },
-    { title: "Automobile", icon: Car, subcategories: [] },
+    {
+      title: "Automobile Engineering",
+      icon: Car,
+      subcategories: [
+        "Automobile Engineering — General",
+        "Automotive Engineering",
+        "Electric Vehicle Technology",
+        "Hybrid Vehicle Technology",
+        "Automotive Electronics",
+        "Vehicle Design",
+        "Automotive Manufacturing",
+        "Autonomous Vehicles",
+        "Connected Vehicles",
+        "Automotive Mechatronics"
+      ]
+    },
     { title: "Aerospace / Aeronautical", icon: Plane, subcategories: [] },
     { title: "Robotics & Automation", icon: Settings, subcategories: [] },
     { title: "Mechatronics", icon: Cpu, subcategories: [] },
