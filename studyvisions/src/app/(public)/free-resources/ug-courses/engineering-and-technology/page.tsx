@@ -82,7 +82,27 @@ export default function EngineeringFreeResources() {
         "Computational Data Science"
       ]
     },
-    { title: "Electronics & Communication", icon: Cpu, subcategories: [] },
+    {
+      title: "Electronics & Communication Engineering",
+      icon: Cpu,
+      subcategories: [
+        "B.Tech / B.E. ECE",
+        "Electronics & Communication Engineering — General",
+        "VLSI Design",
+        "VLSI & Embedded Systems",
+        "Embedded Systems",
+        "Communication Systems",
+        "Wireless Communication",
+        "RF & Microwave Engineering",
+        "Signal Processing",
+        "Electronics & Instrumentation",
+        "IoT & Embedded Systems",
+        "Semiconductor Technology",
+        "Microelectronics",
+        "Robotics & Automation",
+        "AI & Embedded Systems"
+      ]
+    },
     { title: "Electrical", icon: Zap, subcategories: [] },
     { title: "Electrical & Electronics", icon: Zap, subcategories: [] },
     { title: "Mechanical", icon: Settings, subcategories: [] },
