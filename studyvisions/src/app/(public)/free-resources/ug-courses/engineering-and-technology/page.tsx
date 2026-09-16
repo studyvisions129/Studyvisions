@@ -199,7 +199,22 @@ export default function EngineeringFreeResources() {
         "Process Design & Simulation"
       ]
     },
-    { title: "Biotechnology", icon: Activity, subcategories: [] },
+    {
+      title: "Biotechnology",
+      icon: Activity,
+      subcategories: [
+        "Biotechnology — General",
+        "Industrial Biotechnology",
+        "Medical Biotechnology",
+        "Biochemical Engineering",
+        "Bioinformatics",
+        "Food Biotechnology",
+        "Pharmaceutical Biotechnology",
+        "Genetic Engineering",
+        "Biomedical Biotechnology",
+        "Environmental Biotechnology"
+      ]
+    },
     { title: "Automobile", icon: Car, subcategories: [] },
     { title: "Aerospace / Aeronautical", icon: Plane, subcategories: [] },
     { title: "Robotics & Automation", icon: Settings, subcategories: [] },
