@@ -70,6 +70,8 @@ export default function UgCoursesFreeResources() {
                 ? "/free-resources/ug-courses/computer-and-it"
                 : courseName === "Science"
                 ? "/free-resources/ug-courses/science"
+                : courseName === "Engineering & Technology"
+                ? "/free-resources/ug-courses/engineering-and-technology"
                 : "#";
                 
               return (
