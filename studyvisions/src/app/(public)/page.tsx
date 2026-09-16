@@ -259,7 +259,7 @@ export default async function Home() {
             {[
               { name: 'BSEB', icon: BookOpen, link: '/free-resources/bseb' },
               { name: 'CBSE', icon: BookOpen, link: '/free-resources/cbse' },
-              { name: 'UG COURSE', icon: GraduationCap },
+              { name: 'UG COURSE', icon: GraduationCap, link: '/free-resources/ug-courses' },
               { name: 'EBOOKS', icon: BookOpen },
               { name: 'COMPETITIVE EXAM', icon: Award }
             ].map((category) => (
