@@ -379,8 +379,40 @@ export default function EngineeringFreeResources() {
         "Sustainable Mining"
       ]
     },
-    { title: "Food Technology", icon: Beaker, subcategories: [] },
-    { title: "Agricultural Engineering", icon: Tractor, subcategories: [] },
+    {
+      title: "Food Technology",
+      icon: Beaker,
+      subcategories: [
+        "Food Technology",
+        "Food Processing Technology",
+        "Food Engineering",
+        "Food Technology & Management",
+        "___HEADER___Specializations:",
+        "Food Processing",
+        "Food Safety",
+        "Food Biotechnology",
+        "Dairy Technology",
+        "Food Quality Control",
+        "Food Packaging"
+      ]
+    },
+    {
+      title: "Agricultural Engineering",
+      icon: Tractor,
+      subcategories: [
+        "Agricultural Engineering",
+        "Agricultural Technology",
+        "Food & Agricultural Engineering",
+        "___HEADER___Specializations:",
+        "Farm Machinery",
+        "Agricultural Automation",
+        "Irrigation Engineering",
+        "Agricultural Processing",
+        "Precision Agriculture",
+        "Smart Agriculture",
+        "Agricultural Robotics"
+      ]
+    },
     { title: "Textile", icon: Shirt, subcategories: [] },
     { title: "Marine / Naval", icon: Ship, subcategories: [] },
     { title: "Biomedical", icon: Activity, subcategories: [] },
