@@ -106,7 +106,6 @@ export default function EngineeringFreeResources() {
       title: "Electrical Engineering",
       icon: Zap,
       subcategories: [
-        "B.Tech / B.E. Electrical Engineering",
         "Electrical Engineering — General",
         "Power Systems",
         "Power Electronics",
