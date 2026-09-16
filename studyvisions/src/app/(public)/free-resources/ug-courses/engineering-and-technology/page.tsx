@@ -86,7 +86,6 @@ export default function EngineeringFreeResources() {
       title: "Electronics & Communication Engineering",
       icon: Cpu,
       subcategories: [
-        "B.Tech / B.E. ECE",
         "Electronics & Communication Engineering — General",
         "VLSI Design",
         "VLSI & Embedded Systems",
