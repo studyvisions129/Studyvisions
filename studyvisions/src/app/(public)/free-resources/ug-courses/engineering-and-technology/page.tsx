@@ -103,8 +103,25 @@ export default function EngineeringFreeResources() {
         "AI & Embedded Systems"
       ]
     },
-    { title: "Electrical", icon: Zap, subcategories: [] },
-    { title: "Electrical & Electronics", icon: Zap, subcategories: [] },
+    {
+      title: "Electrical Engineering",
+      icon: Zap,
+      subcategories: [
+        "B.Tech / B.E. Electrical Engineering",
+        "Electrical Engineering — General",
+        "Power Systems",
+        "Power Electronics",
+        "Electrical Machines",
+        "Control Systems",
+        "Renewable Energy",
+        "Smart Grid",
+        "Electrical & Electronics Engineering",
+        "Energy Engineering",
+        "Electric Vehicle Technology",
+        "High Voltage Engineering",
+        "Industrial Automation"
+      ]
+    },
     { title: "Mechanical", icon: Settings, subcategories: [] },
     { title: "Civil", icon: Building2, subcategories: [] },
     { title: "Chemical", icon: Beaker, subcategories: [] },
