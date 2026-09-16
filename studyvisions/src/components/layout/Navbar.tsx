@@ -16,7 +16,8 @@ import {
 
 const navLinks = [
   { label: "Home", href: "/" },
-  { label: "Notes", href: "/categories?tag=Notes" },
+  { label: "Free Notes", href: "/categories?type=free" },
+  { label: "Digital Products", href: "/categories" },
   { label: "Courses", href: "/categories?tag=Courses" },
   { label: "Blog", href: "/blog" },
   { label: "About", href: "/about" },
@@ -51,7 +52,7 @@ export function Navbar() {
             <div className="hidden md:block relative ml-8">
               <input
                 type="text"
-                placeholder="Search courses..."
+                placeholder="Search notes, courses, eBooks & more..."
                 className={`bg-[var(--sv-surface-dim)] rounded-full py-2.5 pl-11 pr-4 text-sm border border-transparent focus:border-[var(--sv-primary)] focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all duration-300 ${
                   searchOpen ? "w-96 opacity-100" : "w-64 opacity-100"
                 }`}
