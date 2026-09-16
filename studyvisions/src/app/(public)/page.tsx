@@ -258,7 +258,7 @@ export default async function Home() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
             {[
               { name: 'BSEB', icon: BookOpen, link: '/free-resources/bseb' },
-              { name: 'CBSE', icon: BookOpen },
+              { name: 'CBSE', icon: BookOpen, link: '/free-resources/cbse' },
               { name: 'UG COURSE', icon: GraduationCap },
               { name: 'EBOOKS', icon: BookOpen },
               { name: 'COMPETITIVE EXAM', icon: Award }
