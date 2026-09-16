@@ -143,12 +143,7 @@ export default async function Home() {
     where: { key: "announcement_bar" }
   });
 
-  // Fetch real data for stats strip
-  const membersCount = await prisma.user.count({ where: { role: 'STUDENT' } });
-  const productsCount = await prisma.product.count({ where: { status: 'PUBLISHED' } });
-  const downloadsCount = await prisma.purchase.count();
-  const ratingSetting = await prisma.siteSetting.findUnique({ where: { key: 'average_rating' } });
-  const averageRating = ratingSetting?.value || "4.8";
+
 
   return (
     <>
@@ -252,56 +247,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* 2.5 STATS STRIP (Real Data) */}
-      <section className="bg-[#0b1b42] py-8 border-y border-[#152759]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {/* Stat 1 */}
-            <div className="flex items-center gap-4 justify-center md:justify-start">
-              <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shrink-0 shadow-md">
-                <Users className="w-7 h-7 text-[#0b1b42]" />
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-white">10K+</div>
-                <div className="text-sm text-blue-200">Learners</div>
-              </div>
-            </div>
-            
-            {/* Stat 2 */}
-            <div className="flex items-center gap-4 justify-center md:justify-start">
-              <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shrink-0 shadow-md">
-                <BookOpen className="w-7 h-7 text-[#0b1b42]" />
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-white">100+</div>
-                <div className="text-sm text-blue-200">Courses & Notes</div>
-              </div>
-            </div>
-            
-            {/* Stat 3 */}
-            <div className="flex items-center gap-4 justify-center md:justify-start">
-              <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shrink-0 shadow-md">
-                <Star className="w-7 h-7 text-[#0b1b42]" />
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-white">4.7</div>
-                <div className="text-sm text-blue-200">Google Rating</div>
-              </div>
-            </div>
-            
-            {/* Stat 4 */}
-            <div className="flex items-center gap-4 justify-center md:justify-start">
-              <div className="w-14 h-14 bg-white rounded-full flex items-center justify-center shrink-0 shadow-md">
-                <Download className="w-7 h-7 text-[#0b1b42]" />
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-white">1K+</div>
-                <div className="text-sm text-blue-200">Downloads</div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* 3. FEATURED CATEGORIES */}
       <section className="py-20 bg-white">
