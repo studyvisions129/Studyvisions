@@ -259,8 +259,36 @@ export default function EngineeringFreeResources() {
         "Autonomous Systems"
       ]
     },
-    { title: "Mechatronics", icon: Cpu, subcategories: [] },
-    { title: "Instrumentation & Control", icon: Settings, subcategories: [] },
+    {
+      title: "Mechatronics Engineering",
+      icon: Cpu,
+      subcategories: [
+        "Robotics",
+        "Industrial Automation",
+        "Smart Manufacturing",
+        "Embedded Systems",
+        "Control Systems",
+        "Automotive Mechatronics",
+        "AI & Robotics"
+      ]
+    },
+    {
+      title: "Instrumentation & Control Engineering",
+      icon: Settings,
+      subcategories: [
+        "Instrumentation Engineering",
+        "Instrumentation & Control Engineering",
+        "Electronics & Instrumentation",
+        "Control & Automation Engineering",
+        "___HEADER___Specializations:",
+        "Industrial Automation",
+        "Process Control",
+        "Robotics",
+        "Embedded Systems",
+        "Industrial IoT",
+        "Smart Manufacturing"
+      ]
+    },
     { title: "Industrial & Production", icon: Factory, subcategories: [] },
     { title: "Materials / Metallurgical", icon: Box, subcategories: [] },
     { title: "Environmental", icon: Leaf, subcategories: [] },
