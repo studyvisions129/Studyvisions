@@ -413,10 +413,71 @@ export default function EngineeringFreeResources() {
         "Agricultural Robotics"
       ]
     },
-    { title: "Textile", icon: Shirt, subcategories: [] },
-    { title: "Marine / Naval", icon: Ship, subcategories: [] },
-    { title: "Biomedical", icon: Activity, subcategories: [] },
-    { title: "Other Engineering Programmes", icon: Settings, subcategories: [] }
+    {
+      title: "Textile Engineering",
+      icon: Shirt,
+      subcategories: [
+        "Textile Engineering",
+        "Textile Technology",
+        "Textile Processing",
+        "Apparel Technology",
+        "___HEADER___Specializations:",
+        "Textile Manufacturing",
+        "Textile Chemistry",
+        "Textile Processing",
+        "Apparel Production",
+        "Technical Textiles",
+        "Fashion Technology"
+      ]
+    },
+    {
+      title: "Marine / Naval Engineering",
+      icon: Ship,
+      subcategories: [
+        "Marine Engineering",
+        "Naval Architecture",
+        "Naval Architecture & Ocean Engineering",
+        "Ocean Engineering",
+        "___HEADER___Specializations:",
+        "Marine Technology",
+        "Ship Design",
+        "Offshore Engineering",
+        "Ocean Engineering",
+        "Marine Systems"
+      ]
+    },
+    {
+      title: "Biomedical Engineering",
+      icon: Activity,
+      subcategories: [
+        "Biomedical Engineering",
+        "Biomedical Instrumentation",
+        "Medical Electronics",
+        "Bioengineering",
+        "___HEADER___Specializations:",
+        "Medical Devices",
+        "Biomedical Instrumentation",
+        "Medical Imaging",
+        "Biomechanics",
+        "Healthcare Technology",
+        "Rehabilitation Engineering"
+      ]
+    },
+    {
+      title: "Printing / Packaging / Specialized Engineering",
+      icon: Settings,
+      subcategories: [
+        "Printing Technology",
+        "Packaging Technology",
+        "Ceramic Engineering",
+        "Polymer Engineering",
+        "Leather Technology",
+        "Paper Technology",
+        "Production Technology",
+        "Fire & Safety Engineering",
+        "Infrastructure Engineering"
+      ]
+    }
   ];
 
   return (
