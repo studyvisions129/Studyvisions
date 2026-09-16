@@ -69,7 +69,19 @@ export default function EngineeringFreeResources() {
         "AI & Natural Language Processing"
       ]
     },
-    { title: "Data Science & Data Engineering", icon: Database, subcategories: [] },
+    {
+      title: "Data Science & Data Engineering",
+      icon: Database,
+      subcategories: [
+        "B.Tech Data Science",
+        "B.Tech AI & Data Science",
+        "B.Tech Data Engineering",
+        "Data Science & Analytics",
+        "Big Data Engineering",
+        "Business Analytics",
+        "Computational Data Science"
+      ]
+    },
     { title: "Electronics & Communication", icon: Cpu, subcategories: [] },
     { title: "Electrical", icon: Zap, subcategories: [] },
     { title: "Electrical & Electronics", icon: Zap, subcategories: [] },
