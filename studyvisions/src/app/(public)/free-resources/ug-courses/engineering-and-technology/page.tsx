@@ -141,7 +141,28 @@ export default function EngineeringFreeResources() {
         "Power Electronics"
       ]
     },
-    { title: "Mechanical", icon: Settings, subcategories: [] },
+    {
+      title: "Mechanical Engineering",
+      icon: Settings,
+      subcategories: [
+        "Mechanical Engineering — General",
+        "Automobile Engineering",
+        "Manufacturing Engineering",
+        "Production Engineering",
+        "Industrial Engineering",
+        "Mechatronics",
+        "Robotics & Automation",
+        "Thermal Engineering",
+        "Design Engineering",
+        "CAD/CAM",
+        "Industrial Automation",
+        "Advanced Manufacturing",
+        "Additive Manufacturing / 3D Printing",
+        "Energy Engineering",
+        "Aerospace Manufacturing",
+        "Electric Vehicle Technology"
+      ]
+    },
     { title: "Civil", icon: Building2, subcategories: [] },
     { title: "Chemical", icon: Beaker, subcategories: [] },
     { title: "Biotechnology", icon: Activity, subcategories: [] },
