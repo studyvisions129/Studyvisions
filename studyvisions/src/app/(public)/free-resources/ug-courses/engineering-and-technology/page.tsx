@@ -122,6 +122,25 @@ export default function EngineeringFreeResources() {
         "Industrial Automation"
       ]
     },
+    {
+      title: "Electronics & Electrical Engineering",
+      icon: Cpu,
+      subcategories: [
+        "Electrical & Electronics Engineering",
+        "Electronics Engineering",
+        "Electronics & Instrumentation Engineering",
+        "Electronics & Computer Engineering",
+        "Electrical & Computer Engineering",
+        "___HEADER___Specializations:",
+        "Embedded Systems",
+        "VLSI",
+        "Automation",
+        "Robotics",
+        "IoT",
+        "Control Systems",
+        "Power Electronics"
+      ]
+    },
     { title: "Mechanical", icon: Settings, subcategories: [] },
     { title: "Civil", icon: Building2, subcategories: [] },
     { title: "Chemical", icon: Beaker, subcategories: [] },
@@ -218,16 +237,27 @@ export default function EngineeringFreeResources() {
 
               {category.subcategories.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {category.subcategories.map((sub, subIdx) => (
-                    <Link 
-                      key={subIdx}
-                      href="#" // Placeholder
-                      className="group flex items-center justify-between p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-white hover:border-blue-200 hover:shadow-sm transition-all"
-                    >
-                      <span className="font-semibold text-slate-700 group-hover:text-blue-700 text-sm">{sub}</span>
-                      <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-blue-600" />
-                    </Link>
-                  ))}
+                  {category.subcategories.map((sub, subIdx) => {
+                    if (sub.startsWith("___HEADER___")) {
+                      return (
+                        <div key={subIdx} className="col-span-1 sm:col-span-2 md:col-span-3 lg:col-span-4 mt-6 mb-2 flex items-center gap-2">
+                          <h4 className="text-lg font-bold text-slate-800 border-l-4 border-blue-500 pl-3">
+                            {sub.replace("___HEADER___", "")}
+                          </h4>
+                        </div>
+                      );
+                    }
+                    return (
+                      <Link 
+                        key={subIdx}
+                        href="#" // Placeholder
+                        className="group flex items-center justify-between p-4 rounded-xl border border-slate-100 bg-slate-50 hover:bg-white hover:border-blue-200 hover:shadow-sm transition-all"
+                      >
+                        <span className="font-semibold text-slate-700 group-hover:text-blue-700 text-sm">{sub}</span>
+                        <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-blue-600" />
+                      </Link>
+                    );
+                  })}
                 </div>
               ) : (
                 <div className="flex">
