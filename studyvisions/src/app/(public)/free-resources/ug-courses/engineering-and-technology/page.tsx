@@ -326,7 +326,23 @@ export default function EngineeringFreeResources() {
         "Composite Materials"
       ]
     },
-    { title: "Environmental", icon: Leaf, subcategories: [] },
+    {
+      title: "Environmental Engineering",
+      icon: Leaf,
+      subcategories: [
+        "Environmental Engineering",
+        "Environmental Technology",
+        "Environmental Science & Engineering",
+        "___HEADER___Specializations:",
+        "Water Treatment",
+        "Waste Management",
+        "Air Pollution Control",
+        "Environmental Monitoring",
+        "Sustainable Engineering",
+        "Renewable Energy",
+        "Climate & Environmental Technology"
+      ]
+    },
     { title: "Petroleum & Energy", icon: Droplets, subcategories: [] },
     { title: "Mining", icon: HardHat, subcategories: [] },
     { title: "Food Technology", icon: Beaker, subcategories: [] },
