@@ -184,7 +184,21 @@ export default function EngineeringFreeResources() {
         "Disaster Management"
       ]
     },
-    { title: "Chemical", icon: Beaker, subcategories: [] },
+    {
+      title: "Chemical Engineering",
+      icon: Beaker,
+      subcategories: [
+        "Chemical Engineering — General",
+        "Process Engineering",
+        "Petrochemical Engineering",
+        "Polymer Engineering",
+        "Biochemical Engineering",
+        "Pharmaceutical Engineering",
+        "Energy Engineering",
+        "Environmental Process Engineering",
+        "Process Design & Simulation"
+      ]
+    },
     { title: "Biotechnology", icon: Activity, subcategories: [] },
     { title: "Automobile", icon: Car, subcategories: [] },
     { title: "Aerospace / Aeronautical", icon: Plane, subcategories: [] },
