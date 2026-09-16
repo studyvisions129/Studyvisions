@@ -231,7 +231,20 @@ export default function EngineeringFreeResources() {
         "Automotive Mechatronics"
       ]
     },
-    { title: "Aerospace / Aeronautical", icon: Plane, subcategories: [] },
+    {
+      title: "Aerospace / Aeronautical Engineering",
+      icon: Plane,
+      subcategories: [
+        "Aerospace Engineering",
+        "Aeronautical Engineering",
+        "Aircraft Engineering",
+        "Avionics Engineering",
+        "Space Technology",
+        "Propulsion",
+        "Aircraft Design",
+        "Aerospace Manufacturing"
+      ]
+    },
     { title: "Robotics & Automation", icon: Settings, subcategories: [] },
     { title: "Mechatronics", icon: Cpu, subcategories: [] },
     { title: "Instrumentation & Control", icon: Settings, subcategories: [] },
