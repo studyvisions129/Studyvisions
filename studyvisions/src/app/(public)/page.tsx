@@ -248,22 +248,33 @@ export default async function Home() {
       </section>
 
 
-      {/* 3. FEATURED CATEGORIES */}
+      {/* 3. FREE RESOURCES */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-800">Browse by Category</h2>
-            <p className="text-slate-500 mt-2">Find exactly what you need for your exams</p>
+            <h2 className="text-3xl font-bold text-slate-800">Free Resources</h2>
+            <p className="text-slate-500 mt-2">Quality study materials, available for free.</p>
           </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-            {['BSEB', 'CBSE', 'BCA', 'Engineering', 'Medical', 'Competitive'].map((category) => (
-              <Link key={category} href={`/categories?board=${category}`} className="flex flex-col items-center justify-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-200 hover:shadow-md transition-all group">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {[
+              { name: 'BSEB', icon: BookOpen },
+              { name: 'CBSE', icon: BookOpen },
+              { name: 'UG COURSE', icon: GraduationCap },
+              { name: 'EBOOKS', icon: BookOpen },
+              { name: 'COMPETITIVE EXAM', icon: Award }
+            ].map((category) => (
+              <Link key={category.name} href={`/categories?type=free&q=${category.name}`} className="flex flex-col items-center justify-center p-6 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-200 hover:shadow-md transition-all group">
                 <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors mb-3">
-                  <BookOpen className="w-5 h-5" />
+                  <category.icon className="w-5 h-5" />
                 </div>
-                <span className="font-semibold text-slate-700">{category}</span>
+                <span className="font-semibold text-slate-700 text-center text-sm md:text-base">{category.name}</span>
               </Link>
             ))}
+          </div>
+          <div className="mt-12 text-center">
+            <Link href="/categories?type=free" className="inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700 hover:gap-3 transition-all text-lg">
+              Explore More <ArrowRight className="w-5 h-5" />
+            </Link>
           </div>
         </div>
       </section>
