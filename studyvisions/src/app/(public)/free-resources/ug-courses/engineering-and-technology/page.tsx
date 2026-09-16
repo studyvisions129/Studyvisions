@@ -41,7 +41,19 @@ export default function EngineeringFreeResources() {
     {
       title: "Information Technology",
       icon: Server,
-      subcategories: ["General", "AI", "Data Science", "Cyber Security", "Cloud", "Other Specializations"]
+      subcategories: [
+        "Information Technology — General",
+        "IT — Artificial Intelligence",
+        "IT — Data Science",
+        "IT — Cyber Security",
+        "IT — Cloud Computing",
+        "IT — Data Analytics",
+        "IT — Software Development",
+        "IT — Networking",
+        "IT — Information Security",
+        "IT — IoT",
+        "IT — Blockchain"
+      ]
     },
     { title: "AI & Machine Learning", icon: BrainCircuit, subcategories: [] },
     { title: "Data Science & Data Engineering", icon: Database, subcategories: [] },
