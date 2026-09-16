@@ -245,7 +245,20 @@ export default function EngineeringFreeResources() {
         "Aerospace Manufacturing"
       ]
     },
-    { title: "Robotics & Automation", icon: Settings, subcategories: [] },
+    {
+      title: "Robotics & Automation",
+      icon: Settings,
+      subcategories: [
+        "Robotics Engineering",
+        "Robotics & Automation",
+        "Automation Engineering",
+        "Industrial Automation",
+        "Mechatronics",
+        "AI & Robotics",
+        "Intelligent Robotics",
+        "Autonomous Systems"
+      ]
+    },
     { title: "Mechatronics", icon: Cpu, subcategories: [] },
     { title: "Instrumentation & Control", icon: Settings, subcategories: [] },
     { title: "Industrial & Production", icon: Factory, subcategories: [] },
