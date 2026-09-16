@@ -55,7 +55,20 @@ export default function EngineeringFreeResources() {
         "IT — Blockchain"
       ]
     },
-    { title: "AI & Machine Learning", icon: BrainCircuit, subcategories: [] },
+    {
+      title: "AI & Machine Learning",
+      icon: BrainCircuit,
+      subcategories: [
+        "Artificial Intelligence",
+        "Artificial Intelligence & Machine Learning",
+        "Artificial Intelligence & Data Science",
+        "Machine Learning",
+        "Applied Artificial Intelligence",
+        "AI & Robotics",
+        "AI & Computer Vision",
+        "AI & Natural Language Processing"
+      ]
+    },
     { title: "Data Science & Data Engineering", icon: Database, subcategories: [] },
     { title: "Electronics & Communication", icon: Cpu, subcategories: [] },
     { title: "Electrical", icon: Zap, subcategories: [] },
