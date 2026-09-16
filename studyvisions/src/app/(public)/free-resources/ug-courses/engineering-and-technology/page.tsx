@@ -343,8 +343,42 @@ export default function EngineeringFreeResources() {
         "Climate & Environmental Technology"
       ]
     },
-    { title: "Petroleum & Energy", icon: Droplets, subcategories: [] },
-    { title: "Mining", icon: HardHat, subcategories: [] },
+    {
+      title: "Petroleum & Energy Engineering",
+      icon: Droplets,
+      subcategories: [
+        "Petroleum Engineering",
+        "Petroleum Technology",
+        "Energy Engineering",
+        "Renewable Energy Engineering",
+        "Oil & Gas Engineering",
+        "___HEADER___Specializations:",
+        "Petroleum Exploration",
+        "Drilling",
+        "Reservoir Engineering",
+        "Production Engineering",
+        "Renewable Energy",
+        "Solar Energy",
+        "Wind Energy",
+        "Energy Management"
+      ]
+    },
+    {
+      title: "Mining Engineering",
+      icon: HardHat,
+      subcategories: [
+        "Mining Engineering",
+        "Mining Technology",
+        "Mineral Engineering",
+        "___HEADER___Specializations:",
+        "Mine Planning",
+        "Mine Safety",
+        "Mineral Processing",
+        "Mining Automation",
+        "Mining Machinery",
+        "Sustainable Mining"
+      ]
+    },
     { title: "Food Technology", icon: Beaker, subcategories: [] },
     { title: "Agricultural Engineering", icon: Tractor, subcategories: [] },
     { title: "Textile", icon: Shirt, subcategories: [] },
