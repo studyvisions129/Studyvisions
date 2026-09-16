@@ -163,7 +163,27 @@ export default function EngineeringFreeResources() {
         "Electric Vehicle Technology"
       ]
     },
-    { title: "Civil", icon: Building2, subcategories: [] },
+    {
+      title: "Civil Engineering",
+      icon: Building2,
+      subcategories: [
+        "Civil Engineering — General",
+        "Structural Engineering",
+        "Construction Engineering",
+        "Construction Management",
+        "Geotechnical Engineering",
+        "Transportation Engineering",
+        "Environmental Engineering",
+        "Water Resources Engineering",
+        "Hydraulics",
+        "Urban & Regional Planning",
+        "Infrastructure Engineering",
+        "Geoinformatics",
+        "Surveying & Geomatics",
+        "Smart Infrastructure",
+        "Disaster Management"
+      ]
+    },
     { title: "Chemical", icon: Beaker, subcategories: [] },
     { title: "Biotechnology", icon: Activity, subcategories: [] },
     { title: "Automobile", icon: Car, subcategories: [] },
