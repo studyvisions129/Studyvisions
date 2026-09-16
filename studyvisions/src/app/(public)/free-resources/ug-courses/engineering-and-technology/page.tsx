@@ -309,7 +309,23 @@ export default function EngineeringFreeResources() {
         "Industrial Data Analytics"
       ]
     },
-    { title: "Materials / Metallurgical", icon: Box, subcategories: [] },
+    {
+      title: "Materials & Metallurgical Engineering",
+      icon: Box,
+      subcategories: [
+        "Metallurgical Engineering",
+        "Materials Engineering",
+        "Metallurgy & Materials Engineering",
+        "Materials Science & Engineering",
+        "___HEADER___Specializations:",
+        "Materials Science",
+        "Nanomaterials",
+        "Advanced Materials",
+        "Metallurgy",
+        "Corrosion Engineering",
+        "Composite Materials"
+      ]
+    },
     { title: "Environmental", icon: Leaf, subcategories: [] },
     { title: "Petroleum & Energy", icon: Droplets, subcategories: [] },
     { title: "Mining", icon: HardHat, subcategories: [] },
