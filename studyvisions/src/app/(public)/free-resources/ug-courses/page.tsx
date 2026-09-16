@@ -61,10 +61,15 @@ export default function UgCoursesFreeResources() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
-            {courses.map((courseName, index) => (
+            {courses.map((courseName, index) => {
+              const href = courseName === "Arts & Humanities" 
+                ? "/free-resources/ug-courses/arts-and-humanities" 
+                : "#";
+                
+              return (
               <Link 
                 key={index} 
-                href={`#`} // Placeholder link for subjects later
+                href={href}
                 className="group relative bg-white p-6 rounded-2xl border border-slate-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-300 overflow-hidden flex flex-col justify-between min-h-[160px]"
               >
                 <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-blue-50 to-transparent rounded-bl-full -mr-4 -mt-4 opacity-50 group-hover:scale-110 transition-transform duration-500" />
@@ -87,7 +92,8 @@ export default function UgCoursesFreeResources() {
                   </p>
                 </div>
               </Link>
-            ))}
+              );
+            })}
           </div>
         </div>
 
