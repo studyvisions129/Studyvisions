@@ -289,7 +289,26 @@ export default function EngineeringFreeResources() {
         "Smart Manufacturing"
       ]
     },
-    { title: "Industrial & Production", icon: Factory, subcategories: [] },
+    {
+      title: "Industrial & Production Engineering",
+      icon: Factory,
+      subcategories: [
+        "Industrial Engineering",
+        "Production Engineering",
+        "Industrial & Production Engineering",
+        "Manufacturing Engineering",
+        "Production & Industrial Engineering",
+        "___HEADER___Specializations:",
+        "Operations Research",
+        "Supply Chain",
+        "Quality Management",
+        "Manufacturing Systems",
+        "Automation",
+        "Smart Manufacturing",
+        "Lean Manufacturing",
+        "Industrial Data Analytics"
+      ]
+    },
     { title: "Materials / Metallurgical", icon: Box, subcategories: [] },
     { title: "Environmental", icon: Leaf, subcategories: [] },
     { title: "Petroleum & Energy", icon: Droplets, subcategories: [] },
