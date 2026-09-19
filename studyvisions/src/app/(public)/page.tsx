@@ -230,10 +230,9 @@ export default async function Home() {
             </div>
           </div>
 
-          {/* Right Visual Area */}
           {/* Right Visual Area - User Custom Image */}
-          <div className="lg:w-[45%] relative mt-16 lg:mt-0 hidden md:block w-full max-w-[600px] mx-auto z-20">
-            <div className="relative w-full aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl bg-white/50 mix-blend-multiply-none">
+          <div className="lg:w-[45%] relative mt-12 lg:mt-0 w-full max-w-[400px] md:max-w-[600px] mx-auto z-20">
+            <div className="relative w-full aspect-[4/3] sm:aspect-square md:aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl bg-white/50 mix-blend-multiply-none">
               <Image 
                 src="/images/hero-student.png" 
                 alt="Student learning on StudyVisions"

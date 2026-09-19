@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import { Plus, Edit, Trash2, Search, Filter, Package, Tag, IndianRupee } from "lucide-react";
+import { Plus, Edit, Trash2, Search, Filter, Package, Tag, IndianRupee, LayoutTemplate } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default async function ProductsPage(props: {
@@ -188,10 +188,13 @@ export default async function ProductsPage(props: {
                     </td>
                     <td className="px-6 py-4 text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <button className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-colors">
+                        <Link href={`/admin/products/${product.id}/landing-page`} className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-colors" title="Edit Landing Page">
+                          <LayoutTemplate className="w-4 h-4" />
+                        </Link>
+                        <button className="p-2 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-xl transition-colors" title="Edit Details">
                           <Edit className="w-4 h-4" />
                         </button>
-                        <button className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors">
+                        <button className="p-2 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-colors" title="Delete Product">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>

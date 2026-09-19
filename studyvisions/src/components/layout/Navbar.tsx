@@ -119,7 +119,17 @@ export function Navbar() {
       {/* Mobile Menu */}
       {mobileOpen && (
         <div className="md:hidden border-t border-[var(--sv-border)] bg-white/95 backdrop-blur-xl animate-in slide-in-from-top duration-200">
-          <div className="px-4 py-4 space-y-1">
+          <div className="px-4 py-4 space-y-1 overflow-y-auto max-h-[calc(100vh-64px)] custom-scrollbar">
+            {/* Mobile Search */}
+            <div className="relative mb-4">
+              <input
+                type="text"
+                placeholder="Search notes, courses..."
+                className="w-full bg-[var(--sv-surface-dim)] rounded-xl py-3 pl-11 pr-4 text-sm border border-transparent focus:border-[var(--sv-primary)] focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all duration-300"
+              />
+              <Search className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-[var(--sv-text-muted)]" />
+            </div>
+
             {navLinks.map((link) => (
               <Link
                 key={link.href}
