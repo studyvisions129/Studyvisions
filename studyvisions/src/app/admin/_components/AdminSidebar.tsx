@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { logout } from "@/app/auth/actions";
 import { 
   LayoutDashboard, 
@@ -15,10 +18,14 @@ import {
   PenTool, 
   Search, 
   Settings,
-  LogOut
+  LogOut,
+  ChevronRight
 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export default function AdminSidebar({ className = "" }: { className?: string }) {
+  const pathname = usePathname();
+  
   const navItems = [
     { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
     { name: "Products", href: "/admin/products", icon: Package },
@@ -37,34 +44,56 @@ export default function AdminSidebar({ className = "" }: { className?: string })
   ];
 
   return (
-    <aside className={`w-64 bg-white border-r border-[var(--sv-border)] flex flex-col h-full shrink-0 overflow-y-auto ${className}`}>
-      <div className="p-6">
-        <Link href="/admin" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-[var(--sv-primary)] rounded-lg flex items-center justify-center text-white font-bold">
+    <aside className={cn("w-72 bg-[#0a0f1d] border-r border-slate-800 flex flex-col h-full shrink-0 overflow-y-auto shadow-xl transition-all duration-300", className)}>
+      <div className="p-6 sticky top-0 bg-[#0a0f1d]/95 backdrop-blur-sm z-10 border-b border-slate-800/50">
+        <Link href="/admin" className="flex items-center gap-3 group">
+          <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform duration-300">
             SV
           </div>
-          <span className="font-bold text-xl text-[var(--sv-secondary)]">Admin</span>
+          <span className="font-bold text-xl text-white tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
+            StudyVisions
+          </span>
         </Link>
       </div>
 
-      <nav className="flex-1 px-4 pb-6 space-y-1">
-        {navItems.map((item) => (
-          <Link
-            key={item.name}
-            href={item.href}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 font-medium transition-colors"
-          >
-            <item.icon className="w-5 h-5 text-slate-400" />
-            {item.name}
-          </Link>
-        ))}
+      <nav className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto custom-scrollbar">
+        {navItems.map((item) => {
+          const isActive = pathname === item.href || (item.href !== "/admin" && pathname.startsWith(item.href));
+          
+          return (
+            <Link
+              key={item.name}
+              href={item.href}
+              className={cn(
+                "group flex items-center justify-between px-3 py-3 rounded-xl font-medium transition-all duration-300",
+                isActive 
+                  ? "bg-indigo-500/10 text-indigo-400" 
+                  : "text-slate-400 hover:bg-white/5 hover:text-slate-200"
+              )}
+            >
+              <div className="flex items-center gap-3">
+                <item.icon className={cn(
+                  "w-5 h-5 transition-transform duration-300", 
+                  isActive ? "text-indigo-400" : "text-slate-500 group-hover:text-slate-300",
+                  isActive && "scale-110"
+                )} />
+                <span className={cn("transition-colors duration-300", isActive && "font-semibold")}>
+                  {item.name}
+                </span>
+              </div>
+              {isActive && (
+                <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
+              )}
+            </Link>
+          );
+        })}
       </nav>
 
-      <div className="p-4 border-t border-[var(--sv-border)]">
+      <div className="p-4 border-t border-slate-800 bg-[#0a0f1d] mt-auto">
         <form action={logout}>
-          <button type="submit" className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-red-600 hover:bg-red-50 font-medium transition-colors">
-            <LogOut className="w-5 h-5" />
-            Sign Out
+          <button type="submit" className="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 font-medium transition-all duration-300 group">
+            <LogOut className="w-5 h-5 transition-transform duration-300 group-hover:-translate-x-1" />
+            <span>Secure Sign Out</span>
           </button>
         </form>
       </div>
