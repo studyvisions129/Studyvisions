@@ -49,9 +49,10 @@ export function Navbar() {
             </Link>
 
             {/* Search */}
-            <div className="hidden md:block relative ml-8">
+            <form action="/categories" method="GET" className="hidden md:block relative ml-8">
               <input
                 type="text"
+                name="query"
                 placeholder="Search notes, courses, eBooks & more..."
                 className={`bg-[var(--sv-surface-dim)] rounded-full py-2.5 pl-11 pr-4 text-sm border border-transparent focus:border-[var(--sv-primary)] focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all duration-300 ${
                   searchOpen ? "w-96 opacity-100" : "w-64 opacity-100"
@@ -60,8 +61,10 @@ export function Navbar() {
                 onBlur={() => setSearchOpen(false)}
                 id="navbar-search"
               />
-              <Search className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-[var(--sv-text-muted)]" />
-            </div>
+              <button type="submit" className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center">
+                <Search className="w-4 h-4 text-[var(--sv-text-muted)] hover:text-blue-600 transition-colors" />
+              </button>
+            </form>
           </div>
 
           {/* Right Side: Nav Links and Login */}
@@ -121,14 +124,17 @@ export function Navbar() {
         <div className="md:hidden border-t border-[var(--sv-border)] bg-white/95 backdrop-blur-xl animate-in slide-in-from-top duration-200">
           <div className="px-4 py-4 space-y-1 overflow-y-auto max-h-[calc(100vh-64px)] custom-scrollbar">
             {/* Mobile Search */}
-            <div className="relative mb-4">
+            <form action="/categories" method="GET" className="relative mb-4" onSubmit={() => setMobileOpen(false)}>
               <input
                 type="text"
+                name="query"
                 placeholder="Search notes, courses..."
                 className="w-full bg-[var(--sv-surface-dim)] rounded-xl py-3 pl-11 pr-4 text-sm border border-transparent focus:border-[var(--sv-primary)] focus:outline-none focus:ring-2 focus:ring-blue-100 transition-all duration-300"
               />
-              <Search className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-[var(--sv-text-muted)]" />
-            </div>
+              <button type="submit" className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center justify-center">
+                <Search className="w-4 h-4 text-[var(--sv-text-muted)] hover:text-blue-600 transition-colors" />
+              </button>
+            </form>
 
             {navLinks.map((link) => (
               <Link
