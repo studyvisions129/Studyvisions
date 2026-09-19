@@ -14,11 +14,7 @@ export default async function PromotionsPage() {
     }),
     prisma.abandonedCheckout.findMany({
       orderBy: { updatedAt: 'desc' },
-      take: 5,
-      include: {
-        user: { select: { name: true, email: true } },
-        product: { select: { title: true, price: true } }
-      }
+      take: 5
     })
   ]);
 
@@ -99,7 +95,7 @@ export default async function PromotionsPage() {
                   <div key={promo.id} className="p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:bg-slate-50/50 transition-colors">
                     <div className="flex items-start gap-4">
                       <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 border shadow-sm ${promo.isActive ? 'bg-fuchsia-50 text-fuchsia-600 border-fuchsia-100' : 'bg-slate-50 text-slate-400 border-slate-200'}`}>
-                        {promo.type === 'PERCENTAGE' ? <Percent className="w-6 h-6" /> : <span className="font-black font-mono">₹</span>}
+                        {promo.discountType === 'PERCENTAGE' ? <Percent className="w-6 h-6" /> : <span className="font-black font-mono">₹</span>}
                       </div>
                       <div>
                         <div className="flex items-center gap-2">
@@ -109,7 +105,7 @@ export default async function PromotionsPage() {
                         <p className="text-sm text-slate-500 mt-0.5">{promo.description}</p>
                         <div className="mt-2 flex items-center gap-3">
                           <span className="text-xs font-bold text-slate-700 bg-slate-100 px-2 py-1 rounded-md">
-                            {promo.type === 'PERCENTAGE' ? `${promo.discountAmount}% OFF` : `₹${promo.discountAmount} OFF`}
+                            {promo.discountType === 'PERCENTAGE' ? `${Number(promo.discountValue)}% OFF` : `₹${Number(promo.discountValue)} OFF`}
                           </span>
                           <span className="text-xs text-slate-500">
                             {promo._count.orders} times used
@@ -159,18 +155,18 @@ export default async function PromotionsPage() {
                  abandonedCheckouts.map(checkout => (
                    <div key={checkout.id} className="p-5 hover:bg-slate-50 transition-colors group cursor-pointer">
                      <div className="flex items-center justify-between mb-2">
-                       <span className="font-bold text-slate-800 text-sm">{checkout.user.name}</span>
+                       <span className="font-bold text-slate-800 text-sm">{checkout.guestEmail || checkout.userId || "Guest"}</span>
                        <span className="text-xs font-medium text-slate-400">2h ago</span>
                      </div>
-                     <p className="text-xs text-slate-500 truncate">{checkout.product.title}</p>
-                     <p className="text-sm font-bold text-slate-700 mt-1">₹{Number(checkout.product.price).toLocaleString('en-IN')}</p>
+                     <p className="text-xs text-slate-500 truncate">{(checkout.cartData as any)?.items?.[0]?.title || "Cart Items"}</p>
+                     <p className="text-sm font-bold text-slate-700 mt-1">₹{Number(checkout.totalValue).toLocaleString('en-IN')}</p>
                      
                      <div className="mt-4 flex items-center justify-between gap-2">
-                       <span className={`text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wide ${checkout.recovered ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-50 text-rose-600'}`}>
-                         {checkout.recovered ? 'Recovered' : 'Pending'}
+                       <span className={`text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wide ${checkout.isRecovered ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-50 text-rose-600'}`}>
+                         {checkout.isRecovered ? 'Recovered' : 'Pending'}
                        </span>
                        
-                       {!checkout.recovered && (
+                       {!checkout.isRecovered && (
                          <button className="flex items-center gap-1.5 text-xs font-bold text-indigo-600 hover:text-indigo-800 opacity-0 group-hover:opacity-100 transition-opacity">
                            Send Discount <Send className="w-3 h-3" />
                          </button>

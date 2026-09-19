@@ -289,8 +289,8 @@ export default async function Home() {
             <Link href="/categories?tag=Notes" className="text-blue-600 font-semibold hover:underline hidden sm:block">View all notes</Link>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.filter(p => p.type === "NOTES").length > 0 ? (
-              featuredProducts.filter(p => p.type === "NOTES").map((product) => (
+            {featuredProducts.filter(p => p.type === "PREMIUM_NOTES").length > 0 ? (
+              featuredProducts.filter(p => p.type === "PREMIUM_NOTES").map((product) => (
                 <ProductCard
                   key={product.id}
                   title={product.title}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowLeft, LayoutTemplate, Plus, Save, GripVertical, Type, Image as ImageIcon, List, Star, Trash2 } from "lucide-react";
+import { ArrowLeft, LayoutTemplate, Plus, Save, GripVertical, Type, Image as ImageIcon, List, Star, Trash2, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import { updateLandingPage } from "./actions";
 
@@ -16,7 +16,7 @@ export default function LandingPageBuilder({ params }: { params: { id: string } 
   const [isSaving, setIsSaving] = useState(false);
 
   const addBlock = (type: string) => {
-    const newBlock = { id: Date.now().toString(), type, content: {} };
+    const newBlock: any = { id: Date.now().toString(), type, content: {} };
     if (type === 'HERO') newBlock.content = { headline: 'New Hero Section', subheadline: 'Add your catchy hook here' };
     if (type === 'FEATURES') newBlock.content = { items: ['Feature 1', 'Feature 2'] };
     if (type === 'TESTIMONIALS') newBlock.content = { reviews: [{ text: 'Great notes!', author: 'Student' }] };

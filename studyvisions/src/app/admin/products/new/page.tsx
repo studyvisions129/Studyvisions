@@ -1,7 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { createProduct } from "../actions";
 import Link from "next/link";
-import { ArrowLeft, UploadCloud, Info, IndianRupee, Tag, Save, X, BookOpen, Layers, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, UploadCloud, Info, IndianRupee, Tag, Save, X, BookOpen, Layers, CheckCircle2, Package } from "lucide-react";
 
 export default async function ProductCreationStudioPage() {
   const categories = await prisma.academicLevel.findMany({

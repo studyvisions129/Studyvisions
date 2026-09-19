@@ -6,14 +6,14 @@ export default async function SellersHubPage() {
   const sellers = await prisma.sellerProfile.findMany({
     include: {
       user: {
-        select: { name: true, email: true, image: true }
+        select: { fullName: true, email: true, avatarUrl: true }
       }
     },
     orderBy: { createdAt: 'desc' }
   });
 
   const pendingSellers = sellers.filter(s => s.status === 'PENDING');
-  const activeSellers = sellers.filter(s => s.status === 'APPROVED');
+  const activeSellers = sellers.filter(s => s.status === 'ACTIVE');
 
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-12">
@@ -101,19 +101,19 @@ export default async function SellersHubPage() {
                 
                 <div className="flex items-start gap-4">
                   <div className="w-14 h-14 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center shrink-0 overflow-hidden shadow-sm">
-                    {seller.user.image ? (
-                      <img src={seller.user.image} alt={seller.user.name || "User"} className="w-full h-full object-cover" />
+                    {seller.user.avatarUrl ? (
+                      <img src={seller.user.avatarUrl} alt={seller.user.fullName || "User"} className="w-full h-full object-cover" />
                     ) : (
                       <Users className="w-6 h-6 text-indigo-500" />
                     )}
                   </div>
                   <div>
                     <h4 className="font-bold text-slate-900 text-lg flex items-center gap-2">
-                      {seller.storeName}
-                      {seller.status === 'APPROVED' && <BadgeCheck className="w-4 h-4 text-emerald-500" />}
+                      {seller.businessName}
+                      {seller.status === 'ACTIVE' && <BadgeCheck className="w-4 h-4 text-emerald-500" />}
                     </h4>
-                    <p className="text-sm font-medium text-slate-600 mt-0.5">{seller.user.name} &bull; {seller.user.email}</p>
-                    <p className="text-xs text-slate-500 mt-1.5 max-w-xl italic line-clamp-2">"{seller.bio}"</p>
+                    <p className="text-sm font-medium text-slate-600 mt-0.5">{seller.user.fullName} &bull; {seller.user.email}</p>
+                    <p className="text-xs text-slate-500 mt-1.5 max-w-xl italic line-clamp-2">{seller.businessType || "Retail"}</p>
                   </div>
                 </div>
 
@@ -127,7 +127,7 @@ export default async function SellersHubPage() {
                         <Clock className="w-3.5 h-3.5" /> Pending
                       </span>
                     )}
-                    {seller.status === 'APPROVED' && (
+                    {seller.status === 'ACTIVE' && (
                       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 text-xs font-bold">
                         <CheckCircle className="w-3.5 h-3.5" /> Active
                       </span>
@@ -148,7 +148,7 @@ export default async function SellersHubPage() {
                   <div className="flex items-center gap-2 lg:border-l lg:border-slate-200 lg:pl-6">
                     {seller.status === 'PENDING' && (
                       <>
-                        <form action={updateSellerStatus.bind(null, seller.id, 'APPROVED')}>
+                        <form action={updateSellerStatus.bind(null, seller.id, 'ACTIVE')}>
                           <button type="submit" className="px-4 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 border border-emerald-200 rounded-xl text-sm font-bold transition-colors">
                             Approve
                           </button>
@@ -161,7 +161,7 @@ export default async function SellersHubPage() {
                       </>
                     )}
                     
-                    {seller.status === 'APPROVED' && (
+                    {seller.status === 'ACTIVE' && (
                       <form action={updateSellerStatus.bind(null, seller.id, 'SUSPENDED')}>
                         <button type="submit" className="px-4 py-2 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 rounded-xl text-sm font-bold transition-colors">
                           Suspend

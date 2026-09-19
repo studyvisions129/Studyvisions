@@ -6,7 +6,7 @@ export default async function SecurityCenterPage() {
     orderBy: { createdAt: 'desc' },
     take: 50,
     include: {
-      admin: { select: { name: true, email: true } }
+      admin: { select: { fullName: true, email: true } }
     }
   });
 
@@ -106,9 +106,9 @@ export default async function SecurityCenterPage() {
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-2">
                         <div className="w-6 h-6 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center text-xs font-bold">
-                          {log.admin.name?.[0] || 'A'}
+                          {log.admin.fullName?.[0] || 'A'}
                         </div>
-                        <span className="text-sm font-semibold text-slate-900">{log.admin.name || log.admin.email}</span>
+                        <span className="text-sm font-semibold text-slate-900">{log.admin.fullName || log.admin.email}</span>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -122,7 +122,7 @@ export default async function SecurityCenterPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm">
                       <span className="font-mono text-slate-600 bg-slate-100 px-2 py-1 rounded">
-                        {log.entityType} <span className="text-slate-400">#{log.entityId.slice(0, 8)}...</span>
+                        {log.entityType} <span className="text-slate-400">#{log.entityId?.slice(0, 8)}...</span>
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-500 font-mono">

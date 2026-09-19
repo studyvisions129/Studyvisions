@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { User, Eye, Search, Filter, MoreVertical, ShieldAlert, GraduationCap, Clock } from "lucide-react";
+import { User, Users, Eye, Search, Filter, MoreVertical, ShieldAlert, GraduationCap, Clock } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 

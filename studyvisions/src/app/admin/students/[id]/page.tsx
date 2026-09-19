@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
-import { User, Mail, Phone, Calendar, Clock, ShoppingBag, BookOpen, Ban, ShieldCheck, MoreVertical, MapPin, Globe, CreditCard } from "lucide-react";
+import { User, Mail, Phone, Calendar, Clock, ShoppingBag, BookOpen, Ban, ShieldCheck, MoreVertical, MapPin, Globe, CreditCard, GraduationCap } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 

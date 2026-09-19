@@ -16,12 +16,15 @@ export async function createPromotion(formData: FormData) {
     await prisma.promotion.create({
       data: {
         code: code.toUpperCase(),
+        name: code.toUpperCase(),
         description,
-        discountAmount,
-        type,
+        discountValue: discountAmount,
+        promotionType: type || 'STANDARD_COUPON',
+        discountType: 'PERCENTAGE',
+        validFrom: new Date(),
+        validUntil: expiresAt,
         isActive: true,
         maxUses,
-        expiresAt,
       }
     });
     revalidatePath("/admin/promotions");
