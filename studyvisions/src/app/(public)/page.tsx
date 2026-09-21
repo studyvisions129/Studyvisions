@@ -163,9 +163,9 @@ export default async function Home() {
           <div className="absolute bottom-[-10%] right-[-5%] w-[30%] h-[40%] bg-amber-100/50 rounded-full blur-[100px]" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-16">
+        <div className="relative z-10 max-w-7xl xl:max-w-[90rem] mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center gap-12 lg:gap-8 xl:gap-16">
           {/* Left Content */}
-          <div className="lg:w-[55%] text-center lg:text-left pt-12">
+          <div className="lg:w-[45%] xl:w-[45%] text-center lg:text-left pt-12">
             <div className="flex items-center justify-center lg:justify-start gap-3 text-xs md:text-sm font-bold tracking-[0.2em] text-slate-500 uppercase mb-6 md:mb-8">
               <span>Learn</span>
               <span className="w-1 h-1 rounded-full bg-blue-500"></span>
@@ -231,15 +231,15 @@ export default async function Home() {
           </div>
 
           {/* Right Visual Area - User Custom Image */}
-          <div className="lg:w-[45%] relative mt-12 lg:mt-0 w-full max-w-[400px] md:max-w-[600px] mx-auto z-20">
-            <div className="relative w-full aspect-[4/3] sm:aspect-square md:aspect-[4/3] rounded-3xl overflow-hidden shadow-2xl bg-white/50 mix-blend-multiply-none">
+          <div className="lg:w-[55%] xl:w-[55%] relative mt-12 lg:mt-0 w-full max-w-[500px] md:max-w-[700px] lg:max-w-none mx-auto z-20">
+            <div className="relative w-full aspect-[4/3] sm:aspect-square md:aspect-[4/3] lg:aspect-[4/3] xl:aspect-[16/11] rounded-3xl overflow-hidden shadow-2xl shadow-blue-900/10 bg-white/50 mix-blend-multiply-none scale-100 lg:scale-105 xl:scale-105 origin-center lg:origin-right">
               <Image 
                 src="/images/hero-student.png" 
                 alt="Student learning on StudyVisions"
                 fill
                 className="object-cover object-center"
                 priority
-                sizes="(max-width: 768px) 100vw, 45vw"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 55vw, 55vw"
               />
             </div>
           </div>
