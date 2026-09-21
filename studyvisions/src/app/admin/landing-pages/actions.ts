@@ -9,10 +9,19 @@ export async function createLandingPage(formData: FormData) {
   
   const title = formData.get("title") as string;
   const slug = formData.get("slug") as string;
-  const content = formData.get("content") as string;
+  const productId = formData.get("productId") as string;
   const isPublished = formData.get("isPublished") === "on";
 
-  if (!title || !slug || !content) {
+  // New fields
+  const goal = formData.get("goal") as string;
+  const campaign = formData.get("campaign") as string;
+  const audience = formData.get("audience") as string;
+
+  // JSON content payload built from the frontend
+  const contentDataRaw = formData.get("contentData") as string;
+  const contentData = contentDataRaw ? JSON.parse(contentDataRaw) : {};
+
+  if (!title || !slug) {
     throw new Error("Missing required fields");
   }
 
@@ -20,7 +29,12 @@ export async function createLandingPage(formData: FormData) {
     data: {
       title,
       slug,
-      content,
+      pageType: "PRODUCT_LANDING_PAGE",
+      productId: productId || null,
+      goal,
+      campaign,
+      audience,
+      contentData,
       isPublished,
     },
   });

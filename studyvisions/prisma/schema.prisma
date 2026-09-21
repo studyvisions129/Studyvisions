@@ -279,6 +279,7 @@ model Product {
   reviews         Review[]
   bookmarks       Bookmark[]
   orderItems      OrderItem[]
+  landingPages    LandingPage[]
 
   @@map("products")
 }
@@ -569,12 +570,21 @@ model LandingPage {
   id          String   @id @default(uuid())
   title       String
   slug        String   @unique
-  content     String   @db.Text
+  pageType    String   @default("CUSTOM") @map("page_type")
+  productId   String?  @map("product_id")
+  status      String   @default("DRAFT")
+  goal        String?
+  campaign    String?
+  audience    String?
+  contentData Json     @map("content_data") // Structured JSON data
   isPublished Boolean  @default(false) @map("is_published")
   seoTitle    String?  @map("seo_title")
   seoDesc     String?  @map("seo_desc")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  product     Product? @relation(fields: [productId], references: [id])
 
   @@map("landing_pages")
 }
