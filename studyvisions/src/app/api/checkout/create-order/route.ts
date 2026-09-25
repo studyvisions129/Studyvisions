@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { createClient } from "@/lib/supabase/server";
+import { logger } from "@/lib/logger";
 import Razorpay from "razorpay";
 import crypto from "crypto";
 
@@ -96,7 +97,7 @@ export async function POST(req: Request) {
     });
 
   } catch (error: any) {
-    console.error("Create Order Error:", error);
+    logger.error("Create Order Error", { message: error.message, stack: error.stack });
     return NextResponse.json({ error: error.message || "Internal Server Error" }, { status: 500 });
   }
 }

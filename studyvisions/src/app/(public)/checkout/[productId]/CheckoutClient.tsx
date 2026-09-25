@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ArrowLeft, ShieldCheck, CreditCard, Lock } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { trackEvent } from "@/lib/analytics";
 
 export default function CheckoutClient({ product, user }: { product: any, user: any }) {
   const router = useRouter();
@@ -73,13 +74,31 @@ export default function CheckoutClient({ product, user }: { product: any, user: 
             const verifyData = await verifyRes.json();
 
             if (verifyRes.ok && verifyData.success) {
+              trackEvent({
+                eventName: "Payment Successful",
+                category: "Payment",
+                productId: product.id,
+                metadata: { orderId: orderData.id, amount: finalPrice }
+              });
               router.push(`/checkout/success?orderId=${orderData.id}`);
             } else {
               setErrorMsg(verifyData.error || "Payment verification failed.");
+              trackEvent({
+                eventName: "Checkout Failed",
+                category: "Error",
+                productId: product.id,
+                metadata: { error: verifyData.error || "Payment verification failed" }
+              });
               setIsProcessing(false);
             }
-          } catch (e) {
+          } catch (e: any) {
              setErrorMsg("An error occurred during verification.");
+             trackEvent({
+                eventName: "Checkout Failed",
+                category: "Error",
+                productId: product.id,
+                metadata: { error: e.message || "Unknown error during verification" }
+             });
              setIsProcessing(false);
           }
         },
@@ -95,12 +114,24 @@ export default function CheckoutClient({ product, user }: { product: any, user: 
       const paymentObject = new (window as any).Razorpay(options);
       paymentObject.on("payment.failed", function (response: any) {
         setErrorMsg(response.error.description || "Payment failed");
+        trackEvent({
+          eventName: "Checkout Failed",
+          category: "Error",
+          productId: product.id,
+          metadata: { error: response.error.description || "Payment failed" }
+        });
         setIsProcessing(false);
       });
       paymentObject.open();
 
     } catch (error: any) {
       setErrorMsg(error.message || "An unexpected error occurred.");
+      trackEvent({
+        eventName: "Checkout Failed",
+        category: "Error",
+        productId: product.id,
+        metadata: { error: error.message || "An unexpected error occurred." }
+      });
       setIsProcessing(false);
     }
   };

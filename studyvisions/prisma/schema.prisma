@@ -618,3 +618,36 @@ model SiteSetting {
   @@map("site_settings")
 }
 
+// ============================================================
+// ANALYTICS & MONITORING SCHEMA
+// ============================================================
+
+model AnalyticsEvent {
+  id          String   @id @default(uuid())
+  eventName   String   @map("event_name")
+  category    String
+  userId      String?  @map("user_id")
+  sessionId   String?  @map("session_id")
+  productId   String?  @map("product_id")
+  deviceType  String?  @map("device_type")
+  platform    String?
+  metadata    Json?    // Any extra operational data
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([eventName, createdAt])
+  @@index([category])
+  @@map("analytics_events")
+}
+
+model SystemLog {
+  id          String   @id @default(uuid())
+  level       String   // INFO, WARNING, ERROR, CRITICAL
+  category    String   // APPLICATION, API, AUTH, PAYMENT, ERROR, SYSTEM
+  message     String   @db.Text
+  requestId   String?  @map("request_id")
+  metadata    Json?
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  @@index([level, createdAt])
+  @@map("system_logs")
+}

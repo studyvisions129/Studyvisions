@@ -36,6 +36,8 @@ export async function generateMetadata(
   };
 }
 
+import ProductViewTracker from "@/components/ProductViewTracker";
+
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
   const product = await prisma.product.findUnique({
@@ -67,6 +69,7 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
 
   return (
     <div className="min-h-screen bg-slate-50 py-12">
+      <ProductViewTracker productId={product.id} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Breadcrumb */}

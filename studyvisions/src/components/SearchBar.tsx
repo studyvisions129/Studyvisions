@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Search } from "lucide-react";
 
+import { trackEvent } from "@/lib/analytics";
+
 export default function SearchBar() {
   const [query, setQuery] = useState("");
   const router = useRouter();
@@ -11,6 +13,11 @@ export default function SearchBar() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
+      trackEvent({
+        eventName: "Search Performed",
+        category: "Search",
+        metadata: { query: query.trim() }
+      });
       router.push(`/categories?query=${encodeURIComponent(query.trim())}`);
     }
   };

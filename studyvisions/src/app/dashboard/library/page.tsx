@@ -2,6 +2,7 @@ import { BookOpen } from "lucide-react";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { prisma } from "@/lib/prisma";
+import LibraryAccessButton from "./LibraryAccessButton";
 
 export default async function LibraryPage() {
   const supabase = await createClient();
@@ -55,9 +56,7 @@ export default async function LibraryPage() {
                </div>
                <h3 className="font-bold text-slate-800 mb-1">{purchase.product.title}</h3>
                <p className="text-xs text-slate-500 mb-4">{purchase.product.type}</p>
-               <button className="w-full py-2 bg-blue-50 text-blue-600 font-medium rounded-lg text-sm hover:bg-blue-100 transition-colors">
-                 Access Content
-               </button>
+               <LibraryAccessButton productId={purchase.product.id} href={`/dashboard/library/viewer/${purchase.product.id}`} />
             </div>
           ))}
         </div>

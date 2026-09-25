@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { logger } from "@/lib/logger";
 import crypto from "crypto";
 
 export async function POST(req: Request) {
@@ -76,7 +77,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true });
 
   } catch (error: any) {
-    console.error("Verify Order Error:", error);
+    logger.error("Verify Order Error", { message: error.message, stack: error.stack });
     return NextResponse.json({ error: error.message || "Internal Server Error" }, { status: 500 });
   }
 }
