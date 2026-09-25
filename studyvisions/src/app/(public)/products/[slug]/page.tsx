@@ -142,12 +142,12 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
               </div>
 
               <div className="space-y-4 mb-8">
-                <button className="btn-primary w-full !py-4 text-lg shadow-blue-500/25 shadow-lg flex justify-center items-center gap-2">
+                <Link href={`/checkout/${product.id}`} className="btn-primary w-full !py-4 text-lg shadow-blue-500/25 shadow-lg flex justify-center items-center gap-2">
                   Buy Now
-                </button>
-                <button className="w-full py-4 rounded-xl border-2 border-slate-200 text-slate-700 font-bold hover:border-[var(--sv-primary)] hover:text-[var(--sv-primary)] transition-colors">
+                </Link>
+                <Link href="/cart" className="w-full flex justify-center items-center py-4 rounded-xl border-2 border-slate-200 text-slate-700 font-bold hover:border-[var(--sv-primary)] hover:text-[var(--sv-primary)] transition-colors">
                   Add to Cart
-                </button>
+                </Link>
               </div>
 
               <div className="space-y-4">
