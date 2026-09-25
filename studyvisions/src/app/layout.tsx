@@ -20,6 +20,18 @@ export const metadata: Metadata = {
     "Indian students",
     "digital learning",
   ],
+  openGraph: {
+    title: "StudyVisions - Learn Better. Build Your Future.",
+    description: "Premium digital learning products, notes, eBooks, and practice sets.",
+    url: "https://studyvisions.com",
+    siteName: "StudyVisions",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "StudyVisions - Learn Better. Build Your Future.",
+    description: "Premium digital learning products, notes, eBooks, and practice sets.",
+  }
 };
 
 export default function RootLayout({

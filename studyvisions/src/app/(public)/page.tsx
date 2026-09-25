@@ -127,6 +127,8 @@ function FeatureCard({
 }
 
 /* ========== HOME PAGE ========== */
+import SearchBar from "@/components/SearchBar";
+
 export default async function Home() {
   const featuredProducts = await prisma.product.findMany({
     where: {
@@ -188,6 +190,10 @@ export default async function Home() {
             <p className="text-base text-slate-500 mb-10 max-w-xl mx-auto lg:mx-0">
               Notes, eBooks, Courses, PYQs, Practice Materials and more — all in one place.
             </p>
+
+            <div className="mb-10">
+              <SearchBar />
+            </div>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-12">
               <Link

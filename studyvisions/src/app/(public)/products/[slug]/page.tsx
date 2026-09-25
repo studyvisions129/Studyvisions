@@ -3,6 +3,38 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { CheckCircle2, Lock, FileText, Download, BookOpen, Star } from "lucide-react";
 import Link from "next/link";
+import type { Metadata, ResolvingMetadata } from "next";
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> },
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const resolvedParams = await params;
+  const product = await prisma.product.findUnique({
+    where: { slug: resolvedParams.slug },
+  });
+
+  if (!product) {
+    return {
+      title: "Product Not Found - StudyVisions",
+    };
+  }
+
+  return {
+    title: `${product.title} - StudyVisions`,
+    description: product.description || `Buy ${product.title} on StudyVisions`,
+    openGraph: {
+      title: `${product.title} - StudyVisions`,
+      description: product.description || `Buy ${product.title} on StudyVisions`,
+      type: "article",
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${product.title} - StudyVisions`,
+      description: product.description || `Buy ${product.title} on StudyVisions`,
+    }
+  };
+}
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolvedParams = await params;
@@ -23,6 +55,15 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
   const discountPercentage = Math.round(
     ((Number(product.compareAtPrice) - Number(product.price)) / Number(product.compareAtPrice)) * 100
   );
+
+  const similarProducts = await prisma.product.findMany({
+    where: {
+      status: "PUBLISHED",
+      id: { not: product.id },
+      academicLevelId: product.academicLevelId,
+    },
+    take: 4,
+  });
 
   return (
     <div className="min-h-screen bg-slate-50 py-12">
@@ -176,6 +217,33 @@ export default async function ProductPage({ params }: { params: Promise<{ slug: 
           </div>
 
         </div>
+
+        {/* Similar Content Engine */}
+        {similarProducts.length > 0 && (
+          <div className="mt-16">
+            <h2 className="text-2xl font-bold text-[var(--sv-secondary)] mb-6">Similar Resources You Might Like</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {similarProducts.map((simProduct) => (
+                <Link href={`/products/${simProduct.slug}`} key={simProduct.id} className="card-hover bg-white rounded-2xl border border-[var(--sv-border)] overflow-hidden group block">
+                  <div className="h-1.5 bg-gradient-to-r from-blue-500 to-blue-600" />
+                  <div className="p-5">
+                    <h3 className="text-lg font-bold text-[var(--sv-secondary)] mb-2 group-hover:text-[var(--sv-primary)] transition-colors line-clamp-2">
+                      {simProduct.title}
+                    </h3>
+                    <div className="flex items-center justify-between mt-4">
+                      {Number(simProduct.price) === 0 ? (
+                        <span className="text-lg font-bold text-emerald-600">FREE</span>
+                      ) : (
+                        <span className="text-lg font-bold text-[var(--sv-secondary)]">₹{Number(simProduct.price)}</span>
+                      )}
+                      <span className="text-sm font-semibold text-[var(--sv-primary)]">View</span>
+                    </div>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
