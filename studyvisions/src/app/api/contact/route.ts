@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { logger } from "@/lib/logger";
 import { createClient } from "@/lib/supabase/server";
 import { TicketCategory } from "@prisma/client";
+import { revalidatePath } from "next/cache";
 
 export async function POST(req: Request) {
   try {
@@ -45,6 +46,8 @@ export async function POST(req: Request) {
 
     // Activity Tracking / Auditing
     await logger.info(`New support ticket created: ${ticket.ticketId}`, "SYSTEM", { ticketId: ticket.ticketId, email });
+
+    revalidatePath("/admin/support");
 
     return NextResponse.json({ success: true, ticketId: ticket.ticketId }, { status: 201 });
 

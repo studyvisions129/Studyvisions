@@ -42,6 +42,7 @@ export default function AdminSidebar({ className = "" }: { className?: string })
     { name: "Orders", href: "/admin/orders", icon: ShoppingCart },
     { name: "Students", href: "/admin/students", icon: Users },
     { name: "Promotions", href: "/admin/promotions", icon: Ticket },
+    { name: "Support Tickets", href: "/admin/support", icon: Megaphone },
     { name: "Blog", href: "/admin/blog", icon: PenTool },
     { name: "SEO", href: "/admin/seo", icon: Search },
     { name: "Settings", href: "/admin/settings", icon: Settings },
