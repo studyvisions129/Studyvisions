@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 // Simple in-memory rate limit tracking (Note: this is per-isolate in serverless, so it's a soft limit)
 const rateLimit = new Map();
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const ip = request.headers.get("x-forwarded-for") || "127.0.0.1";
   
   // Basic rate limiting for auth endpoints
