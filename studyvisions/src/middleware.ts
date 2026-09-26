@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 const rateLimit = new Map();
 
 export async function middleware(request: NextRequest) {
-  const ip = request.ip || "127.0.0.1";
+  const ip = request.headers.get("x-forwarded-for") || "127.0.0.1";
   
   // Basic rate limiting for auth endpoints
   if (request.nextUrl.pathname.startsWith("/api/auth") || request.nextUrl.pathname.startsWith("/auth")) {
