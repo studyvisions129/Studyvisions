@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { getNotifications, markAsRead } from "./actions";
 import { 
   User, 
   Lock, 
@@ -13,6 +14,55 @@ import {
   FileText, 
   HelpCircle 
 } from "lucide-react";
+
+function NotificationsTab() {
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function loadNotifications() {
+      const res = await getNotifications();
+      if (res.notifications) {
+        setNotifications(res.notifications);
+      }
+      setLoading(false);
+    }
+    loadNotifications();
+  }, []);
+
+  const handleMarkAsRead = async (id: string) => {
+    await markAsRead(id);
+    setNotifications(prev => prev.map(n => n.id === id ? { ...n, isRead: true } : n));
+  };
+
+  if (loading) return <div className="text-slate-500">Loading notifications...</div>;
+  if (notifications.length === 0) return <div className="text-slate-500">You have no notifications.</div>;
+
+  return (
+    <div className="space-y-4">
+      <h3 className="text-lg font-bold text-slate-800 mb-4">Your Notifications</h3>
+      {notifications.map(notification => (
+        <div key={notification.id} className={`p-4 rounded-xl border ${notification.isRead ? 'bg-white border-slate-200' : 'bg-blue-50 border-blue-200'}`}>
+          <div className="flex justify-between items-start">
+            <div>
+              <h4 className="font-bold text-slate-800">{notification.title}</h4>
+              <p className="text-sm text-slate-600 mt-1 whitespace-pre-wrap">{notification.message}</p>
+              <p className="text-xs text-slate-400 mt-2">{new Date(notification.createdAt).toLocaleDateString()} {new Date(notification.createdAt).toLocaleTimeString()}</p>
+            </div>
+            {!notification.isRead && (
+              <button 
+                onClick={() => handleMarkAsRead(notification.id)}
+                className="text-xs font-semibold text-blue-600 hover:text-blue-800 bg-white px-2 py-1 rounded shadow-sm border border-blue-100"
+              >
+                Mark as read
+              </button>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState("Profile");
@@ -106,6 +156,8 @@ export default function SettingsPage() {
                 </button>
               </div>
             </div>
+          ) : activeTab === "Notifications" ? (
+            <NotificationsTab />
           ) : (
             <div className="text-slate-500">
               <p>This is the placeholder content for the <strong>{activeTab}</strong> settings.</p>

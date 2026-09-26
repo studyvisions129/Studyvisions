@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { User, Mail, Phone, Calendar, Clock, ShoppingBag, BookOpen, Ban, ShieldCheck, MoreVertical, MapPin, Globe, CreditCard, GraduationCap } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
+import { SendNotificationForm } from "./SendNotificationForm";
 
 export default async function StudentProfilePage(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
@@ -61,6 +62,9 @@ export default async function StudentProfilePage(props: { params: Promise<{ id: 
                 <><ShieldCheck className="w-4 h-4" /> Reactivate Account</>
               )}
             </button>
+            <div className="relative">
+              <SendNotificationForm userId={student.id} />
+            </div>
             <button type="button" className="p-2 bg-white border border-slate-200 text-slate-600 rounded-xl hover:bg-slate-50 transition-colors shadow-sm">
               <MoreVertical className="w-5 h-5" />
             </button>

@@ -40,6 +40,7 @@ model User {
   sellerProfile   SellerProfile?
   auditLogs       AdminAuditLog[]
   supportTickets  SupportTicket[]
+  notifications   Notification[]
 
   @@map("users")
 }
@@ -704,4 +705,23 @@ enum TicketStatus {
   IN_PROGRESS
   RESOLVED
   CLOSED
+}
+
+// ============================================================
+// NOTIFICATIONS SCHEMA
+// ============================================================
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  title     String
+  message   String   @db.Text
+  isRead    Boolean  @default(false) @map("is_read")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  // Relations
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("notifications")
 }

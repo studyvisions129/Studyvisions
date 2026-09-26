@@ -34,3 +34,34 @@ export async function updateUserRole(userId: string, newRole: "STUDENT" | "ADMIN
     return { error: "Failed to update role. Please try again." };
   }
 }
+
+export async function sendNotification(userId: string, title: string, message: string) {
+  const supabase = await createClient();
+  const { data: { session } } = await supabase.auth.getSession();
+
+  if (!session?.user) {
+    return { error: "Unauthorized" };
+  }
+
+  const admin = await prisma.user.findUnique({
+    where: { email: session.user.email },
+  });
+
+  if (!admin || (admin.role !== "SUPER_ADMIN" && admin.role !== "ADMIN")) {
+    return { error: "Permission denied" };
+  }
+
+  try {
+    await prisma.notification.create({
+      data: {
+        userId,
+        title,
+        message,
+      }
+    });
+    return { success: true };
+  } catch (error) {
+    console.error("Error sending notification:", error);
+    return { error: "Failed to send notification" };
+  }
+}
