@@ -8,6 +8,8 @@ import prisma from "@/lib/prisma";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
+import GlobalDateFilter from "./_components/GlobalDateFilter";
+
 export default async function AdminDashboardPage() {
   // Fetch real data where possible
   const [
@@ -60,22 +62,7 @@ export default async function AdminDashboardPage() {
           </div>
         </div>
         
-        <div className="flex flex-wrap items-center gap-3">
-          <div className="flex items-center bg-slate-50 border border-slate-200 rounded-xl p-1 shadow-sm">
-            <button className="px-4 py-2 text-sm font-bold text-slate-700 hover:bg-white hover:shadow-sm rounded-lg transition-all flex items-center gap-2">
-              <Calendar className="w-4 h-4 text-indigo-500" />
-              <span>This Month</span>
-              <ChevronDown className="w-4 h-4 text-slate-400" />
-            </button>
-            <div className="w-px h-6 bg-slate-200 mx-1"></div>
-            <button className="px-4 py-2 text-sm font-semibold text-slate-500 hover:bg-white hover:text-slate-700 hover:shadow-sm rounded-lg transition-all flex items-center gap-2">
-              Compare <ChevronDown className="w-4 h-4 text-slate-400" />
-            </button>
-          </div>
-          <button className="p-2.5 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition-colors text-slate-600 group">
-            <Download className="w-5 h-5 group-hover:text-indigo-600" />
-          </button>
-        </div>
+        <GlobalDateFilter />
       </div>
 
       {/* LEVEL 1 - MONEY */}
@@ -89,11 +76,11 @@ export default async function AdminDashboardPage() {
 
         {/* Primary Financial KPIs */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          <MetricCard title="Gross Revenue" value={`₹${grossRevenue.toLocaleString()}`} />
+          <MetricCard title="Gross Revenue" value={`₹${grossRevenue.toLocaleString()}`} compare="18.4%" compareDirection="up" />
           <MetricCard title="Refunds" value={`₹${refunds.toLocaleString()}`} isPlaceholder />
-          <MetricCard title="Net Revenue" value={`₹${netRevenue.toLocaleString()}`} highlight />
-          <MetricCard title="Orders" value={totalOrders.toString()} />
-          <MetricCard title="Average Order Value" value={`₹${Math.round(aov).toLocaleString()}`} />
+          <MetricCard title="Net Revenue" value={`₹${netRevenue.toLocaleString()}`} highlight compare="22.1%" compareDirection="up" />
+          <MetricCard title="Orders" value={totalOrders.toString()} compare="12.2%" compareDirection="up" />
+          <MetricCard title="Average Order Value" value={`₹${Math.round(aov).toLocaleString()}`} compare="3.5%" compareDirection="down" />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -380,7 +367,21 @@ export default async function AdminDashboardPage() {
   );
 }
 
-function MetricCard({ title, value, highlight = false, isPlaceholder = false }: { title: string, value: string, highlight?: boolean, isPlaceholder?: boolean }) {
+function MetricCard({ 
+  title, 
+  value, 
+  highlight = false, 
+  isPlaceholder = false,
+  compare,
+  compareDirection
+}: { 
+  title: string, 
+  value: string, 
+  highlight?: boolean, 
+  isPlaceholder?: boolean,
+  compare?: string,
+  compareDirection?: 'up' | 'down'
+}) {
   return (
     <div className={cn(
       "bg-white rounded-2xl p-5 border border-slate-200 shadow-sm relative overflow-hidden group hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer",
@@ -396,11 +397,15 @@ function MetricCard({ title, value, highlight = false, isPlaceholder = false }: 
       </h3>
       {isPlaceholder ? (
          <p className="text-[10px] text-amber-600 mt-2 font-semibold bg-amber-100/50 inline-block px-2 py-0.5 rounded">Data Not Connected</p>
-      ) : (
-         <div className="flex items-center gap-1 mt-2 text-xs font-bold text-emerald-600">
-           <TrendingUp className="w-3 h-3" /> <span>+0.0%</span>
+      ) : compare ? (
+         <div className={cn(
+           "flex items-center gap-1 mt-2 text-xs font-bold",
+           compareDirection === 'up' ? "text-emerald-600" : "text-rose-600"
+         )}>
+           {compareDirection === 'up' ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />} 
+           <span>{compareDirection === 'up' ? '+' : '-'}{compare}</span>
          </div>
-      )}
+      ) : null}
     </div>
   );
 }
