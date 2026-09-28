@@ -29,7 +29,7 @@ export default async function AdminDashboardPage() {
   const placeholderMoney = { todayRev: 0, monthRev: totalRevenue, avgOrderVal: totalOrders > 0 ? totalRevenue / totalOrders : 0, refunds: 0, netRev: totalRevenue };
   const placeholderMarketing = { adSpend: 0, visitors: 0, leads: 0, purchases: totalOrders, cac: 0, roas: 0, conversionRate: 0 };
   const placeholderCustomer = { newCust: activeStudents, returningCust: 0, totalCust: activeStudents, repeatRate: 0, ltv: 0 };
-  const placeholderHealth = { grossRev: totalRevenue, paymentFees: 0, hosting: 0, otherExp: 0, netProfit: totalRevenue };
+  const placeholderHealth = { grossRev: totalRevenue, refunds: 0, paymentFees: 0, hosting: 0, otherExp: 0, netProfit: totalRevenue };
 
   return (
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-12">

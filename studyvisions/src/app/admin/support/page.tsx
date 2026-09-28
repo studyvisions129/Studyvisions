@@ -11,7 +11,7 @@ export default async function SupportTicketsPage(props: { searchParams: Promise<
   const searchParams = await props.searchParams;
   const query = searchParams.query || "";
 
-  const whereClause = query ? {
+  const whereClause: any = query ? {
     OR: [
       { ticketId: { contains: query, mode: "insensitive" } },
       { fullName: { contains: query, mode: "insensitive" } },
