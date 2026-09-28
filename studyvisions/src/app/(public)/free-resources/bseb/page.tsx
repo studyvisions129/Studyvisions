@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { BookOpen, GraduationCap, ArrowLeft, Layers, ChevronRight } from "lucide-react";
+import { BookOpen, GraduationCap, ArrowLeft, Layers, ChevronRight, Download } from "lucide-react";
+import LeadGateDownloadModal from "@/components/LeadGateDownloadModal";
 
 export default function BsebFreeResources() {
   const [medium, setMedium] = useState<"hindi" | "english">("hindi");
+  const [showModal, setShowModal] = useState(false);
 
   const classes = Array.from({ length: 12 }, (_, i) => `Class ${i + 1}`);
 
@@ -107,7 +109,29 @@ export default function BsebFreeResources() {
           </div>
         </div>
 
+        {/* Lead Gate Download Trigger */}
+        <div className="mt-16 text-center">
+          <button 
+            onClick={() => setShowModal(true)}
+            className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-full shadow-lg transition-transform hover:scale-105"
+          >
+            <Download className="w-5 h-5" />
+            Download Complete Free Notes PDF
+          </button>
+        </div>
+
       </div>
+
+      {showModal && (
+        <LeadGateDownloadModal
+          productSlug="bseb-free-notes"
+          title="BSEB Complete Notes"
+          onSuccess={(url) => {
+            setShowModal(false);
+            alert("Download link sent to WhatsApp! Redirecting...");
+          }}
+        />
+      )}
     </div>
   );
 }

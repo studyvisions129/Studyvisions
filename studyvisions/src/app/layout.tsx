@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter, Geist } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import { AdManagerProvider } from "@/components/AdManagerProvider";
+import SocialProofToast from "@/components/SocialProofToast";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -42,7 +44,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans antialiased", inter.variable)}>
       <body className="flex flex-col min-h-screen bg-background text-foreground">
-        {children}
+        <AdManagerProvider>
+          {children}
+          <SocialProofToast />
+        </AdManagerProvider>
       </body>
     </html>
   );

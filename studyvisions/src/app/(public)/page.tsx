@@ -65,12 +65,20 @@ function ProductCard({
             {Math.round(((originalPrice - price) / originalPrice) * 100)}% OFF
           </span>
         </div>
-        <Link 
-          href={`/products/${slug}`}
-          className="block w-full py-2.5 rounded-xl bg-[var(--sv-surface-dim)] text-[var(--sv-primary)] text-center font-semibold text-sm hover:bg-[var(--sv-primary)] hover:text-white transition-all duration-300 border border-blue-100 hover:border-transparent"
-        >
-          View Details
-        </Link>
+        <div className="flex gap-2">
+          <button 
+            onClick={() => alert("Preview Sample Modal")}
+            className="flex-1 py-2.5 rounded-xl bg-white text-[var(--sv-secondary)] text-center font-semibold text-sm hover:bg-[var(--sv-surface-dim)] border border-[var(--sv-border)] transition-all duration-300"
+          >
+            Preview Sample
+          </button>
+          <Link 
+            href={`?checkoutDrawer=${slug}`} scroll={false}
+            className="flex-1 py-2.5 rounded-xl bg-[var(--sv-primary)] text-white text-center font-semibold text-sm hover:opacity-90 transition-all duration-300 shadow-sm"
+          >
+            Instant Buy Now (₹{price})
+          </Link>
+        </div>
       </div>
     </div>
   );
