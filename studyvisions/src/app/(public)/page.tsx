@@ -66,12 +66,12 @@ function ProductCard({
           </span>
         </div>
         <div className="flex gap-2">
-          <button 
-            onClick={() => alert("Preview Sample Modal")}
-            className="flex-1 py-2.5 rounded-xl bg-white text-[var(--sv-secondary)] text-center font-semibold text-sm hover:bg-[var(--sv-surface-dim)] border border-[var(--sv-border)] transition-all duration-300"
+          <Link 
+            href={`?preview=${slug}`} scroll={false}
+            className="flex-1 py-2.5 rounded-xl bg-white text-[var(--sv-secondary)] text-center font-semibold text-sm hover:bg-[var(--sv-surface-dim)] border border-[var(--sv-border)] transition-all duration-300 block"
           >
             Preview Sample
-          </button>
+          </Link>
           <Link 
             href={`?checkoutDrawer=${slug}`} scroll={false}
             className="flex-1 py-2.5 rounded-xl bg-[var(--sv-primary)] text-white text-center font-semibold text-sm hover:opacity-90 transition-all duration-300 shadow-sm"

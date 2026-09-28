@@ -1,6 +1,3 @@
-// StudyVisions Prisma Schema
-// Based on FINAL BUSINESS + ADMIN MASTER PLAN
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,144 +8,496 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-// ============================================================
-// IDENTITY & SECURITY SCHEMA
-// ============================================================
-
 model User {
-  id              String    @id @default(uuid())
-  email           String    @unique
-  fullName        String    @map("full_name")
-  avatarUrl       String?   @map("avatar_url")
+  id              String             @id @default(uuid())
+  email           String             @unique
+  fullName        String             @map("full_name")
+  avatarUrl       String?            @map("avatar_url")
   phone           String?
-  role            UserRole  @default(STUDENT)
-  isActive        Boolean   @default(true) @map("is_active")
-  emailVerifiedAt DateTime? @map("email_verified_at")
-  createdAt       DateTime  @default(now()) @map("created_at")
-  updatedAt       DateTime  @updatedAt @map("updated_at")
-
-  // Relations
-  profile         UserProfile?
-  sessions        UserSession[]
-  devices         UserDevice[]
-  orders          Order[]
-  purchases       Purchase[]
-  reviews         Review[]
+  role            UserRole           @default(STUDENT)
+  isActive        Boolean            @default(true) @map("is_active")
+  emailVerifiedAt DateTime?          @map("email_verified_at")
+  createdAt       DateTime           @default(now()) @map("created_at")
+  updatedAt       DateTime           @updatedAt @map("updated_at")
+  auditLogs       AdminAuditLog[]
   bookmarks       Bookmark[]
   progressRecords LearningProgress[]
-  posts           Post[]
-  sellerProfile   SellerProfile?
-  auditLogs       AdminAuditLog[]
-  supportTickets  SupportTicket[]
   notifications   Notification[]
+  orders          Order[]
+  posts           Post[]
+  purchases       Purchase[]
+  reviews         Review[]
+  sellerProfile   SellerProfile?
+  supportTickets  SupportTicket[]
+  devices         UserDevice[]
+  profile         UserProfile?
+  sessions        UserSession[]
 
   @@map("users")
 }
 
-enum UserRole {
-  STUDENT
-  SELLER
-  ADMIN
-  SUPER_ADMIN
-}
-
 model UserProfile {
-  id              String   @id @default(uuid())
-  userId          String   @unique @map("user_id")
-  academicLevelId String?  @map("academic_level_id")
-  schoolName      String?  @map("school_name")
+  id              String         @id @default(uuid())
+  userId          String         @unique @map("user_id")
+  academicLevelId String?        @map("academic_level_id")
+  schoolName      String?        @map("school_name")
   city            String?
   state           String?
-  dateOfBirth     DateTime? @map("date_of_birth")
-  preferredLang   String   @default("hi") @map("preferred_lang")
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
-
-  // Relations
-  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
-  academicLevel   AcademicLevel?  @relation(fields: [academicLevelId], references: [id])
+  dateOfBirth     DateTime?      @map("date_of_birth")
+  preferredLang   String         @default("hi") @map("preferred_lang")
+  createdAt       DateTime       @default(now()) @map("created_at")
+  updatedAt       DateTime       @updatedAt @map("updated_at")
+  academicLevel   AcademicLevel? @relation(fields: [academicLevelId], references: [id])
+  user            User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("user_profiles")
 }
 
 model UserSession {
-  id          String   @id @default(uuid())
-  userId      String   @map("user_id")
-  deviceId    String?  @map("device_id")
-  ipAddress   String?  @map("ip_address")
-  userAgent   String?  @map("user_agent")
-  isActive    Boolean  @default(true) @map("is_active")
-  lastSeenAt  DateTime @default(now()) @map("last_seen_at")
-  createdAt   DateTime @default(now()) @map("created_at")
-
-  // Relations
-  user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
-  device      UserDevice? @relation(fields: [deviceId], references: [id])
+  id         String      @id @default(uuid())
+  userId     String      @map("user_id")
+  deviceId   String?     @map("device_id")
+  ipAddress  String?     @map("ip_address")
+  userAgent  String?     @map("user_agent")
+  isActive   Boolean     @default(true) @map("is_active")
+  lastSeenAt DateTime    @default(now()) @map("last_seen_at")
+  createdAt  DateTime    @default(now()) @map("created_at")
+  device     UserDevice? @relation(fields: [deviceId], references: [id])
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("user_sessions")
 }
 
 model UserDevice {
-  id           String   @id @default(uuid())
-  userId       String   @map("user_id")
-  deviceName   String   @map("device_name")
-  deviceType   String   @map("device_type") // mobile, desktop, tablet
-  os           String?
-  browser      String?
-  lastUsedAt   DateTime @default(now()) @map("last_used_at")
-  createdAt    DateTime @default(now()) @map("created_at")
-
-  // Relations
-  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  sessions     UserSession[]
+  id         String        @id @default(uuid())
+  userId     String        @map("user_id")
+  deviceName String        @map("device_name")
+  deviceType String        @map("device_type")
+  os         String?
+  browser    String?
+  lastUsedAt DateTime      @default(now()) @map("last_used_at")
+  createdAt  DateTime      @default(now()) @map("created_at")
+  user       User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessions   UserSession[]
 
   @@map("user_devices")
 }
 
 model AdminAuditLog {
-  id          String   @id @default(uuid())
-  adminId     String   @map("admin_id")
-  action      String   // e.g. "PRODUCT_DELETE", "SETTINGS_UPDATE"
-  entityType  String?  @map("entity_type")
-  entityId    String?  @map("entity_id")
-  details     Json?    // Stores before/after state
-  ipAddress   String?  @map("ip_address")
-  createdAt   DateTime @default(now()) @map("created_at")
-
-  // Relations
-  admin       User     @relation(fields: [adminId], references: [id])
+  id         String   @id @default(uuid())
+  adminId    String   @map("admin_id")
+  action     String
+  entityType String?  @map("entity_type")
+  entityId   String?  @map("entity_id")
+  details    Json?
+  ipAddress  String?  @map("ip_address")
+  createdAt  DateTime @default(now()) @map("created_at")
+  admin      User     @relation(fields: [adminId], references: [id])
 
   @@map("admin_audit_logs")
 }
 
-// ============================================================
-// ACADEMIC SCHEMA
-// ============================================================
-
 model AcademicLevel {
-  id          String   @id @default(uuid())
-  parentId    String?  @map("parent_id")
-  name        String   // e.g. "CBSE", "Class 10", "Mathematics", "Algebra"
-  slug        String   @unique
-  levelType   LevelType @map("level_type")
+  id          String          @id @default(uuid())
+  parentId    String?         @map("parent_id")
+  name        String
+  slug        String          @unique
+  levelType   LevelType       @map("level_type")
   description String?
-  iconUrl     String?  @map("icon_url")
+  iconUrl     String?         @map("icon_url")
   color       String?
-  sortOrder   Int      @default(0) @map("sort_order")
-  isActive    Boolean  @default(true) @map("is_active")
+  sortOrder   Int             @default(0) @map("sort_order")
+  isActive    Boolean         @default(true) @map("is_active")
+  createdAt   DateTime        @default(now()) @map("created_at")
+  updatedAt   DateTime        @updatedAt @map("updated_at")
+  parent      AcademicLevel?  @relation("LevelHierarchy", fields: [parentId], references: [id])
+  children    AcademicLevel[] @relation("LevelHierarchy")
+  freeContent FreeContent[]
+  products    Product[]
+  profiles    UserProfile[]
+
+  @@map("academic_levels")
+}
+
+model FreeContent {
+  id                String          @id @default(uuid())
+  title             String
+  slug              String          @unique
+  contentType       FreeContentType @map("content_type")
+  contentHtml       String          @map("content_html")
+  isPermanentlyFree Boolean         @default(true) @map("is_permanently_free")
+  isPublished       Boolean         @default(false) @map("is_published")
+  academicLevelId   String?         @map("academic_level_id")
+  seoTitle          String?         @map("seo_title")
+  seoDescription    String?         @map("seo_description")
+  createdAt         DateTime        @default(now()) @map("created_at")
+  updatedAt         DateTime        @updatedAt @map("updated_at")
+  academicLevel     AcademicLevel?  @relation(fields: [academicLevelId], references: [id])
+
+  @@map("free_contents")
+}
+
+model SellerProfile {
+  id             String       @id @default(uuid())
+  userId         String       @unique @map("user_id")
+  businessName   String       @map("business_name")
+  businessType   String?      @map("business_type")
+  gstNumber      String?      @map("gst_number")
+  bankDetails    Json?        @map("bank_details")
+  isVerified     Boolean      @default(false) @map("is_verified")
+  commissionRate Decimal?     @map("commission_rate") @db.Decimal(5, 2)
+  status         SellerStatus @default(PENDING)
+  createdAt      DateTime     @default(now()) @map("created_at")
+  updatedAt      DateTime     @updatedAt @map("updated_at")
+  products       Product[]
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("seller_profiles")
+}
+
+model Product {
+  id               String                @id @default(uuid())
+  title            String
+  slug             String                @unique
+  description      String?
+  shortDescription String?               @map("short_description")
+  type             ProductType
+  status           ProductStatus         @default(DRAFT)
+  thumbnailUrl     String?               @map("thumbnail_url")
+  previewUrl       String?               @map("preview_url")
+  price            Decimal               @db.Decimal(10, 2)
+  compareAtPrice   Decimal?              @map("compare_at_price") @db.Decimal(10, 2)
+  currency         String                @default("INR")
+  academicLevelId  String?               @map("academic_level_id")
+  totalPages       Int?                  @map("total_pages")
+  totalChapters    Int?                  @map("total_chapters")
+  fileSize         String?               @map("file_size")
+  language         String                @default("Hindi")
+  tags             String[]              @default([])
+  isFeatured       Boolean               @default(false) @map("is_featured")
+  sortOrder        Int                   @default(0) @map("sort_order")
+  publishedAt      DateTime?             @map("published_at")
+  createdAt        DateTime              @default(now()) @map("created_at")
+  updatedAt        DateTime              @updatedAt @map("updated_at")
+  approvalStatus   ProductApprovalStatus @default(APPROVED) @map("approval_status")
+  landingPageData  Json?                 @map("landing_page_data")
+  sellerId         String?               @map("seller_id")
+  bookmarks        Bookmark[]
+  landingPages     LandingPage[]
+  orderItems       OrderItem[]
+  chapters         ProductChapter[]
+  files            ProductFile[]
+  academicLevel    AcademicLevel?        @relation(fields: [academicLevelId], references: [id])
+  seller           SellerProfile?        @relation(fields: [sellerId], references: [id])
+  purchases        Purchase[]
+  reviews          Review[]
+
+  @@map("products")
+}
+
+model ProductChapter {
+  id        String        @id @default(uuid())
+  productId String        @map("product_id")
+  title     String
+  sortOrder Int           @default(0) @map("sort_order")
+  isFree    Boolean       @default(false) @map("is_free")
+  createdAt DateTime      @default(now()) @map("created_at")
+  product   Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+  files     ProductFile[]
+
+  @@map("product_chapters")
+}
+
+model ProductFile {
+  id        String          @id @default(uuid())
+  productId String          @map("product_id")
+  chapterId String?         @map("chapter_id")
+  fileName  String          @map("file_name")
+  fileUrl   String          @map("file_url")
+  fileType  String          @map("file_type")
+  fileSize  Int?            @map("file_size")
+  sortOrder Int             @default(0) @map("sort_order")
+  createdAt DateTime        @default(now()) @map("created_at")
+  chapter   ProductChapter? @relation(fields: [chapterId], references: [id])
+  product   Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@map("product_files")
+}
+
+model Order {
+  id                String      @id @default(uuid())
+  userId            String      @map("user_id")
+  orderNumber       String      @unique @map("order_number")
+  status            OrderStatus @default(PENDING)
+  subtotal          Decimal     @db.Decimal(10, 2)
+  discount          Decimal     @default(0) @db.Decimal(10, 2)
+  total             Decimal     @db.Decimal(10, 2)
+  currency          String      @default("INR")
+  razorpayOrderId   String?     @unique @map("razorpay_order_id")
+  razorpayPaymentId String?     @map("razorpay_payment_id")
+  razorpaySignature String?     @map("razorpay_signature")
+  paymentMethod     String?     @map("payment_method")
+  paidAt            DateTime?   @map("paid_at")
+  createdAt         DateTime    @default(now()) @map("created_at")
+  updatedAt         DateTime    @updatedAt @map("updated_at")
+  platformFee       Decimal     @default(0) @map("platform_fee") @db.Decimal(10, 2)
+  promotionId       String?     @map("promotion_id")
+  items             OrderItem[]
+  promotion         Promotion?  @relation(fields: [promotionId], references: [id])
+  user              User        @relation(fields: [userId], references: [id])
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id          String   @id @default(uuid())
+  orderId     String   @map("order_id")
+  productId   String   @map("product_id")
+  price       Decimal  @db.Decimal(10, 2)
+  createdAt   DateTime @default(now()) @map("created_at")
+  sellerShare Decimal? @map("seller_share") @db.Decimal(10, 2)
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product     Product  @relation(fields: [productId], references: [id])
+
+  @@unique([orderId, productId])
+  @@map("order_items")
+}
+
+model AbandonedCheckout {
+  id          String   @id @default(uuid())
+  userId      String?  @map("user_id")
+  guestEmail  String?  @map("guest_email")
+  cartData    Json     @map("cart_data")
+  totalValue  Decimal  @map("total_value") @db.Decimal(10, 2)
+  isRecovered Boolean  @default(false) @map("is_recovered")
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
 
-  // Self-referencing relations
-  parent      AcademicLevel?  @relation("LevelHierarchy", fields: [parentId], references: [id])
-  children    AcademicLevel[] @relation("LevelHierarchy")
+  @@map("abandoned_checkouts")
+}
 
-  // Relations
-  profiles    UserProfile[]
-  products    Product[]
-  freeContent FreeContent[]
+model Purchase {
+  id        String    @id @default(uuid())
+  userId    String    @map("user_id")
+  productId String    @map("product_id")
+  grantedAt DateTime  @default(now()) @map("granted_at")
+  expiresAt DateTime? @map("expires_at")
+  isActive  Boolean   @default(true) @map("is_active")
+  product   Product   @relation(fields: [productId], references: [id])
+  user      User      @relation(fields: [userId], references: [id])
 
-  @@map("academic_levels")
+  @@unique([userId, productId])
+  @@map("purchases")
+}
+
+model Promotion {
+  id             String        @id @default(uuid())
+  code           String        @unique
+  name           String
+  description    String?
+  promotionType  PromotionType @map("promotion_type")
+  discountType   DiscountType  @map("discount_type")
+  discountValue  Decimal       @map("discount_value") @db.Decimal(10, 2)
+  maxUses        Int?          @map("max_uses")
+  currentUses    Int           @default(0) @map("current_uses")
+  minOrderAmount Decimal?      @map("min_order_amount") @db.Decimal(10, 2)
+  isActive       Boolean       @default(true) @map("is_active")
+  validFrom      DateTime      @map("valid_from")
+  validUntil     DateTime?     @map("valid_until")
+  createdAt      DateTime      @default(now()) @map("created_at")
+  orders         Order[]
+
+  @@map("promotions")
+}
+
+model AdPlacement {
+  id         String   @id @default(uuid())
+  name       String
+  identifier String   @unique
+  isActive   Boolean  @default(true) @map("is_active")
+  units      AdUnit[]
+
+  @@map("ad_placements")
+}
+
+model AdUnit {
+  id          String      @id @default(uuid())
+  placementId String      @map("placement_id")
+  name        String
+  adCodeHtml  String      @map("ad_code_html")
+  targetUrl   String?     @map("target_url")
+  imageUrl    String?     @map("image_url")
+  isActive    Boolean     @default(true) @map("is_active")
+  impressions Int         @default(0)
+  clicks      Int         @default(0)
+  createdAt   DateTime    @default(now()) @map("created_at")
+  placement   AdPlacement @relation(fields: [placementId], references: [id])
+
+  @@map("ad_units")
+}
+
+model LearningProgress {
+  id              String   @id @default(uuid())
+  userId          String   @map("user_id")
+  productId       String   @map("product_id")
+  chapterId       String?  @map("chapter_id")
+  progressPercent Int      @default(0) @map("progress_percent")
+  lastAccessedAt  DateTime @default(now()) @map("last_accessed_at")
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId, chapterId])
+  @@map("learning_progress")
+}
+
+model Review {
+  id                 String   @id @default(uuid())
+  userId             String   @map("user_id")
+  productId          String   @map("product_id")
+  rating             Int
+  comment            String?
+  isApproved         Boolean  @default(false) @map("is_approved")
+  createdAt          DateTime @default(now()) @map("created_at")
+  updatedAt          DateTime @updatedAt @map("updated_at")
+  adminResponse      String?  @map("admin_response")
+  isVerifiedPurchase Boolean  @default(false) @map("is_verified_purchase")
+  product            Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@map("reviews")
+}
+
+model Bookmark {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  productId String   @map("product_id")
+  createdAt DateTime @default(now()) @map("created_at")
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@map("bookmarks")
+}
+
+model LandingPage {
+  id          String   @id @default(uuid())
+  title       String
+  slug        String   @unique
+  isPublished Boolean  @default(false) @map("is_published")
+  seoTitle    String?  @map("seo_title")
+  seoDesc     String?  @map("seo_desc")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+  audience    String?
+  campaign    String?
+  contentData Json     @map("content_data")
+  goal        String?
+  pageType    String   @default("CUSTOM") @map("page_type")
+  productId   String?  @map("product_id")
+  status      String   @default("DRAFT")
+  product     Product? @relation(fields: [productId], references: [id])
+
+  @@map("landing_pages")
+}
+
+model Post {
+  id           String   @id @default(uuid())
+  title        String
+  slug         String   @unique
+  excerpt      String?
+  content      String
+  thumbnailUrl String?  @map("thumbnail_url")
+  isPublished  Boolean  @default(false) @map("is_published")
+  authorId     String   @map("author_id")
+  seoTitle     String?  @map("seo_title")
+  seoDesc      String?  @map("seo_desc")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+  author       User     @relation(fields: [authorId], references: [id])
+
+  @@map("posts")
+}
+
+model SiteSetting {
+  key         String   @id
+  value       String
+  description String?
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("site_settings")
+}
+
+model AnalyticsEvent {
+  id         String   @id @default(uuid())
+  eventName  String   @map("event_name")
+  category   String
+  userId     String?  @map("user_id")
+  sessionId  String?  @map("session_id")
+  productId  String?  @map("product_id")
+  deviceType String?  @map("device_type")
+  platform   String?
+  metadata   Json?
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@index([eventName, createdAt])
+  @@index([category])
+  @@map("analytics_events")
+}
+
+model SystemLog {
+  id        String   @id @default(uuid())
+  level     String
+  category  String
+  message   String
+  requestId String?  @map("request_id")
+  metadata  Json?
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@index([level, createdAt])
+  @@map("system_logs")
+}
+
+model SupportTicket {
+  id          String         @id @default(uuid())
+  ticketId    String         @unique @default(dbgenerated("concat('TKT-', floor((random() * (1000000)::double precision)))")) @map("ticket_id")
+  userId      String?        @map("user_id")
+  email       String
+  fullName    String         @map("full_name")
+  category    TicketCategory
+  subject     String
+  description String
+  attachments String[]       @default([])
+  priority    TicketPriority @default(MEDIUM)
+  status      TicketStatus   @default(NEW)
+  createdAt   DateTime       @default(now()) @map("created_at")
+  updatedAt   DateTime       @updatedAt @map("updated_at")
+  user        User?          @relation(fields: [userId], references: [id])
+
+  @@index([status, createdAt])
+  @@index([email])
+  @@map("support_tickets")
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String   @map("user_id")
+  title     String
+  message   String
+  isRead    Boolean  @default(false) @map("is_read")
+  createdAt DateTime @default(now()) @map("created_at")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, createdAt])
+  @@map("notifications")
+}
+
+enum UserRole {
+  STUDENT
+  ADMIN
+  SUPER_ADMIN
+  SELLER
 }
 
 enum LevelType {
@@ -159,33 +508,6 @@ enum LevelType {
   SUBJECT
   CHAPTER
   UNIT
-}
-
-// ============================================================
-// FREE CONTENT ENGINE (CMS)
-// ============================================================
-
-model FreeContent {
-  id              String   @id @default(uuid())
-  title           String
-  slug            String   @unique
-  contentType     FreeContentType @map("content_type")
-  contentHtml     String   @db.Text @map("content_html") // Structured HTML generated from templates
-  isPermanentlyFree Boolean @default(true) @map("is_permanently_free") // Protection against accidental deletion
-  isPublished     Boolean  @default(false) @map("is_published")
-  academicLevelId String?  @map("academic_level_id")
-  
-  // SEO Meta
-  seoTitle        String?  @map("seo_title")
-  seoDescription  String?  @map("seo_description")
-  
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
-
-  // Relations
-  academicLevel   AcademicLevel? @relation(fields: [academicLevelId], references: [id])
-
-  @@map("free_contents")
 }
 
 enum FreeContentType {
@@ -200,90 +522,11 @@ enum FreeContentType {
   STUDY_MATERIAL
 }
 
-// ============================================================
-// MARKETPLACE SCHEMA (Sellers)
-// ============================================================
-
-model SellerProfile {
-  id              String   @id @default(uuid())
-  userId          String   @unique @map("user_id")
-  businessName    String   @map("business_name")
-  businessType    String?  @map("business_type") // INDIVIDUAL, COMPANY
-  gstNumber       String?  @map("gst_number")
-  bankDetails     Json?    @map("bank_details") // Stored securely/encrypted later
-  isVerified      Boolean  @default(false) @map("is_verified")
-  commissionRate  Decimal? @db.Decimal(5, 2) @map("commission_rate") // Override global
-  status          SellerStatus @default(PENDING)
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
-
-  // Relations
-  user            User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  products        Product[]
-
-  @@map("seller_profiles")
-}
-
 enum SellerStatus {
   PENDING
   ACTIVE
   SUSPENDED
   REJECTED
-}
-
-// ============================================================
-// PRODUCT COMMERCE SCHEMA
-// ============================================================
-
-model Product {
-  id              String        @id @default(uuid())
-  sellerId        String?       @map("seller_id") // Optional for StudyVisions own products
-  title           String
-  slug            String        @unique
-  description     String?
-  shortDescription String?      @map("short_description")
-  type            ProductType
-  approvalStatus  ProductApprovalStatus @default(APPROVED) @map("approval_status")
-  status          ProductStatus @default(DRAFT)
-  thumbnailUrl    String?       @map("thumbnail_url")
-  previewUrl      String?       @map("preview_url")
-
-  // Pricing
-  price           Decimal       @db.Decimal(10, 2)
-  compareAtPrice  Decimal?      @db.Decimal(10, 2) @map("compare_at_price")
-  currency        String        @default("INR")
-
-  // Academic linking
-  academicLevelId String?       @map("academic_level_id")
-
-  // Metadata
-  totalPages      Int?          @map("total_pages")
-  totalChapters   Int?          @map("total_chapters")
-  fileSize        String?       @map("file_size")
-  language        String        @default("Hindi")
-  tags            String[]      @default([])
-
-  // Landing Page Config (JSON definition of sections)
-  landingPageData Json?         @map("landing_page_data")
-
-  isFeatured      Boolean       @default(false) @map("is_featured")
-  sortOrder       Int           @default(0) @map("sort_order")
-  publishedAt     DateTime?     @map("published_at")
-  createdAt       DateTime      @default(now()) @map("created_at")
-  updatedAt       DateTime      @updatedAt @map("updated_at")
-
-  // Relations
-  seller          SellerProfile? @relation(fields: [sellerId], references: [id])
-  academicLevel   AcademicLevel? @relation(fields: [academicLevelId], references: [id])
-  chapters        ProductChapter[]
-  files           ProductFile[]
-  purchases       Purchase[]
-  reviews         Review[]
-  bookmarks       Bookmark[]
-  orderItems      OrderItem[]
-  landingPages    LandingPage[]
-
-  @@map("products")
 }
 
 enum ProductType {
@@ -315,152 +558,12 @@ enum ProductApprovalStatus {
   REJECTED
 }
 
-model ProductChapter {
-  id          String   @id @default(uuid())
-  productId   String   @map("product_id")
-  title       String
-  sortOrder   Int      @default(0) @map("sort_order")
-  isFree      Boolean  @default(false) @map("is_free")
-  createdAt   DateTime @default(now()) @map("created_at")
-
-  // Relations
-  product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  files       ProductFile[]
-
-  @@map("product_chapters")
-}
-
-model ProductFile {
-  id          String   @id @default(uuid())
-  productId   String   @map("product_id")
-  chapterId   String?  @map("chapter_id")
-  fileName    String   @map("file_name")
-  fileUrl     String   @map("file_url") // Private Cloudinary URL
-  fileType    String   @map("file_type") // pdf, video, image
-  fileSize    Int?     @map("file_size") // in bytes
-  sortOrder   Int      @default(0) @map("sort_order")
-  createdAt   DateTime @default(now()) @map("created_at")
-
-  // Relations
-  product     Product         @relation(fields: [productId], references: [id], onDelete: Cascade)
-  chapter     ProductChapter? @relation(fields: [chapterId], references: [id])
-
-  @@map("product_files")
-}
-
-// ============================================================
-// COMMERCE SCHEMA - Orders, Payments & Checkout
-// ============================================================
-
-model Order {
-  id              String       @id @default(uuid())
-  userId          String       @map("user_id")
-  orderNumber     String       @unique @map("order_number")
-  status          OrderStatus  @default(PENDING)
-  subtotal        Decimal      @db.Decimal(10, 2)
-  discount        Decimal      @default(0) @db.Decimal(10, 2)
-  platformFee     Decimal      @default(0) @db.Decimal(10, 2) @map("platform_fee")
-  total           Decimal      @db.Decimal(10, 2)
-  currency        String       @default("INR")
-
-  // Razorpay Route (Marketplace Support)
-  razorpayOrderId   String?    @unique @map("razorpay_order_id")
-  razorpayPaymentId String?    @map("razorpay_payment_id")
-  razorpaySignature String?    @map("razorpay_signature")
-  paymentMethod     String?    @map("payment_method")
-  paidAt            DateTime?  @map("paid_at")
-
-  // Promotions
-  promotionId     String?      @map("promotion_id")
-
-  createdAt       DateTime     @default(now()) @map("created_at")
-  updatedAt       DateTime     @updatedAt @map("updated_at")
-
-  // Relations
-  user            User        @relation(fields: [userId], references: [id])
-  promotion       Promotion?  @relation(fields: [promotionId], references: [id])
-  items           OrderItem[]
-
-  @@map("orders")
-}
-
 enum OrderStatus {
   PENDING
   PAID
   FAILED
   REFUNDED
   CANCELLED
-}
-
-model OrderItem {
-  id          String   @id @default(uuid())
-  orderId     String   @map("order_id")
-  productId   String   @map("product_id")
-  price       Decimal  @db.Decimal(10, 2)
-  sellerShare Decimal? @db.Decimal(10, 2) @map("seller_share")
-  createdAt   DateTime @default(now()) @map("created_at")
-
-  // Relations
-  order       Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  product     Product @relation(fields: [productId], references: [id])
-
-  @@unique([orderId, productId])
-  @@map("order_items")
-}
-
-model AbandonedCheckout {
-  id          String   @id @default(uuid())
-  userId      String?  @map("user_id")
-  guestEmail  String?  @map("guest_email")
-  cartData    Json     @map("cart_data")
-  totalValue  Decimal  @db.Decimal(10, 2) @map("total_value")
-  isRecovered Boolean  @default(false) @map("is_recovered")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-
-  @@map("abandoned_checkouts")
-}
-
-model Purchase {
-  id          String    @id @default(uuid())
-  userId      String    @map("user_id")
-  productId   String    @map("product_id")
-  grantedAt   DateTime  @default(now()) @map("granted_at")
-  expiresAt   DateTime? @map("expires_at")
-  isActive    Boolean   @default(true) @map("is_active")
-
-  // Relations
-  user        User    @relation(fields: [userId], references: [id])
-  product     Product @relation(fields: [productId], references: [id])
-
-  @@unique([userId, productId])
-  @@map("purchases")
-}
-
-// ============================================================
-// PROMOTIONS & MARKETING
-// ============================================================
-
-model Promotion {
-  id              String      @id @default(uuid())
-  code            String      @unique
-  name            String
-  description     String?
-  promotionType   PromotionType @map("promotion_type") // e.g. FESTIVAL, BUNDLE, FIRST_TIME
-  discountType    DiscountType @map("discount_type")
-  discountValue   Decimal     @db.Decimal(10, 2) @map("discount_value")
-  maxUses         Int?        @map("max_uses")
-  currentUses     Int         @default(0) @map("current_uses")
-  minOrderAmount  Decimal?    @db.Decimal(10, 2) @map("min_order_amount")
-  isActive        Boolean     @default(true) @map("is_active")
-  validFrom       DateTime    @map("valid_from")
-  validUntil      DateTime?   @map("valid_until")
-  createdAt       DateTime    @default(now()) @map("created_at")
-
-  // Relations
-  orders          Order[]
-
-  @@map("promotions")
 }
 
 enum PromotionType {
@@ -475,210 +578,6 @@ enum PromotionType {
 enum DiscountType {
   PERCENTAGE
   FLAT
-}
-
-// ============================================================
-// ADS MANAGEMENT
-// ============================================================
-
-model AdPlacement {
-  id          String   @id @default(uuid())
-  name        String   // e.g. "Homepage Banner", "Chapter Bottom"
-  identifier  String   @unique // programmatic id
-  isActive    Boolean  @default(true) @map("is_active")
-  units       AdUnit[]
-
-  @@map("ad_placements")
-}
-
-model AdUnit {
-  id          String   @id @default(uuid())
-  placementId String   @map("placement_id")
-  name        String
-  adCodeHtml  String   @db.Text @map("ad_code_html")
-  targetUrl   String?  @map("target_url")
-  imageUrl    String?  @map("image_url")
-  isActive    Boolean  @default(true) @map("is_active")
-  impressions Int      @default(0)
-  clicks      Int      @default(0)
-  createdAt   DateTime @default(now()) @map("created_at")
-
-  // Relations
-  placement   AdPlacement @relation(fields: [placementId], references: [id])
-
-  @@map("ad_units")
-}
-
-// ============================================================
-// LEARNING SCHEMA - Progress, Reviews, Bookmarks
-// ============================================================
-
-model LearningProgress {
-  id              String   @id @default(uuid())
-  userId          String   @map("user_id")
-  productId       String   @map("product_id")
-  chapterId       String?  @map("chapter_id")
-  progressPercent Int      @default(0) @map("progress_percent")
-  lastAccessedAt  DateTime @default(now()) @map("last_accessed_at")
-  createdAt       DateTime @default(now()) @map("created_at")
-  updatedAt       DateTime @updatedAt @map("updated_at")
-
-  // Relations
-  user            User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, productId, chapterId])
-  @@map("learning_progress")
-}
-
-model Review {
-  id          String   @id @default(uuid())
-  userId      String   @map("user_id")
-  productId   String   @map("product_id")
-  rating      Int      // 1-5
-  comment     String?
-  isVerifiedPurchase Boolean @default(false) @map("is_verified_purchase")
-  isApproved  Boolean  @default(false) @map("is_approved")
-  adminResponse String? @db.Text @map("admin_response")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-
-  // Relations
-  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, productId])
-  @@map("reviews")
-}
-
-model Bookmark {
-  id          String   @id @default(uuid())
-  userId      String   @map("user_id")
-  productId   String   @map("product_id")
-  createdAt   DateTime @default(now()) @map("created_at")
-
-  // Relations
-  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, productId])
-  @@map("bookmarks")
-}
-
-// ============================================================
-// CMS & SETTINGS SCHEMA - Landing Pages, Blog, Settings
-// ============================================================
-
-model LandingPage {
-  id          String   @id @default(uuid())
-  title       String
-  slug        String   @unique
-  pageType    String   @default("CUSTOM") @map("page_type")
-  productId   String?  @map("product_id")
-  status      String   @default("DRAFT")
-  goal        String?
-  campaign    String?
-  audience    String?
-  contentData Json     @map("content_data") // Structured JSON data
-  isPublished Boolean  @default(false) @map("is_published")
-  seoTitle    String?  @map("seo_title")
-  seoDesc     String?  @map("seo_desc")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-
-  // Relations
-  product     Product? @relation(fields: [productId], references: [id])
-
-  @@map("landing_pages")
-}
-
-model Post {
-  id          String   @id @default(uuid())
-  title       String
-  slug        String   @unique
-  excerpt     String?
-  content     String   @db.Text
-  thumbnailUrl String? @map("thumbnail_url")
-  isPublished Boolean  @default(false) @map("is_published")
-  authorId    String   @map("author_id")
-  seoTitle    String?  @map("seo_title")
-  seoDesc     String?  @map("seo_desc")
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-
-  // Relations
-  author      User     @relation(fields: [authorId], references: [id])
-
-  @@map("posts")
-}
-
-model SiteSetting {
-  key         String   @id
-  value       String   @db.Text
-  description String?
-  updatedAt   DateTime @updatedAt @map("updated_at")
-
-  @@map("site_settings")
-}
-
-// ============================================================
-// ANALYTICS & MONITORING SCHEMA
-// ============================================================
-
-model AnalyticsEvent {
-  id          String   @id @default(uuid())
-  eventName   String   @map("event_name")
-  category    String
-  userId      String?  @map("user_id")
-  sessionId   String?  @map("session_id")
-  productId   String?  @map("product_id")
-  deviceType  String?  @map("device_type")
-  platform    String?
-  metadata    Json?    // Any extra operational data
-  createdAt   DateTime @default(now()) @map("created_at")
-
-  @@index([eventName, createdAt])
-  @@index([category])
-  @@map("analytics_events")
-}
-
-model SystemLog {
-  id          String   @id @default(uuid())
-  level       String   // INFO, WARNING, ERROR, CRITICAL
-  category    String   // APPLICATION, API, AUTH, PAYMENT, ERROR, SYSTEM
-  message     String   @db.Text
-  requestId   String?  @map("request_id")
-  metadata    Json?
-  createdAt   DateTime @default(now()) @map("created_at")
-
-  @@index([level, createdAt])
-  @@map("system_logs")
-}
-
-// ============================================================
-// SUPPORT & CUSTOMER SERVICE SCHEMA
-// ============================================================
-
-model SupportTicket {
-  id          String   @id @default(uuid())
-  ticketId    String   @unique @default(dbgenerated("concat('TKT-', floor(random() * 1000000))")) @map("ticket_id")
-  userId      String?  @map("user_id") // Optional if guest created ticket
-  email       String
-  fullName    String   @map("full_name")
-  category    TicketCategory
-  subject     String
-  description String   @db.Text
-  attachments String[] @default([]) // Array of URLs
-  priority    TicketPriority @default(MEDIUM)
-  status      TicketStatus   @default(NEW)
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-
-  // Relations
-  user        User?    @relation(fields: [userId], references: [id])
-
-  @@index([status, createdAt])
-  @@index([email])
-  @@map("support_tickets")
 }
 
 enum TicketCategory {
@@ -705,23 +604,4 @@ enum TicketStatus {
   IN_PROGRESS
   RESOLVED
   CLOSED
-}
-
-// ============================================================
-// NOTIFICATIONS SCHEMA
-// ============================================================
-
-model Notification {
-  id        String   @id @default(uuid())
-  userId    String   @map("user_id")
-  title     String
-  message   String   @db.Text
-  isRead    Boolean  @default(false) @map("is_read")
-  createdAt DateTime @default(now()) @map("created_at")
-
-  // Relations
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId, createdAt])
-  @@map("notifications")
 }
