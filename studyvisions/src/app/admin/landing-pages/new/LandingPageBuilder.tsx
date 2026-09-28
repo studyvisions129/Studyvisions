@@ -72,10 +72,12 @@ export default function LandingPageBuilder({ products }: { products: any[] }) {
 
   const tabs = [
     { id: "basic", label: "Basic Info" },
+    { id: "blocks", label: "Block Editor (Beta)" },
     { id: "hero", label: "Hero Section" },
     { id: "problem", label: "Problem / Solution" },
     { id: "features", label: "Features & Benefits" },
-    { id: "faq", label: "FAQs & Trust" }
+    { id: "faq", label: "FAQs & Trust" },
+    { id: "tracking", label: "Tracking Configuration" }
   ];
 
   return (
@@ -338,6 +340,39 @@ export default function LandingPageBuilder({ products }: { products: any[] }) {
                      <span className="font-semibold text-slate-700">Show Digital Access Badge</span>
                    </label>
                  </div>
+              </div>
+            </div>
+          )}
+          {activeTab === "tracking" && (
+            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2">
+              <h2 className="text-xl font-bold text-slate-800 mb-6">Tracking Configuration</h2>
+              <p className="text-slate-500 mb-6">Configure analytics and ad pixels for this specific landing page.</p>
+              
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">Meta Pixel ID</label>
+                  <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2" placeholder="e.g. 123456789012345" />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">Google Tag Manager (GTM) Container ID</label>
+                  <input type="text" className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-2" placeholder="e.g. GTM-XXXXXXX" />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-slate-700 mb-2">Custom Conversion Events Mapping</label>
+                  <div className="p-4 border border-indigo-100 bg-indigo-50 rounded-xl text-indigo-700 text-sm font-medium">
+                    (UI Placeholder) Configure mapping for ViewContent, AddToCart, BeginCheckout, Purchase, etc.
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {activeTab === "blocks" && (
+            <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2">
+              <h2 className="text-xl font-bold text-slate-800 mb-6">Block Editor (Beta)</h2>
+              <div className="p-12 border-2 border-dashed border-slate-200 rounded-2xl text-center bg-slate-50">
+                <p className="text-slate-500 font-medium">Drag-and-drop block builder UI placeholder.</p>
+                <p className="text-sm text-slate-400 mt-2">Blocks available: Announcement, Hero, Problem, Solution, Benefits, Features, Preview, Demo, Curriculum, Bonuses, Testimonials, FAQ, Pricing, Guarantee, CTA, Footer.</p>
               </div>
             </div>
           )}
