@@ -55,7 +55,7 @@ export default async function AdminDashboardPage() {
     <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20 max-w-7xl mx-auto">
       
       {/* HEADER & GLOBAL DATE SYSTEM */}
-      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm sticky top-24 z-40">
+      <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 bg-white p-6 rounded-3xl border border-slate-200 shadow-sm relative">
         <div>
           <h1 className="text-3xl font-bold tracking-tight text-slate-900">Command Center</h1>
           <div className="flex items-center gap-3 mt-1">
