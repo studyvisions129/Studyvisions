@@ -139,15 +139,19 @@ export default async function AdminDashboardPage() {
           </div>
 
           {/* Money Flow */}
-          <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm relative overflow-hidden">
-            <h3 className="font-bold text-slate-800 mb-6 flex items-center gap-2">
-              <Activity className="w-5 h-5 text-indigo-500" />
+          <div className="bg-slate-900 rounded-3xl border border-slate-800 p-6 shadow-2xl relative overflow-hidden group">
+            {/* Subtle glow effects */}
+            <div className="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-emerald-500/10 rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
+            <div className="absolute bottom-0 left-0 -mb-8 -ml-8 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl opacity-50 group-hover:opacity-100 transition-opacity duration-700"></div>
+            
+            <h3 className="font-bold text-white mb-6 flex items-center gap-2 relative z-10">
+              <Activity className="w-5 h-5 text-emerald-400" />
               Money Flow
             </h3>
-            <div className="space-y-4 relative z-10">
+            <div className="space-y-3 relative z-10">
               <FlowRow label="Gross Revenue" value={`₹${grossRevenue.toLocaleString()}`} />
               <FlowRow label="Refunds" value={`- ₹${refunds}`} isSub />
-              <div className="h-px bg-slate-100 my-2"></div>
+              <div className="h-px bg-slate-800/80 my-3"></div>
               <FlowRow label="Net Sales Revenue" value={`₹${netSalesRevenue.toLocaleString()}`} isHighlight />
               <FlowRow label="Gateway Fees" value={`- ₹${paymentGatewayFees}`} isSub badge="Auto" />
               <FlowRow label="Taxes" value={`- ₹${taxes}`} isSub badge="Auto" />
@@ -156,14 +160,14 @@ export default async function AdminDashboardPage() {
               <FlowRow label="Hosting & Infra" value={`- ₹${hosting}`} isSub badge="Manual" />
               <FlowRow label="Software & Tools" value={`- ₹${softwareTools}`} isSub badge="Manual" />
               <FlowRow label="Other Expenses" value={`- ₹${otherExpenses}`} isSub badge="Manual" />
-              <div className="h-px bg-slate-200 my-2"></div>
-              <div className="flex justify-between items-center mt-4">
-                <span className="text-lg font-bold text-slate-900">Net Profit</span>
-                <span className="text-2xl font-black text-emerald-600">₹{netProfit.toLocaleString()}</span>
+              <div className="h-px bg-slate-800/80 my-3"></div>
+              <div className="flex justify-between items-center mt-5 mb-1 px-2">
+                <span className="text-lg font-bold text-slate-200">Net Profit</span>
+                <span className="text-2xl font-black text-emerald-400 drop-shadow-md">₹{netProfit.toLocaleString()}</span>
               </div>
-              <div className="flex justify-between items-center text-sm text-slate-500">
+              <div className="flex justify-between items-center text-sm text-slate-400 px-2">
                 <span>Profit Margin</span>
-                <span className="font-bold text-slate-800">{profitMargin}%</span>
+                <span className="font-bold text-white bg-white/10 px-2 py-0.5 rounded-md">{profitMargin}%</span>
               </div>
             </div>
           </div>
@@ -445,16 +449,16 @@ function ActionCard({ icon: Icon, color, title, desc, action }: any) {
 
 function FlowRow({ label, value, isSub = false, isHighlight = false, badge }: any) {
   return (
-    <div className="flex justify-between items-center text-sm">
+    <div className="flex justify-between items-center text-sm transition-colors hover:bg-white/5 -mx-2 px-2 py-1.5 rounded-xl cursor-default">
       <span className={cn(
-        isSub ? "text-slate-500 pl-4 relative before:content-[''] before:absolute before:w-2 before:h-px before:bg-slate-300 before:left-0 before:top-1/2" : "font-semibold text-slate-800",
-        isHighlight && "text-indigo-700 font-bold text-base"
+        isSub ? "text-slate-400 pl-4 relative before:content-[''] before:absolute before:w-2 before:h-px before:bg-slate-700 before:left-0 before:top-1/2" : "font-semibold text-slate-200",
+        isHighlight && "text-emerald-400 font-bold text-base drop-shadow-sm"
       )}>
         {label}
-        {badge && <span className="ml-2 text-[9px] bg-slate-100 border border-slate-200 text-slate-500 px-1.5 py-0.5 rounded uppercase font-bold tracking-wider">{badge}</span>}
+        {badge && <span className="ml-2 text-[9px] bg-slate-800/80 border border-slate-700/50 text-slate-400 px-1.5 py-0.5 rounded uppercase font-bold tracking-wider">{badge}</span>}
       </span>
       <span className={cn(
-        isHighlight ? "font-bold text-indigo-600 text-base" : "font-medium text-slate-600"
+        isHighlight ? "font-bold text-emerald-400 text-base drop-shadow-sm" : "font-medium text-slate-300"
       )}>{value}</span>
     </div>
   );
