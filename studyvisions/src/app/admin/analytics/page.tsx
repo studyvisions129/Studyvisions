@@ -46,13 +46,71 @@ export default function AnalyticsPage() {
         <Tab>Reports</Tab>
       </div>
 
-      {/* 2. Top KPIs */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-        <AnalyticCard title="Revenue" value="₹1,24,500" trend="+18.4%" trendUp />
-        <AnalyticCard title="Orders" value="142" trend="+12.2%" trendUp />
-        <AnalyticCard title="Profit" value="₹48,200" trend="+5.6%" trendUp />
-        <AnalyticCard title="Customers" value="118" trend="-2.1%" trendUp={false} />
-        <AnalyticCard title="ROAS" value="4.2x" trend="+0.8x" trendUp />
+      {/* 2. Command Center Metrics (Levels 1-4) */}
+      <div className="space-y-6">
+        {/* LEVEL 1 — Money */}
+        <div>
+          <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2">
+            <DollarSign className="w-4 h-4 text-emerald-500" /> Level 1 — Money
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+            <MetricCard title="Gross Revenue" value="₹1,50,000" trendPct="+20.0%" trendAbs="+₹25,000" trendUp={true} />
+            <MetricCard title="Refunds" value="₹5,000" trendPct="+5.0%" trendAbs="+₹238" trendUp={false} />
+            <MetricCard title="Net Revenue" value="₹1,45,000" trendPct="+21.3%" trendAbs="+₹25,476" trendUp={true} />
+            <MetricCard title="COGS" value="₹20,000" trendPct="0%" trendAbs="₹0" />
+            <MetricCard title="Payment Fees" value="₹2,900" trendPct="+21.3%" trendAbs="+₹509" trendUp={false} />
+            <MetricCard title="Ad Spend" value="₹30,000" trendPct="+10.0%" trendAbs="+₹2,727" trendUp={false} />
+            <MetricCard title="Other Costs" value="₹5,000" trendPct="0%" trendAbs="₹0" />
+            <MetricCard title="Net Profit" value="₹87,100" trendPct="+28.5%" trendAbs="+₹19,331" trendUp={true} highlight />
+            <MetricCard title="Profit Margin" value="60%" trendPct="+3.5%" trendAbs="+3.5%" trendUp={true} highlight />
+          </div>
+        </div>
+
+        {/* LEVEL 2 — Sales */}
+        <div>
+          <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2">
+            <ShoppingBag className="w-4 h-4 text-indigo-500" /> Level 2 — Sales
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+            <MetricCard title="Orders" value="142" trendPct="+12.2%" trendAbs="+15" trendUp={true} />
+            <MetricCard title="Avg Order Value" value="₹1,021" trendPct="+8.1%" trendAbs="+₹76" trendUp={true} />
+            <MetricCard title="Conversion Rate" value="3.2%" trendPct="-0.4%" trendAbs="-0.4%" trendUp={false} />
+            <MetricCard title="Refund Rate" value="3.4%" trendPct="-0.2%" trendAbs="-0.2%" trendUp={true} />
+            <MetricCard title="Discounts" value="₹12,400" trendPct="+15.0%" trendAbs="+₹1,617" trendUp={false} />
+            <MetricCard title="Coupon Usage" value="48" trendPct="+20.0%" trendAbs="+8" trendUp={true} />
+          </div>
+        </div>
+
+        {/* LEVEL 3 — Customers */}
+        <div>
+          <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2">
+            <Users className="w-4 h-4 text-rose-500" /> Level 3 — Customers
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
+            <MetricCard title="Total Customers" value="4,289" trendPct="+3.1%" trendAbs="+129" trendUp={true} />
+            <MetricCard title="New Customers" value="118" trendPct="-2.1%" trendAbs="-3" trendUp={false} />
+            <MetricCard title="Returning Customers" value="24" trendPct="+14.2%" trendAbs="+3" trendUp={true} />
+            <MetricCard title="Repeat Purchase" value="18.4%" trendPct="+1.2%" trendAbs="+1.2%" trendUp={true} />
+            <MetricCard title="Customer LTV" value="₹3,450" trendPct="+4.5%" trendAbs="+₹148" trendUp={true} highlight />
+            <MetricCard title="CAC" value="₹254" trendPct="-5.2%" trendAbs="-₹14" trendUp={true} highlight />
+          </div>
+        </div>
+
+        {/* LEVEL 4 — Marketing */}
+        <div>
+          <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2">
+            <Activity className="w-4 h-4 text-amber-500" /> Level 4 — Marketing
+          </h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3">
+            <MetricCard title="Ad Spend" value="₹30,000" trendPct="+10.0%" trendAbs="+₹2,727" trendUp={false} />
+            <MetricCard title="ROAS" value="4.2x" trendPct="+0.8x" trendAbs="+0.8x" trendUp={true} highlight />
+            <MetricCard title="MER" value="4.8x" trendPct="+0.5x" trendAbs="+0.5x" trendUp={true} />
+            <MetricCard title="CAC" value="₹254" trendPct="-5.2%" trendAbs="-₹14" trendUp={true} />
+            <MetricCard title="Organic Revenue" value="₹15,500" trendPct="+42.0%" trendAbs="+₹4,583" trendUp={true} />
+            <MetricCard title="Paid Revenue" value="₹1,29,500" trendPct="+18.4%" trendAbs="+₹20,127" trendUp={true} />
+            <MetricCard title="Email Revenue" value="₹0" trendPct="0%" trendAbs="₹0" />
+          </div>
+        </div>
       </div>
 
       {/* 3. Revenue Trend & Source */}
@@ -188,18 +246,24 @@ function Tab({ children, active }: { children: React.ReactNode, active?: boolean
   )
 }
 
-function AnalyticCard({ title, value, trend, trendUp }: any) {
+function MetricCard({ title, value, trendPct, trendAbs, trendUp, highlight }: any) {
   return (
-    <div className="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm cursor-pointer hover:border-indigo-300 hover:shadow-md transition-all group">
-      <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">{title}</p>
-      <h4 className="text-2xl font-black text-slate-900 mb-2">{value}</h4>
-      <div className={cn(
-        "flex items-center gap-1 text-xs font-bold",
-        trendUp ? "text-emerald-600" : "text-rose-600"
-      )}>
-        {trendUp ? <TrendingUp className="w-3.5 h-3.5" /> : <TrendingDown className="w-3.5 h-3.5" />}
-        {trend} vs previous
-      </div>
+    <div className={cn("bg-white p-4 rounded-2xl border border-slate-200 shadow-sm cursor-pointer hover:border-indigo-300 hover:shadow-md transition-all group", highlight && "bg-indigo-50 border-indigo-200")}>
+      <p className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1.5 line-clamp-1" title={title}>{title}</p>
+      <h4 className={cn("text-lg font-black text-slate-900 mb-2", highlight && "text-indigo-700")}>{value}</h4>
+      {(trendPct || trendAbs) ? (
+        <div className={cn(
+          "flex items-center gap-1.5 text-[10px] font-bold",
+          trendUp === undefined ? "text-slate-400" : trendUp ? "text-emerald-600" : "text-rose-600"
+        )}>
+          {trendUp === undefined ? null : trendUp ? <TrendingUp className="w-3 h-3" /> : <TrendingDown className="w-3 h-3" />}
+          <span>{trendPct}</span>
+          {trendAbs && trendAbs !== "₹0" && <span className="text-slate-300 font-normal">|</span>}
+          {trendAbs && trendAbs !== "₹0" && <span>{trendAbs}</span>}
+        </div>
+      ) : (
+        <div className="h-3.5"></div>
+      )}
     </div>
   )
 }
