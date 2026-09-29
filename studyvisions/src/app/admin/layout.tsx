@@ -25,11 +25,11 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="h-screen overflow-hidden bg-slate-50 flex flex-col font-sans selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="min-h-screen bg-slate-50 flex flex-col font-sans selection:bg-indigo-100 selection:text-indigo-900">
       {/* Top Navigation - Full Width */}
       <AdminTopBar className="shrink-0" />
       
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 overflow-hidden h-[calc(100vh-5rem)]">
         {/* Sidebar Navigation */}
         <AdminSidebar className="hidden md:flex w-72 shrink-0" />
         
