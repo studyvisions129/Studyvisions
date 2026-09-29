@@ -181,13 +181,13 @@ export default async function AdminDashboardPage() {
               <Link href="/admin/orders" className="text-sm font-semibold text-indigo-600 hover:text-indigo-700 flex items-center gap-1">View All <ArrowRight className="w-4 h-4"/></Link>
             </h3>
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-4 mb-6">
-              <OrderStatBox title="Total" value={totalOrders.toString()} color="slate" />
-              <OrderStatBox title="Paid" value={totalOrders.toString()} color="emerald" />
-              <OrderStatBox title="Pending" value="0" color="amber" />
-              <OrderStatBox title="Failed" value="0" color="rose" />
-              <OrderStatBox title="Refunded" value="0" color="rose" />
-              <OrderStatBox title="Cancelled" value="0" color="slate" />
-              <OrderStatBox title="Disputed" value="0" color="amber" />
+              <OrderStatBox title="Total" value={totalOrders.toString()} color="slate" href="/admin/orders" />
+              <OrderStatBox title="Paid" value={totalOrders.toString()} color="emerald" href="/admin/orders?status=Paid" />
+              <OrderStatBox title="Pending" value="0" color="amber" href="/admin/orders?status=Pending" />
+              <OrderStatBox title="Failed" value="0" color="rose" href="/admin/orders?status=Failed" />
+              <OrderStatBox title="Refunded" value="0" color="rose" href="/admin/orders?status=Refunded" />
+              <OrderStatBox title="Cancelled" value="0" color="slate" href="/admin/orders?status=Cancelled" />
+              <OrderStatBox title="Disputed" value="0" color="amber" href="/admin/orders?status=Disputed" />
             </div>
           </div>
 
@@ -202,27 +202,36 @@ export default async function AdminDashboardPage() {
                   <tr>
                     <th className="px-4 py-3 rounded-tl-xl rounded-bl-xl">Product</th>
                     <th className="px-4 py-3 text-right">Orders</th>
-                    <th className="px-4 py-3 text-right rounded-tr-xl rounded-br-xl">Revenue</th>
+                    <th className="px-4 py-3 text-right">Units Sold</th>
+                    <th className="px-4 py-3 text-right">Refunds</th>
+                    <th className="px-4 py-3 text-right">Net Revenue</th>
+                    <th className="px-4 py-3 text-right rounded-tr-xl rounded-br-xl">Conv. Rate</th>
                   </tr>
                 </thead>
                 <tbody>
                   {totalOrders === 0 ? (
                     <tr>
-                      <td colSpan={3} className="px-4 py-8 text-center text-slate-500 bg-slate-50/50 rounded-xl border border-dashed border-slate-200 mt-2">
+                      <td colSpan={6} className="px-4 py-8 text-center text-slate-500 bg-slate-50/50 rounded-xl border border-dashed border-slate-200 mt-2">
                         No sales data available for the selected period.
                       </td>
                     </tr>
                   ) : (
                     <>
                       <tr className="border-b border-slate-50 group hover:bg-slate-50 cursor-pointer">
-                        <td className="px-4 py-3 font-semibold text-slate-800">Class 12 PYQ Bundle <span className="ml-2 text-[10px] bg-slate-100 text-slate-500 px-1 rounded">Demo Data</span></td>
+                        <td className="px-4 py-3 font-semibold text-slate-800">Class 12 PYQ Bundle <span className="ml-2 text-[10px] bg-slate-100 text-slate-500 px-1 rounded uppercase tracking-wider font-bold">Demo</span></td>
                         <td className="px-4 py-3 text-right text-slate-600">324</td>
+                        <td className="px-4 py-3 text-right text-slate-600">340</td>
+                        <td className="px-4 py-3 text-right text-rose-500">12</td>
                         <td className="px-4 py-3 text-right font-bold text-emerald-600">₹48,276</td>
+                        <td className="px-4 py-3 text-right font-semibold text-indigo-600">4.2%</td>
                       </tr>
                       <tr className="border-b border-slate-50 group hover:bg-slate-50 cursor-pointer">
-                        <td className="px-4 py-3 font-semibold text-slate-800">BSEB Topper Notes <span className="ml-2 text-[10px] bg-slate-100 text-slate-500 px-1 rounded">Demo Data</span></td>
+                        <td className="px-4 py-3 font-semibold text-slate-800">BSEB Topper Notes <span className="ml-2 text-[10px] bg-slate-100 text-slate-500 px-1 rounded uppercase tracking-wider font-bold">Demo</span></td>
                         <td className="px-4 py-3 text-right text-slate-600">287</td>
+                        <td className="px-4 py-3 text-right text-slate-600">287</td>
+                        <td className="px-4 py-3 text-right text-rose-500">4</td>
                         <td className="px-4 py-3 text-right font-bold text-emerald-600">₹42,913</td>
+                        <td className="px-4 py-3 text-right font-semibold text-indigo-600">3.8%</td>
                       </tr>
                     </>
                   )}
@@ -261,33 +270,34 @@ export default async function AdminDashboardPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
             <h3 className="font-bold text-slate-800 mb-6">Digital Product Funnel</h3>
-            <div className="space-y-1">
-              <FunnelStep step="Ad Impressions" value="100,000" drop="-" />
-              <FunnelStep step="Clicks" value="4,500" drop="4.5%" />
-              <FunnelStep step="Landing Page Visitors" value="3,800" drop="84.4%" />
-              <FunnelStep step="Product Views" value="620" drop="16.3%" />
-              <FunnelStep step="Add to Cart" value="310" drop="50.0%" />
-              <FunnelStep step="Checkout Started" value="210" drop="67.7%" />
-              <FunnelStep step="Payment Attempt" value="180" drop="85.7%" />
-              <FunnelStep step="Purchase" value="148" drop="82.2%" isFinal />
+            <div className="flex flex-col items-center justify-center py-12 text-center border-2 border-dashed border-slate-100 rounded-2xl bg-slate-50/50">
+              <Filter className="w-8 h-8 text-slate-300 mb-3" />
+              <p className="text-sm font-bold text-slate-600">No data available</p>
+              <p className="text-xs text-slate-400 mt-1 max-w-[200px]">Insufficient funnel data for the selected period. Connect your payment gateway and analytics to start tracking.</p>
             </div>
-            <p className="text-xs text-center text-slate-400 mt-4 italic">*Demo funnel data</p>
           </div>
 
           <div className="bg-white rounded-3xl border border-slate-200 p-6 shadow-sm">
             <h3 className="font-bold text-slate-800 mb-4">Source-wise Revenue</h3>
-            <div className="space-y-3 max-h-[300px] overflow-y-auto custom-scrollbar pr-2">
-              <SourceRow source="Meta Ads" revenue="₹0" />
-              <SourceRow source="Google Ads" revenue="₹0" />
-              <SourceRow source="YouTube" revenue="₹0" />
-              <SourceRow source="Instagram" revenue="₹0" />
-              <SourceRow source="Facebook" revenue="₹0" />
-              <SourceRow source="Organic Search" revenue={`₹${netSalesRevenue.toLocaleString()}`} percent={100} />
-              <SourceRow source="Direct" revenue="₹0" />
-              <SourceRow source="Referral" revenue="₹0" />
-              <SourceRow source="Affiliate" revenue="₹0" />
-              <SourceRow source="Email" revenue="₹0" />
-              <SourceRow source="WhatsApp" revenue="₹0" />
+            <div className="flex items-center justify-between text-xs font-bold text-slate-400 uppercase px-2 mb-2">
+              <div className="w-1/3 text-left">Source</div>
+              <div className="w-1/6 text-right">Revenue</div>
+              <div className="w-1/6 text-right">Orders</div>
+              <div className="w-1/6 text-right">Spend</div>
+              <div className="w-1/6 text-right">ROAS</div>
+            </div>
+            <div className="space-y-1 max-h-[300px] overflow-y-auto custom-scrollbar pr-2">
+              <SourceRow source="Meta Ads" revenue="₹20K" orders="35" spend="₹5K" roas="4.0x" isDemo />
+              <SourceRow source="Google Ads" revenue="₹12K" orders="20" spend="₹4K" roas="3.0x" isDemo />
+              <SourceRow source="Organic Search" revenue={`₹${netSalesRevenue > 0 ? (netSalesRevenue/1000).toFixed(1) + 'K' : '8K'}`} orders="18" spend="₹0" roas="—" isDemo />
+              <SourceRow source="YouTube" revenue="₹0" orders="0" spend="₹0" roas="—" />
+              <SourceRow source="Instagram" revenue="₹0" orders="0" spend="₹0" roas="—" />
+              <SourceRow source="Facebook" revenue="₹0" orders="0" spend="₹0" roas="—" />
+              <SourceRow source="Direct" revenue="₹0" orders="0" spend="₹0" roas="—" />
+              <SourceRow source="Referral" revenue="₹0" orders="0" spend="₹0" roas="—" />
+              <SourceRow source="Affiliate" revenue="₹0" orders="0" spend="₹0" roas="—" />
+              <SourceRow source="Email" revenue="₹0" orders="0" spend="₹0" roas="—" />
+              <SourceRow source="WhatsApp" revenue="₹0" orders="0" spend="₹0" roas="—" />
             </div>
           </div>
 
@@ -298,14 +308,20 @@ export default async function AdminDashboardPage() {
                 <thead className="text-xs text-slate-500 uppercase bg-slate-50">
                   <tr>
                     <th className="px-4 py-3 rounded-tl-xl rounded-bl-xl">Campaign Name</th>
+                    <th className="px-4 py-3">Platform</th>
                     <th className="px-4 py-3 text-right">Spend</th>
-                    <th className="px-4 py-3 text-right">ROAS</th>
+                    <th className="px-4 py-3 text-right">Impressions</th>
+                    <th className="px-4 py-3 text-right">Clicks</th>
+                    <th className="px-4 py-3 text-right">CTR</th>
+                    <th className="px-4 py-3 text-right">CPC</th>
+                    <th className="px-4 py-3 text-right">Leads</th>
+                    <th className="px-4 py-3 text-right rounded-tr-xl rounded-br-xl">ROAS</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
-                    <td colSpan={3} className="px-4 py-8 text-center text-slate-500 bg-slate-50/50 rounded-xl border border-dashed border-slate-200 mt-2">
-                      No active campaigns found.
+                    <td colSpan={9} className="px-4 py-8 text-center text-slate-500 bg-slate-50/50 rounded-xl border border-dashed border-slate-200 mt-2">
+                      No active campaigns found. Connect ad accounts to track performance.
                     </td>
                   </tr>
                 </tbody>
@@ -323,14 +339,14 @@ export default async function AdminDashboardPage() {
         </h2>
         
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-          <MetricCard title="First-Time Buyers" value={activeStudents.toString()} />
-          <MetricCard title="Returning Buyers" value="0" />
-          <MetricCard title="Total Customers" value={activeStudents.toString()} />
-          <MetricCard title="Repeat Purchase Rate" value="0%" />
-          <MetricCard title="Customer Acq. Cost" value="₹0" />
-          <MetricCard title="Avg Customer LTV" value={`₹${Math.round(aov).toLocaleString()}`} />
-          <MetricCard title="Customer Retention" value="0%" />
-          <MetricCard title="Refund Rate" value="0%" />
+          <MetricCard title="First-Time Buyers" value={activeStudents.toString()} href="/admin/students?filter=new" />
+          <MetricCard title="Returning Buyers" value="0" href="/admin/students?filter=returning" />
+          <MetricCard title="Total Customers" value={activeStudents.toString()} href="/admin/students" />
+          <MetricCard title="Repeat Purchase Rate" value="0%" href="/admin/analytics?tab=retention" />
+          <MetricCard title="Customer Acq. Cost" value="₹0" href="/admin/analytics?tab=cac" />
+          <MetricCard title="Avg Customer LTV" value={`₹${Math.round(aov).toLocaleString()}`} href="/admin/analytics?tab=ltv" />
+          <MetricCard title="Customer Retention" value="0%" href="/admin/analytics?tab=retention" />
+          <MetricCard title="Refund Rate" value="0%" href="/admin/orders?status=Refunded" />
         </div>
       </section>
 
@@ -400,10 +416,10 @@ export default async function AdminDashboardPage() {
 }
 
 // Components
-function MetricCard({ title, value, highlight = false, compare, compareDirection }: { title: string, value: string, highlight?: boolean, compare?: string, compareDirection?: 'up'|'down' }) {
-  return (
+function MetricCard({ title, value, highlight = false, compare, compareDirection, href }: { title: string, value: string, highlight?: boolean, compare?: string, compareDirection?: 'up'|'down', href?: string }) {
+  const content = (
     <div className={cn(
-      "bg-white rounded-2xl p-5 border border-slate-200 shadow-sm relative overflow-hidden group hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer",
+      "bg-white rounded-2xl p-5 border border-slate-200 shadow-sm relative overflow-hidden group hover:border-indigo-300 hover:shadow-md transition-all cursor-pointer h-full",
       highlight && "bg-indigo-50 border-indigo-100 shadow-indigo-100 hover:border-indigo-400"
     )}>
       <div className="flex justify-between items-start mb-2">
@@ -424,6 +440,10 @@ function MetricCard({ title, value, highlight = false, compare, compareDirection
       )}
     </div>
   );
+  if (href) {
+    return <Link href={href} className="block">{content}</Link>;
+  }
+  return content;
 }
 
 function ActionCard({ icon: Icon, color, title, desc, action }: any) {
@@ -464,19 +484,23 @@ function FlowRow({ label, value, isSub = false, isHighlight = false, badge }: an
   );
 }
 
-function OrderStatBox({ title, value, color }: any) {
+function OrderStatBox({ title, value, color, href }: any) {
   const colorStyles: any = {
     slate: "bg-slate-50 border-slate-100 text-slate-600",
     emerald: "bg-emerald-50 border-emerald-100 text-emerald-600",
     amber: "bg-amber-50 border-amber-100 text-amber-600",
     rose: "bg-rose-50 border-rose-100 text-rose-600",
   };
-  return (
-    <div className={cn("p-3 rounded-2xl border", colorStyles[color])}>
+  const content = (
+    <div className={cn("p-3 rounded-2xl border transition-colors hover:shadow-md cursor-pointer", colorStyles[color])}>
       <p className="text-xs font-semibold mb-1 uppercase tracking-wider opacity-80">{title}</p>
       <p className="text-lg font-black">{value}</p>
     </div>
-  )
+  );
+  if (href) {
+    return <Link href={href} className="block">{content}</Link>;
+  }
+  return content;
 }
 
 function FunnelStep({ step, value, drop, isFinal }: any) {
@@ -494,16 +518,17 @@ function FunnelStep({ step, value, drop, isFinal }: any) {
   )
 }
 
-function SourceRow({ source, revenue, percent = 0 }: any) {
+function SourceRow({ source, revenue, orders, spend, roas, isDemo = false }: any) {
   return (
-    <div>
-      <div className="flex justify-between text-sm font-semibold mb-1.5">
-        <span className="text-slate-700">{source}</span>
-        <span className={percent === 0 ? "text-slate-400" : "text-slate-900"}>{revenue}</span>
+    <div className="flex items-center justify-between text-sm py-2.5 border-b border-slate-50 hover:bg-slate-50 px-2 rounded-lg transition-colors group cursor-default">
+      <div className="w-1/3 flex items-center gap-2 truncate">
+        <span className="font-semibold text-slate-700">{source}</span>
+        {isDemo && <span className="text-[9px] bg-slate-100 text-slate-400 px-1.5 py-0.5 rounded font-bold uppercase tracking-wider">Demo</span>}
       </div>
-      <div className="w-full bg-slate-100 rounded-full h-1.5 overflow-hidden">
-        <div className={cn("h-1.5 rounded-full", percent === 0 ? "bg-slate-300" : "bg-blue-500")} style={{ width: `${percent}%` }}></div>
-      </div>
+      <div className="w-1/6 text-right font-semibold text-slate-800 truncate">{revenue}</div>
+      <div className="w-1/6 text-right text-slate-500 truncate">{orders}</div>
+      <div className="w-1/6 text-right text-slate-500 truncate">{spend}</div>
+      <div className="w-1/6 text-right font-bold text-indigo-600 truncate">{roas}</div>
     </div>
   );
 }

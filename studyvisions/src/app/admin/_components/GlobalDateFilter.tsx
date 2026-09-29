@@ -22,17 +22,19 @@ export default function GlobalDateFilter() {
   const [selectedCompare, setSelectedCompare] = useState("Previous Period");
   const [isCompareActive, setIsCompareActive] = useState(true);
 
+  const [isExportOpen, setIsExportOpen] = useState(false);
+
   // Mock states for Custom Range to show the UI
   const [showCustomRange, setShowCustomRange] = useState(false);
 
   return (
-    <div className="flex flex-wrap items-center gap-3 relative">
-      <div className="flex flex-wrap sm:flex-nowrap items-center bg-white border border-slate-200 rounded-xl p-1 shadow-sm relative">
+    <div className="flex flex-wrap items-center gap-3 relative z-50">
+      <div className="flex flex-wrap sm:flex-nowrap items-center bg-white border border-slate-200 rounded-xl p-1 shadow-sm relative z-40">
         
         {/* DATE SELECTOR BUTTON */}
         <div className="relative">
           <button 
-            onClick={() => { setIsDateOpen(!isDateOpen); setIsCompareOpen(false); }}
+            onClick={() => { setIsDateOpen(!isDateOpen); setIsCompareOpen(false); setIsExportOpen(false); }}
             className={`px-4 py-2 text-sm font-bold flex items-center gap-2 rounded-lg transition-all ${isDateOpen ? 'bg-indigo-50 text-indigo-700' : 'text-slate-700 hover:bg-slate-50'}`}
           >
             <Calendar className="w-4 h-4 text-indigo-500" />
@@ -94,7 +96,7 @@ export default function GlobalDateFilter() {
         {/* COMPARE SELECTOR BUTTON */}
         <div className="relative">
           <button 
-            onClick={() => { setIsCompareOpen(!isCompareOpen); setIsDateOpen(false); }}
+            onClick={() => { setIsCompareOpen(!isCompareOpen); setIsDateOpen(false); setIsExportOpen(false); }}
             className={`px-4 py-2 text-sm font-semibold flex items-center gap-2 rounded-lg transition-all ${isCompareOpen ? 'bg-slate-100 text-slate-800' : 'text-slate-500 hover:bg-slate-50 hover:text-slate-700'}`}
           >
             {isCompareActive ? <span className="text-slate-800">vs {selectedCompare}</span> : "Compare"}
@@ -130,15 +132,48 @@ export default function GlobalDateFilter() {
       </div>
 
       {/* EXPORT BUTTON */}
-      <button className="p-2.5 bg-white border border-slate-200 shadow-sm rounded-xl hover:bg-slate-50 hover:border-slate-300 transition-colors text-slate-600 group">
-        <Download className="w-5 h-5 group-hover:text-indigo-600 transition-colors" />
-      </button>
+      <div className="relative z-40">
+        <button 
+          onClick={() => { setIsExportOpen(!isExportOpen); setIsDateOpen(false); setIsCompareOpen(false); }}
+          className={`p-2.5 bg-white border border-slate-200 shadow-sm rounded-xl transition-colors group ${isExportOpen ? 'bg-slate-50 border-indigo-300 ring-4 ring-indigo-50 text-indigo-600' : 'hover:bg-slate-50 hover:border-slate-300 text-slate-600'}`}
+        >
+          <Download className={`w-5 h-5 transition-colors ${isExportOpen ? 'text-indigo-600' : 'group-hover:text-indigo-600'}`} />
+        </button>
+
+        {isExportOpen && (
+          <div className="absolute top-full right-0 mt-2 w-52 bg-white border border-slate-200 shadow-xl rounded-xl p-2 z-50 animate-in fade-in slide-in-from-top-2">
+            <div className="px-3 py-1.5 border-b border-slate-100 pb-2 mb-1.5 flex items-center justify-between">
+              <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">Export Dashboard</span>
+            </div>
+            <div className="space-y-0.5">
+              {[
+                { label: "PDF Report", ext: ".pdf" },
+                { label: "CSV Export", ext: ".csv" },
+                { label: "Excel Sheet", ext: ".xlsx" },
+                { label: "Revenue Report", ext: ".csv" },
+                { label: "Orders Report", ext: ".csv" },
+                { label: "Marketing Report", ext: ".pdf" },
+                { label: "Customer Report", ext: ".csv" }
+              ].map((option) => (
+                <button
+                  key={option.label}
+                  onClick={() => setIsExportOpen(false)}
+                  className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 flex items-center justify-between group/item"
+                >
+                  <span>{option.label}</span>
+                  <span className="text-[10px] font-bold text-slate-400 group-hover/item:text-indigo-400">{option.ext}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
 
       {/* Backdrop for mobile closing */}
-      {(isDateOpen || isCompareOpen) && (
+      {(isDateOpen || isCompareOpen || isExportOpen) && (
         <div 
-          className="fixed inset-0 z-40"
-          onClick={() => { setIsDateOpen(false); setIsCompareOpen(false); }}
+          className="fixed inset-0 z-30"
+          onClick={() => { setIsDateOpen(false); setIsCompareOpen(false); setIsExportOpen(false); }}
         />
       )}
     </div>
