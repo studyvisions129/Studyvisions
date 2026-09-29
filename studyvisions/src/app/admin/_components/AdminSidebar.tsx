@@ -106,7 +106,7 @@ export default function AdminSidebar({ className = "" }: { className?: string })
   ];
 
   return (
-    <aside className={cn("w-72 bg-[#0a0f1d] border-r border-slate-800 flex flex-col h-full shrink-0 overflow-y-auto shadow-xl transition-all duration-300", className)}>
+    <aside className={cn("w-72 bg-[#0a0f1d] border-r border-slate-800 flex flex-col h-full shrink-0 overflow-hidden shadow-xl transition-all duration-300", className)}>
       <div className="p-6 sticky top-0 bg-[#0a0f1d]/95 backdrop-blur-sm z-10 border-b border-slate-800/50">
         <Link href="/admin" className="flex items-center gap-3 group">
           <div className="w-10 h-10 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform duration-300">

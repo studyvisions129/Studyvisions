@@ -25,17 +25,17 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans selection:bg-indigo-100 selection:text-indigo-900">
+    <div className="fixed inset-0 bg-slate-50 flex flex-col font-sans selection:bg-indigo-100 selection:text-indigo-900">
       {/* Top Navigation - Full Width */}
       <AdminTopBar className="shrink-0" />
       
-      <div className="flex flex-1 overflow-hidden h-[calc(100vh-5rem)]">
+      <div className="flex flex-1 overflow-hidden">
         {/* Sidebar Navigation */}
         <AdminSidebar className="hidden md:flex w-72 shrink-0" />
         
         {/* Main Content Area */}
         <main className="flex-1 overflow-y-auto bg-[#f8fafc] p-6 md:p-8 custom-scrollbar">
-          <div className="max-w-7xl mx-auto">
+          <div className="max-w-7xl mx-auto pb-12">
             {children}
           </div>
         </main>
