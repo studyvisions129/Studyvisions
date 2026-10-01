@@ -5,8 +5,13 @@ import {
   ArrowRight, Download, Zap, Lightbulb, Info
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
+import RevenueTab from "./_components/RevenueTab";
 
-export default function AnalyticsPage() {
+export default async function AnalyticsPage(props: any) {
+  const searchParams = await props.searchParams;
+  const currentTab = searchParams?.tab || "overview";
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20 max-w-7xl mx-auto">
       
@@ -41,19 +46,19 @@ export default function AnalyticsPage() {
 
       {/* Analytics Sub-navigation */}
       <div className="flex items-center gap-1 overflow-x-auto pb-2 custom-scrollbar border-b border-slate-200">
-        <Tab active>Overview</Tab>
-        <Tab>Revenue</Tab>
-        <Tab>Products</Tab>
-        <Tab>Customers</Tab>
-        <Tab>Marketing</Tab>
-        <Tab>Funnel</Tab>
-        <Tab>Profit</Tab>
-        <Tab>Attribution</Tab>
-        <Tab>Reports</Tab>
+        <Tab href="/admin/analytics?tab=overview" active={currentTab === "overview"}>Overview</Tab>
+        <Tab href="/admin/analytics?tab=revenue" active={currentTab === "revenue"}>Revenue</Tab>
+        <Tab href="/admin/analytics?tab=products" active={currentTab === "products"}>Products</Tab>
+        <Tab href="/admin/analytics?tab=customers" active={currentTab === "customers"}>Customers</Tab>
+        <Tab href="/admin/analytics?tab=marketing" active={currentTab === "marketing"}>Marketing</Tab>
+        <Tab href="/admin/analytics?tab=funnel" active={currentTab === "funnel"}>Funnel</Tab>
+        <Tab href="/admin/analytics?tab=profit" active={currentTab === "profit"}>Profit</Tab>
+        <Tab href="/admin/analytics?tab=attribution" active={currentTab === "attribution"}>Attribution</Tab>
+        <Tab href="/admin/analytics?tab=reports" active={currentTab === "reports"}>Reports</Tab>
       </div>
 
-      {/* 2. Command Center Metrics (Levels 1-4) */}
-      <div className="space-y-6">
+      {currentTab === "overview" && (
+        <div className="space-y-6">
         {/* LEVEL 1 — Money */}
         <div>
           <h3 className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-3 flex items-center gap-2">
@@ -290,6 +295,11 @@ export default function AnalyticsPage() {
           />
         </div>
       </div>
+      
+        </div>
+      )}
+
+      {currentTab === "revenue" && <RevenueTab />}
 
     </div>
   );
@@ -297,15 +307,15 @@ export default function AnalyticsPage() {
 
 // Sub-components for Analytics
 
-function Tab({ children, active }: { children: React.ReactNode, active?: boolean }) {
-  return (
-    <button className={cn(
-      "px-4 py-2 text-sm font-bold rounded-lg whitespace-nowrap transition-colors",
-      active ? "bg-slate-900 text-white" : "text-slate-500 hover:text-slate-800 hover:bg-slate-100"
-    )}>
-      {children}
-    </button>
-  )
+function Tab({ children, active, href }: { children: React.ReactNode, active?: boolean, href?: string }) {
+  const className = cn(
+    "px-4 py-2 text-sm font-bold rounded-lg whitespace-nowrap transition-colors",
+    active ? "bg-slate-900 text-white" : "text-slate-500 hover:text-slate-800 hover:bg-slate-100"
+  );
+  if (href) {
+    return <Link href={href} className={className}>{children}</Link>;
+  }
+  return <button className={className}>{children}</button>;
 }
 
 function MetricCard({ title, value, trendPct, trendAbs, trendUp, highlight, definition }: any) {
