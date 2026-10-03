@@ -8,6 +8,8 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import RevenueTab from "./_components/RevenueTab";
 
+export const dynamic = 'force-dynamic';
+
 export default async function AnalyticsPage(props: any) {
   const searchParams = await props.searchParams;
   const currentTab = searchParams?.tab || "overview";
