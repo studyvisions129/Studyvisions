@@ -58,6 +58,7 @@ export default async function AnalyticsPage(props: any) {
       </div>
 
       {currentTab === "overview" && (
+        <>
         <div className="space-y-6">
         {/* LEVEL 1 — Money */}
         <div>
@@ -296,7 +297,7 @@ export default async function AnalyticsPage(props: any) {
         </div>
       </div>
       
-        </div>
+        </>
       )}
 
       {currentTab === "revenue" && <RevenueTab />}
