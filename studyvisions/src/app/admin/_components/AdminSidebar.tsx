@@ -9,7 +9,7 @@ import {
   Search, Settings, LogOut, Megaphone, ShieldAlert, TrendingUp, BarChart3, 
   Bell, ListChecks, DollarSign, Tag, Globe, Activity, Filter, Magnet, 
   Mail, MessageSquare, Headphones, ShoppingBag, Database, Shield, FileText, 
-  CreditCard, HardDrive
+  CreditCard, HardDrive, Target
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import React, { useState } from "react";
@@ -27,6 +27,7 @@ export default function AdminSidebar({ className = "" }: { className?: string })
       items: [
         { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
         { name: "Business Analytics", href: "/admin/analytics", icon: TrendingUp },
+        { name: "Business Targets", href: "/admin/targets", icon: Target },
         { name: "Growth Center", href: "/admin/growth", icon: BarChart3 },
         { name: "Alerts", href: "/admin/alerts", icon: Bell },
       ]

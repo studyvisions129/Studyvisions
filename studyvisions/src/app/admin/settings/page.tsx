@@ -53,6 +53,29 @@ export default async function GlobalSettingsPage() {
             <label className="block text-sm font-semibold text-slate-700 mb-2">Razorpay Key Secret</label>
             <input type="password" name="setting_site_razorpay_secret" defaultValue={getSetting('site_razorpay_secret')} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono" placeholder="••••••••••••" />
           </div>
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">Razorpay Webhook Secret</label>
+            <input type="password" name="setting_site_razorpay_webhook_secret" defaultValue={getSetting('site_razorpay_webhook_secret')} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono" placeholder="••••••••••••" />
+          </div>
+        </div>
+
+        <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-6">
+          <h3 className="font-bold text-slate-800 mb-4 border-b pb-2">Advertising & Marketing Integrations</h3>
+          
+          <div className="grid grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-2">Meta Pixel / Dataset ID</label>
+              <input type="text" name="setting_site_meta_pixel_id" defaultValue={getSetting('site_meta_pixel_id')} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono" placeholder="123456789012345" />
+            </div>
+            <div>
+              <label className="block text-sm font-semibold text-slate-700 mb-2">Meta Conversions API Token</label>
+              <input type="password" name="setting_site_meta_api_token" defaultValue={getSetting('site_meta_api_token')} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono" placeholder="EAAB..." />
+            </div>
+          </div>
+          <div>
+            <label className="block text-sm font-semibold text-slate-700 mb-2">Google Ads Conversion ID</label>
+            <input type="text" name="setting_site_google_ads_id" defaultValue={getSetting('site_google_ads_id')} className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 font-mono" placeholder="AW-123456789" />
+          </div>
         </div>
 
         <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-sm space-y-6">

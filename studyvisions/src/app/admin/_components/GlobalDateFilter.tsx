@@ -1,31 +1,95 @@
 "use client";
 
 import { useState } from "react";
-import { Calendar, ChevronDown, Check, Download } from "lucide-react";
+import { useRouter, useSearchParams, usePathname } from "next/navigation";
+import { Calendar, ChevronDown, Check, Download, Loader2 } from "lucide-react";
 
 const DATE_RANGES = [
   "Today", "Yesterday", "Last 7 Days", "This Week", "Last Week", 
-  "This Month", "Last Month", "This Quarter", "This Year", 
+  "This Month", "Last Month", "This Quarter", "Last Quarter", "This Year", 
   "Last Year", "All Time", "Custom Range"
 ];
 
 const COMPARE_OPTIONS = [
-  "Previous Period", "Previous Week", "Previous Month", 
-  "Previous Year", "Custom Period"
+  "Previous Period", "Previous Week", "Previous Month", "Previous Year"
 ];
 
 export default function GlobalDateFilter() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const currentRange = searchParams.get("range") || "This Month";
+  const currentCompare = searchParams.get("compare") || "Previous Period";
+  const currentFrom = searchParams.get("from") || "";
+  const currentTo = searchParams.get("to") || "";
+
   const [isDateOpen, setIsDateOpen] = useState(false);
   const [isCompareOpen, setIsCompareOpen] = useState(false);
-  
-  const [selectedDate, setSelectedDate] = useState("This Month");
-  const [selectedCompare, setSelectedCompare] = useState("Previous Period");
-  const [isCompareActive, setIsCompareActive] = useState(true);
-
   const [isExportOpen, setIsExportOpen] = useState(false);
 
-  // Mock states for Custom Range to show the UI
-  const [showCustomRange, setShowCustomRange] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(currentRange);
+  const [selectedCompare, setSelectedCompare] = useState(currentCompare);
+  const [isCompareActive, setIsCompareActive] = useState(true);
+
+  const [customFrom, setCustomFrom] = useState(currentFrom || "2026-10-01");
+  const [customTo, setCustomTo] = useState(currentTo || "2026-10-31");
+  const [showCustomRange, setShowCustomRange] = useState(currentRange === "Custom Range");
+  const [isExporting, setIsExporting] = useState(false);
+
+  const updateFilters = (newRange: string, newCompare?: string, fromDate?: string, toDate?: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("range", newRange);
+    if (newCompare !== undefined) {
+      params.set("compare", newCompare);
+    }
+    if (newRange === "Custom Range" && fromDate && toDate) {
+      params.set("from", fromDate);
+      params.set("to", toDate);
+    } else if (newRange !== "Custom Range") {
+      params.delete("from");
+      params.delete("to");
+    }
+    router.push(`${pathname}?${params.toString()}`);
+  };
+
+  const handleExport = async (type: string, format: string) => {
+    setIsExportOpen(false);
+
+    if (format === ".pdf") {
+      window.print();
+      return;
+    }
+
+    try {
+      setIsExporting(true);
+      const params = new URLSearchParams();
+      params.set("type", type);
+      params.set("range", selectedDate);
+      if (selectedDate === "Custom Range" && customFrom && customTo) {
+        params.set("from", customFrom);
+        params.set("to", customTo);
+      }
+
+      const res = await fetch(`/api/admin/export?${params.toString()}`);
+      if (!res.ok) {
+        throw new Error("Failed to export report");
+      }
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `studyvisions-${type}-${selectedDate.toLowerCase().replace(/ /g, "-")}${format}`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (e: any) {
+      alert(e.message || "Failed to download export");
+    } finally {
+      setIsExporting(false);
+    }
+  };
 
   return (
     <div className="flex flex-wrap items-center gap-3 relative z-50">
@@ -56,6 +120,7 @@ export default function GlobalDateFilter() {
                       } else {
                         setShowCustomRange(false);
                         setIsDateOpen(false);
+                        updateFilters(range, selectedCompare);
                       }
                     }}
                     className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium flex items-center justify-between ${selectedDate === range ? 'bg-indigo-50 text-indigo-700' : 'text-slate-700 hover:bg-slate-50'}`}
@@ -72,14 +137,27 @@ export default function GlobalDateFilter() {
                   <div className="space-y-3">
                     <div>
                       <label className="text-xs font-semibold text-slate-500 mb-1 block">From</label>
-                      <input type="date" defaultValue="2026-09-01" className="w-full text-sm border border-slate-200 rounded-lg px-3 py-1.5 outline-none focus:border-indigo-500 text-slate-700" />
+                      <input 
+                        type="date" 
+                        value={customFrom}
+                        onChange={(e) => setCustomFrom(e.target.value)}
+                        className="w-full text-sm border border-slate-200 rounded-lg px-3 py-1.5 outline-none focus:border-indigo-500 text-slate-700" 
+                      />
                     </div>
                     <div>
                       <label className="text-xs font-semibold text-slate-500 mb-1 block">To</label>
-                      <input type="date" defaultValue="2026-09-28" className="w-full text-sm border border-slate-200 rounded-lg px-3 py-1.5 outline-none focus:border-indigo-500 text-slate-700" />
+                      <input 
+                        type="date" 
+                        value={customTo}
+                        onChange={(e) => setCustomTo(e.target.value)}
+                        className="w-full text-sm border border-slate-200 rounded-lg px-3 py-1.5 outline-none focus:border-indigo-500 text-slate-700" 
+                      />
                     </div>
                     <button 
-                      onClick={() => setIsDateOpen(false)}
+                      onClick={() => {
+                        setIsDateOpen(false);
+                        updateFilters("Custom Range", selectedCompare, customFrom, customTo);
+                      }}
                       className="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm py-2 rounded-lg transition-colors mt-2"
                     >
                       Apply Range
@@ -118,7 +196,11 @@ export default function GlobalDateFilter() {
                 {COMPARE_OPTIONS.map((option) => (
                   <button
                     key={option}
-                    onClick={() => { setSelectedCompare(option); setIsCompareOpen(false); }}
+                    onClick={() => {
+                      setSelectedCompare(option);
+                      setIsCompareOpen(false);
+                      updateFilters(selectedDate, option, customFrom, customTo);
+                    }}
                     className={`w-full text-left px-3 py-2 rounded-lg text-sm font-medium flex items-center justify-between ${selectedCompare === option ? 'bg-indigo-50 text-indigo-700' : 'text-slate-700 hover:bg-slate-50'}`}
                   >
                     {option}
@@ -135,29 +217,29 @@ export default function GlobalDateFilter() {
       <div className="relative z-40">
         <button 
           onClick={() => { setIsExportOpen(!isExportOpen); setIsDateOpen(false); setIsCompareOpen(false); }}
+          disabled={isExporting}
           className={`p-2.5 bg-white border border-slate-200 shadow-sm rounded-xl transition-colors group ${isExportOpen ? 'bg-slate-50 border-indigo-300 ring-4 ring-indigo-50 text-indigo-600' : 'hover:bg-slate-50 hover:border-slate-300 text-slate-600'}`}
+          title="Export Dashboard Reports"
         >
-          <Download className={`w-5 h-5 transition-colors ${isExportOpen ? 'text-indigo-600' : 'group-hover:text-indigo-600'}`} />
+          {isExporting ? <Loader2 className="w-5 h-5 animate-spin text-indigo-600" /> : <Download className={`w-5 h-5 transition-colors ${isExportOpen ? 'text-indigo-600' : 'group-hover:text-indigo-600'}`} />}
         </button>
 
         {isExportOpen && (
-          <div className="absolute top-full right-0 mt-2 w-52 bg-white border border-slate-200 shadow-xl rounded-xl p-2 z-50 animate-in fade-in slide-in-from-top-2">
+          <div className="absolute top-full right-0 mt-2 w-56 bg-white border border-slate-200 shadow-xl rounded-xl p-2 z-50 animate-in fade-in slide-in-from-top-2">
             <div className="px-3 py-1.5 border-b border-slate-100 pb-2 mb-1.5 flex items-center justify-between">
-              <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">Export Dashboard</span>
+              <span className="text-xs font-bold text-slate-800 uppercase tracking-wider">Export Real Data</span>
             </div>
             <div className="space-y-0.5">
               {[
-                { label: "PDF Report", ext: ".pdf" },
-                { label: "CSV Export", ext: ".csv" },
-                { label: "Excel Sheet", ext: ".xlsx" },
-                { label: "Revenue Report", ext: ".csv" },
-                { label: "Orders Report", ext: ".csv" },
-                { label: "Marketing Report", ext: ".pdf" },
-                { label: "Customer Report", ext: ".csv" }
+                { label: "Financial Summary", type: "revenue", ext: ".csv" },
+                { label: "Orders Report", type: "orders", ext: ".csv" },
+                { label: "Product Performance", type: "products", ext: ".csv" },
+                { label: "Customers Report", type: "customers", ext: ".csv" },
+                { label: "Print Dashboard", type: "print", ext: ".pdf" }
               ].map((option) => (
                 <button
                   key={option.label}
-                  onClick={() => setIsExportOpen(false)}
+                  onClick={() => handleExport(option.type, option.ext)}
                   className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-slate-600 hover:bg-indigo-50 hover:text-indigo-700 flex items-center justify-between group/item"
                 >
                   <span>{option.label}</span>

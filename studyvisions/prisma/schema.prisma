@@ -243,6 +243,7 @@ model Order {
   platformFee       Decimal     @default(0) @map("platform_fee") @db.Decimal(10, 2)
   promotionId       String?     @map("promotion_id")
   items             OrderItem[]
+  refunds           Refund[]
   promotion         Promotion?  @relation(fields: [promotionId], references: [id])
   user              User        @relation(fields: [userId], references: [id])
 
@@ -605,3 +606,83 @@ enum TicketStatus {
   RESOLVED
   CLOSED
 }
+
+model Expense {
+  id          String           @id @default(uuid())
+  title       String
+  category    ExpenseCategory  @default(OTHER)
+  amount      Decimal          @db.Decimal(10, 2)
+  expenseDate DateTime         @default(now()) @map("expense_date")
+  isRecurring Boolean          @default(false) @map("is_recurring")
+  frequency   ExpenseFrequency @default(ONE_TIME)
+  vendor      String?
+  notes       String?
+  receiptUrl  String?          @map("receipt_url")
+  status      String           @default("PAID")
+  createdAt   DateTime         @default(now()) @map("created_at")
+  updatedAt   DateTime         @updatedAt @map("updated_at")
+
+  @@index([category, expenseDate])
+  @@map("expenses")
+}
+
+model BusinessTarget {
+  id          String     @id @default(uuid())
+  targetType  TargetType @map("target_type")
+  targetValue Decimal    @map("target_value") @db.Decimal(12, 2)
+  period      String     // e.g. '2026-10', '2026-Q4', '2026'
+  startDate   DateTime   @map("start_date")
+  endDate     DateTime   @map("end_date")
+  createdAt   DateTime   @default(now()) @map("created_at")
+  updatedAt   DateTime   @updatedAt @map("updated_at")
+
+  @@unique([targetType, period])
+  @@map("business_targets")
+}
+
+model Refund {
+  id               String       @id @default(uuid())
+  orderId          String       @map("order_id")
+  amount           Decimal      @db.Decimal(10, 2)
+  reason           String?
+  status           RefundStatus @default(COMPLETED)
+  razorpayRefundId String?      @map("razorpay_refund_id")
+  processedAt      DateTime     @default(now()) @map("processed_at")
+  createdAt        DateTime     @default(now()) @map("created_at")
+  order            Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
+  @@map("refunds")
+}
+
+enum ExpenseCategory {
+  HOSTING_SERVERS
+  SOFTWARE_TOOLS
+  CONTENT_CREATION
+  FREELANCERS
+  LEGAL_ACCOUNTING
+  MARKETING_ADS
+  OFFICE_SUPPLIES
+  OTHER
+}
+
+enum ExpenseFrequency {
+  ONE_TIME
+  MONTHLY
+  QUARTERLY
+  YEARLY
+}
+
+enum TargetType {
+  REVENUE
+  ORDERS
+  PROFIT
+}
+
+enum RefundStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+

@@ -10,15 +10,9 @@ const AdContext = createContext<AdContextType>({ adsAllowed: true });
 
 export const AdManagerProvider = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
-  const [adsAllowed, setAdsAllowed] = useState(true);
-
-  useEffect(() => {
-    // Restricted routes where ads MUST be 100% OFF
-    const blockedRoutes = ['/checkout', '/p/', '/l/', '/dashboard', '/library'];
-    const isBlocked = blockedRoutes.some(route => pathname?.startsWith(route) ?? false);
-    
-    setAdsAllowed(!isBlocked);
-  }, [pathname]);
+  // Restricted routes where ads MUST be 100% OFF
+  const blockedRoutes = ['/checkout', '/p/', '/l/', '/dashboard', '/library'];
+  const adsAllowed = !blockedRoutes.some(route => pathname?.startsWith(route) ?? false);
 
   return (
     <AdContext.Provider value={{ adsAllowed }}>

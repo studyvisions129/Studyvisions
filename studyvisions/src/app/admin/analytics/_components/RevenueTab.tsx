@@ -159,10 +159,10 @@ export default function RevenueTab() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-50">
-              <ProductTableItem name="Class 12 Physics Notes" orders="84" gross="₹35,000" ref="₹500" net="₹34,500" />
-              <ProductTableItem name="BSEB Topper Bundle" orders="57" gross="₹30,000" ref="₹1,000" net="₹29,000" />
-              <ProductTableItem name="Chemistry PYQ" orders="76" gross="₹17,000" ref="₹500" net="₹16,500" />
-              <ProductTableItem name="Maths Formula Book" orders="89" gross="₹10,000" ref="₹0" net="₹10,000" />
+              <ProductTableItem name="Class 12 Physics Notes" orders="84" gross="₹35,000" refunds="₹500" net="₹34,500" />
+              <ProductTableItem name="BSEB Topper Bundle" orders="57" gross="₹30,000" refunds="₹1,000" net="₹29,000" />
+              <ProductTableItem name="Chemistry PYQ" orders="76" gross="₹17,000" refunds="₹500" net="₹16,500" />
+              <ProductTableItem name="Maths Formula Book" orders="89" gross="₹10,000" refunds="₹0" net="₹10,000" />
             </tbody>
           </table>
         </div>
@@ -475,13 +475,13 @@ function SourceProgress({ label, rev, pct, roas, color }: any) {
   )
 }
 
-function ProductTableItem({ name, orders, gross, ref, net }: any) {
+function ProductTableItem({ name, orders, gross, refunds, net }: any) {
   return (
     <tr className="hover:bg-slate-50 transition-colors group cursor-pointer">
       <td className="py-3 pl-2 font-bold text-slate-800 text-xs group-hover:text-indigo-700 transition-colors">{name}</td>
       <td className="py-3 text-right font-medium text-slate-600">{orders}</td>
       <td className="py-3 text-right font-medium text-slate-600">{gross}</td>
-      <td className="py-3 text-right font-medium text-rose-500">{ref}</td>
+      <td className="py-3 text-right font-medium text-rose-500">{refunds}</td>
       <td className="py-3 text-right font-black text-indigo-600">{net}</td>
       <td className="py-3 text-right pr-2">
         <button className="text-slate-400 group-hover:text-indigo-600 transition-colors p-1 hover:bg-indigo-50 rounded">

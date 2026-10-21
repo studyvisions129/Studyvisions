@@ -7,7 +7,7 @@ export default async function DownloadsPage() {
   const supabase = await createClient();
   const { data: { session } } = await supabase.auth.getSession();
 
-  let downloads: any[] = [];
+  const downloads: any[] = [];
   
   // Logic to fetch downloads would go here
 
