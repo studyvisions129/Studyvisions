@@ -1,13 +1,11 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
 import { ProductType, ProductStatus } from "@prisma/client";
-import { requireAdmin } from "@/lib/auth-utils";
+import { requireAdmin, logAdminAudit, safeRevalidatePath, safeRedirect } from "@/lib/auth-utils";
 
 export async function createProduct(formData: FormData) {
-  await requireAdmin();
+  const admin = await requireAdmin();
 
   const title = formData.get("title") as string;
   const slug = formData.get("slug") as string;
@@ -28,7 +26,7 @@ export async function createProduct(formData: FormData) {
     throw new Error("Missing required fields");
   }
 
-  await prisma.product.create({
+  const product = await prisma.product.create({
     data: {
       title,
       slug,
@@ -45,17 +43,37 @@ export async function createProduct(formData: FormData) {
     },
   });
 
-  revalidatePath("/admin/products");
-  revalidatePath("/");
-  redirect("/admin/products");
+  await logAdminAudit({
+    adminId: admin.id,
+    action: "CREATE_PRODUCT",
+    entityType: "Product",
+    entityId: product.id,
+    details: { title, slug, price },
+  });
+
+  safeRevalidatePath("/admin/products");
+  safeRevalidatePath("/");
+  safeRedirect("/admin/products");
 }
 
 export async function deleteProduct(id: string) {
-  await requireAdmin();
+  const admin = await requireAdmin();
+
+  if (!id) {
+    throw new Error("Product ID is required");
+  }
   
   await prisma.product.delete({
     where: { id }
   });
-  revalidatePath("/admin/products");
-  revalidatePath("/");
+
+  await logAdminAudit({
+    adminId: admin.id,
+    action: "DELETE_PRODUCT",
+    entityType: "Product",
+    entityId: id,
+  });
+
+  safeRevalidatePath("/admin/products");
+  safeRevalidatePath("/");
 }

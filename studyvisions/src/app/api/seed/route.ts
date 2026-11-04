@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { MOCK_PRODUCTS } from "@/lib/mock-data";
+import { requireAdmin } from "@/lib/auth-utils";
 
 const categories = [
   { name: "Physics", iconUrl: "Atom", description: "Mechanics, Optics, Thermodynamics aur sab kuch", levelType: "SUBJECT", color: "from-blue-500 to-cyan-500" },
@@ -11,6 +12,8 @@ const categories = [
 
 export async function GET() {
   try {
+    await requireAdmin();
+
     const results = { categories: 0, products: 0 };
 
     // Seed Categories
@@ -70,6 +73,7 @@ export async function GET() {
     return NextResponse.json({ success: true, message: "Database seeded successfully!", results });
   } catch (error: any) {
     console.error("Seeding error:", error);
-    return NextResponse.json({ success: false, error: error.message }, { status: 500 });
+    const status = error.message === "Unauthorized" ? 401 : error.message?.includes("Forbidden") ? 403 : 500;
+    return NextResponse.json({ success: false, error: error.message }, { status });
   }
 }

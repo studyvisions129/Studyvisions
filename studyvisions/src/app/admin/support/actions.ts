@@ -1,21 +1,24 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { createClient } from "@/lib/supabase/server";
-import { revalidatePath } from "next/cache";
+import { requireAdmin, logAdminAudit, safeRevalidatePath } from "@/lib/auth-utils";
 
 export async function updateTicketStatus(ticketId: string, status: "NEW" | "IN_PROGRESS" | "RESOLVED" | "CLOSED") {
-  const supabase = await createClient();
-  const { data: { session } } = await supabase.auth.getSession();
-
-  if (!session?.user) return { error: "Unauthorized" };
-
-  const admin = await prisma.user.findUnique({
-    where: { email: session.user.email },
-  });
-
-  if (!admin || (admin.role !== "ADMIN" && admin.role !== "SUPER_ADMIN")) {
+  let admin;
+  try {
+    admin = await requireAdmin();
+  } catch (error: any) {
+    if (error.message === "Unauthorized") return { error: "Unauthorized" };
     return { error: "Permission denied" };
+  }
+
+  if (!ticketId) {
+    return { error: "Ticket ID is required" };
+  }
+
+  const validStatuses = ["NEW", "IN_PROGRESS", "RESOLVED", "CLOSED"];
+  if (!validStatuses.includes(status)) {
+    return { error: "Invalid ticket status" };
   }
 
   try {
@@ -23,9 +26,17 @@ export async function updateTicketStatus(ticketId: string, status: "NEW" | "IN_P
       where: { id: ticketId },
       data: { status },
     });
+
+    await logAdminAudit({
+      adminId: admin.id,
+      action: "UPDATE_TICKET_STATUS",
+      entityType: "SupportTicket",
+      entityId: ticketId,
+      details: { status },
+    });
     
-    revalidatePath("/admin/support");
-    revalidatePath(`/admin/support/${ticketId}`);
+    safeRevalidatePath("/admin/support");
+    safeRevalidatePath(`/admin/support/${ticketId}`);
     
     return { success: true };
   } catch (error) {
@@ -35,17 +46,21 @@ export async function updateTicketStatus(ticketId: string, status: "NEW" | "IN_P
 }
 
 export async function updateTicketPriority(ticketId: string, priority: "LOW" | "MEDIUM" | "HIGH") {
-  const supabase = await createClient();
-  const { data: { session } } = await supabase.auth.getSession();
-
-  if (!session?.user) return { error: "Unauthorized" };
-
-  const admin = await prisma.user.findUnique({
-    where: { email: session.user.email },
-  });
-
-  if (!admin || (admin.role !== "ADMIN" && admin.role !== "SUPER_ADMIN")) {
+  let admin;
+  try {
+    admin = await requireAdmin();
+  } catch (error: any) {
+    if (error.message === "Unauthorized") return { error: "Unauthorized" };
     return { error: "Permission denied" };
+  }
+
+  if (!ticketId) {
+    return { error: "Ticket ID is required" };
+  }
+
+  const validPriorities = ["LOW", "MEDIUM", "HIGH"];
+  if (!validPriorities.includes(priority)) {
+    return { error: "Invalid ticket priority" };
   }
 
   try {
@@ -53,9 +68,17 @@ export async function updateTicketPriority(ticketId: string, priority: "LOW" | "
       where: { id: ticketId },
       data: { priority },
     });
+
+    await logAdminAudit({
+      adminId: admin.id,
+      action: "UPDATE_TICKET_PRIORITY",
+      entityType: "SupportTicket",
+      entityId: ticketId,
+      details: { priority },
+    });
     
-    revalidatePath("/admin/support");
-    revalidatePath(`/admin/support/${ticketId}`);
+    safeRevalidatePath("/admin/support");
+    safeRevalidatePath(`/admin/support/${ticketId}`);
     
     return { success: true };
   } catch (error) {

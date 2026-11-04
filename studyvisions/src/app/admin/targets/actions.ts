@@ -1,11 +1,10 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { requireAdmin } from "@/lib/auth-utils";
-import { revalidatePath } from "next/cache";
+import { requireAdmin, logAdminAudit, safeRevalidatePath } from "@/lib/auth-utils";
 
 export async function saveBusinessTargets(formData: FormData) {
-  await requireAdmin();
+  const admin = await requireAdmin();
 
   const period = (formData.get("period") as string) || "2026-10";
   const revenueTarget = parseFloat(formData.get("revenueTarget") as string);
@@ -40,6 +39,13 @@ export async function saveBusinessTargets(formData: FormData) {
     });
   }
 
-  revalidatePath("/admin");
-  revalidatePath("/admin/targets");
+  await logAdminAudit({
+    adminId: admin.id,
+    action: "SAVE_BUSINESS_TARGETS",
+    entityType: "BusinessTarget",
+    details: { period, revenueTarget, ordersTarget, profitTarget },
+  });
+
+  safeRevalidatePath("/admin");
+  safeRevalidatePath("/admin/targets");
 }

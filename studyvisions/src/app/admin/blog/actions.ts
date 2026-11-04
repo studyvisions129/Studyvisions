@@ -1,8 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
-import { requireAdmin } from "@/lib/auth-utils";
+import { requireAdmin, logAdminAudit, safeRevalidatePath } from "@/lib/auth-utils";
 
 export async function createPost(formData: FormData) {
   const user = await requireAdmin();
@@ -17,7 +16,7 @@ export async function createPost(formData: FormData) {
     throw new Error("Missing required fields");
   }
 
-  await prisma.post.create({
+  const post = await prisma.post.create({
     data: {
       title,
       slug,
@@ -28,14 +27,34 @@ export async function createPost(formData: FormData) {
     },
   });
 
-  revalidatePath("/admin/blog");
+  await logAdminAudit({
+    adminId: user.id,
+    action: "CREATE_POST",
+    entityType: "Post",
+    entityId: post.id,
+    details: { title, slug },
+  });
+
+  safeRevalidatePath("/admin/blog");
 }
 
 export async function deletePost(id: string) {
-  await requireAdmin();
+  const admin = await requireAdmin();
+
+  if (!id) {
+    throw new Error("Post ID is required");
+  }
   
   await prisma.post.delete({
     where: { id }
   });
-  revalidatePath("/admin/blog");
+
+  await logAdminAudit({
+    adminId: admin.id,
+    action: "DELETE_POST",
+    entityType: "Post",
+    entityId: id,
+  });
+
+  safeRevalidatePath("/admin/blog");
 }

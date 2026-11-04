@@ -1,24 +1,24 @@
 "use server";
 
-import { revalidatePath } from "next/cache";
 import prisma from "@/lib/prisma";
-import { createClient } from "@/lib/supabase/server";
+import { requireAdmin, requireSuperAdmin, logAdminAudit, safeRevalidatePath } from "@/lib/auth-utils";
 
 export async function updateUserRole(userId: string, newRole: "STUDENT" | "ADMIN" | "SUPER_ADMIN") {
-  const supabase = await createClient();
-  const { data: { session } } = await supabase.auth.getSession();
-
-  if (!session?.user) {
-    return { error: "Unauthorized" };
+  let superAdmin;
+  try {
+    superAdmin = await requireSuperAdmin();
+  } catch (error: any) {
+    if (error.message === "Unauthorized") return { error: "Unauthorized" };
+    return { error: "Only Super Admins can change roles." };
   }
 
-  // Check if the current user is a SUPER_ADMIN
-  const currentUser = await prisma.user.findUnique({
-    where: { email: session.user.email },
-  });
+  if (!userId) {
+    return { error: "User ID is required" };
+  }
 
-  if (!currentUser || currentUser.role !== "SUPER_ADMIN") {
-    return { error: "Only Super Admins can change roles." };
+  const validRoles = ["STUDENT", "ADMIN", "SUPER_ADMIN"];
+  if (!validRoles.includes(newRole)) {
+    return { error: "Invalid role specified" };
   }
 
   try {
@@ -26,8 +26,16 @@ export async function updateUserRole(userId: string, newRole: "STUDENT" | "ADMIN
       where: { id: userId },
       data: { role: newRole },
     });
+
+    await logAdminAudit({
+      adminId: superAdmin.id,
+      action: "UPDATE_USER_ROLE",
+      entityType: "User",
+      entityId: userId,
+      details: { newRole },
+    });
     
-    revalidatePath("/admin/students");
+    safeRevalidatePath("/admin/students");
     return { success: true };
   } catch (error: any) {
     console.error("Error updating role:", error);
@@ -36,29 +44,35 @@ export async function updateUserRole(userId: string, newRole: "STUDENT" | "ADMIN
 }
 
 export async function sendNotification(userId: string, title: string, message: string) {
-  const supabase = await createClient();
-  const { data: { session } } = await supabase.auth.getSession();
-
-  if (!session?.user) {
-    return { error: "Unauthorized" };
-  }
-
-  const admin = await prisma.user.findUnique({
-    where: { email: session.user.email },
-  });
-
-  if (!admin || (admin.role !== "SUPER_ADMIN" && admin.role !== "ADMIN")) {
+  let admin;
+  try {
+    admin = await requireAdmin();
+  } catch (error: any) {
+    if (error.message === "Unauthorized") return { error: "Unauthorized" };
     return { error: "Permission denied" };
   }
 
+  if (!userId || !title || !message) {
+    return { error: "User ID, title, and message are required" };
+  }
+
   try {
-    await prisma.notification.create({
+    const notif = await prisma.notification.create({
       data: {
         userId,
         title,
         message,
       }
     });
+
+    await logAdminAudit({
+      adminId: admin.id,
+      action: "SEND_NOTIFICATION",
+      entityType: "Notification",
+      entityId: notif.id,
+      details: { targetUserId: userId, title },
+    });
+
     return { success: true };
   } catch (error) {
     console.error("Error sending notification:", error);

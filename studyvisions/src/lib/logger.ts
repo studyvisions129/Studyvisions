@@ -37,6 +37,9 @@ export const logger = {
   error: (message: string, metadata?: any) => 
     logger.log({ level: "ERROR", category: "ERROR", message, metadata }),
     
+  warn: (message: string, category: LogCategory = "APPLICATION", metadata?: any) => 
+    logger.log({ level: "WARNING", category, message, metadata }),
+    
   info: (message: string, category: LogCategory = "APPLICATION", metadata?: any) => 
     logger.log({ level: "INFO", category, message, metadata }),
     

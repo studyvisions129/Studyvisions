@@ -166,6 +166,7 @@ export async function GET(req: Request) {
     });
 
   } catch (error: any) {
-    return NextResponse.json({ error: error.message || "Unauthorized" }, { status: error.message === "Unauthorized" ? 401 : 500 });
+    const status = error.message === "Unauthorized" ? 401 : error.message?.includes("Forbidden") ? 403 : 500;
+    return NextResponse.json({ error: error.message || "Unauthorized" }, { status });
   }
 }

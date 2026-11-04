@@ -1,11 +1,10 @@
 "use server";
 
 import prisma from "@/lib/prisma";
-import { requireAdmin } from "@/lib/auth-utils";
-import { revalidatePath } from "next/cache";
+import { requireAdmin, logAdminAudit, safeRevalidatePath } from "@/lib/auth-utils";
 
 export async function createExpense(formData: FormData) {
-  await requireAdmin();
+  const admin = await requireAdmin();
 
   const title = formData.get("title") as string;
   const category = (formData.get("category") as any) || "OTHER";
@@ -27,7 +26,7 @@ export async function createExpense(formData: FormData) {
 
   const expenseDate = expenseDateStr ? new Date(expenseDateStr) : new Date();
 
-  await prisma.expense.create({
+  const expense = await prisma.expense.create({
     data: {
       title,
       category,
@@ -41,12 +40,20 @@ export async function createExpense(formData: FormData) {
     }
   });
 
-  revalidatePath("/admin");
-  revalidatePath("/admin/expenses");
+  await logAdminAudit({
+    adminId: admin.id,
+    action: "CREATE_EXPENSE",
+    entityType: "Expense",
+    entityId: expense.id,
+    details: { title, amount, category },
+  });
+
+  safeRevalidatePath("/admin");
+  safeRevalidatePath("/admin/expenses");
 }
 
 export async function deleteExpense(id: string) {
-  await requireAdmin();
+  const admin = await requireAdmin();
 
   if (!id) {
     throw new Error("Expense ID is required");
@@ -56,6 +63,13 @@ export async function deleteExpense(id: string) {
     where: { id }
   });
 
-  revalidatePath("/admin");
-  revalidatePath("/admin/expenses");
+  await logAdminAudit({
+    adminId: admin.id,
+    action: "DELETE_EXPENSE",
+    entityType: "Expense",
+    entityId: id,
+  });
+
+  safeRevalidatePath("/admin");
+  safeRevalidatePath("/admin/expenses");
 }

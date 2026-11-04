@@ -1,11 +1,10 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
-import { revalidatePath } from "next/cache";
-import { requireAdmin } from "@/lib/auth-utils";
+import { requireAdmin, logAdminAudit, safeRevalidatePath } from "@/lib/auth-utils";
 
 export async function createLandingPage(formData: FormData) {
-  await requireAdmin();
+  const admin = await requireAdmin();
   
   const title = formData.get("title") as string;
   const slug = formData.get("slug") as string;
@@ -25,7 +24,7 @@ export async function createLandingPage(formData: FormData) {
     throw new Error("Missing required fields");
   }
 
-  await prisma.landingPage.create({
+  const landingPage = await prisma.landingPage.create({
     data: {
       title,
       slug,
@@ -39,14 +38,34 @@ export async function createLandingPage(formData: FormData) {
     },
   });
 
-  revalidatePath("/admin/landing-pages");
+  await logAdminAudit({
+    adminId: admin.id,
+    action: "CREATE_LANDING_PAGE",
+    entityType: "LandingPage",
+    entityId: landingPage.id,
+    details: { title, slug },
+  });
+
+  safeRevalidatePath("/admin/landing-pages");
 }
 
 export async function deleteLandingPage(id: string) {
-  await requireAdmin();
+  const admin = await requireAdmin();
+
+  if (!id) {
+    throw new Error("Landing Page ID is required");
+  }
   
   await prisma.landingPage.delete({
     where: { id }
   });
-  revalidatePath("/admin/landing-pages");
+
+  await logAdminAudit({
+    adminId: admin.id,
+    action: "DELETE_LANDING_PAGE",
+    entityType: "LandingPage",
+    entityId: id,
+  });
+
+  safeRevalidatePath("/admin/landing-pages");
 }
