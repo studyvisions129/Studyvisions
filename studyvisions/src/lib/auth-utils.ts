@@ -45,6 +45,12 @@ export async function getAuthenticatedUserEmail(): Promise<string | null> {
   }
 }
 
+export async function getAuthenticatedUser() {
+  const email = await getAuthenticatedUserEmail();
+  if (!email) return null;
+  return prisma.user.findUnique({ where: { email } });
+}
+
 export async function requireAdmin() {
   const email = await getAuthenticatedUserEmail();
   
